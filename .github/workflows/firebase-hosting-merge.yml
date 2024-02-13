@@ -9,6 +9,8 @@ name: Deploy to Firebase Hosting on merge
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      VITE_API_KEY: Hello
     steps:
       - uses: actions/checkout@v4
       - run: npm install

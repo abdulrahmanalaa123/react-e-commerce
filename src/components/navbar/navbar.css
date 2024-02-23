@@ -1,0 +1,22 @@
+.nav-item {
+  @apply text-center w-fit relative text-text-200 font-normal hover:font-bold hover:text-text-300 hover:transition-all duration-300 ease-in-out;
+}
+
+/* .nav-item:hover {
+  text-shadow: 0 0 1px #000;
+} */
+
+.nav-item::after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  bottom: 0;
+  width: 70%;
+  height: 2px;
+  background-color: #387709;
+  opacity: 0;
+}
+
+.nav-item:hover::after {
+  opacity: 1; /* Show the underline on hover */
+}

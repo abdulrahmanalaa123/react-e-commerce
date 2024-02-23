@@ -1,10 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+// IMAGES
 import Logo from "../../assets/svgs/logo.svg";
 import Menu from "../../assets/svgs/menu.svg";
 import Close from "../../assets/svgs/close.svg";
 import Search from "../../assets/svgs/search.svg";
 import Profile from "../../assets/svgs/profile.svg";
+
+// STYLES
+import "./Navbar.css";
 
 export default function Navbar() {
   return (
@@ -18,42 +23,24 @@ export default function Navbar() {
               <img src={Logo} alt="React Logo" />
             </div>
             {/* DESKTOP TABS */}
-            <div className="hidden md:block">
-              <div className="flex items-baseline justify-evenly w-full">
-                <Link
-                  to="/"
-                  className="hover:text-text-300 hover:font-bold text-center w-fit"
-                >
+            <div className="hidden md:block  w-[700px]">
+              <div className="flex items-baseline justify-evenly">
+                <Link to="/" className="nav-item">
                   Home
                 </Link>
-                <Link
-                  to="/plants"
-                  className="hover:text-text-300 hover:font-bold text-center block"
-                >
+                <Link to="/plants" className="nav-item">
                   Plants
                 </Link>
-                <Link
-                  to="/garden-supplies"
-                  className="hover:text-text-300 hover:font-bold text-center block"
-                >
+                <Link to="/garden-supplies" className="nav-item">
                   Garden supplies
                 </Link>
-                <Link
-                  to="/seeds"
-                  className="hover:text-text-300 hover:font-bold text-center block"
-                >
+                <Link to="/seeds" className="nav-item">
                   Seeds
                 </Link>
-                <Link
-                  to="/pots"
-                  className="hover:text-text-300 hover:font-bold text-center block"
-                >
+                <Link to="/pots" className="nav-item">
                   Pots
                 </Link>
-                <Link
-                  to="/contact-us"
-                  className="hover:text-text-300 hover:font-bold text-center block"
-                >
+                <Link to="/contact-us" className="nav-item">
                   Contact us
                 </Link>
               </div>

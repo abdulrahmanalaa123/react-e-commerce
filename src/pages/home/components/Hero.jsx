@@ -3,7 +3,7 @@ import HeroImage from "../../../assets/images/hero.png";
 
 const Hero = () => {
   return (
-    <div className="mx-auto my-16 px-4 sm:px-6 lg:px-20">
+    <div className="mx-auto my-[60px] container">
       <div className="lg:flex lg:items-center lg:justify-between">
         {/* LEFT */}
         <div>
@@ -22,7 +22,7 @@ const Hero = () => {
               ever since the 1500s
             </p>
             {/* CTA BUTTON */}
-            <button className="w-64 h-14 px-6 py-4 bg-text-300 rounded-sm hover:bg-primary-200 flex-col justify-center items-center gap-2 inline-flex">
+            <button className="w-64 h-14 px-6 py-4 bg-text-300 hover:text-text-300 rounded-sm hover:bg-primary-200 flex-col justify-center items-center gap-2 inline-flex">
               EXPLORE MORE
             </button>
           </div>

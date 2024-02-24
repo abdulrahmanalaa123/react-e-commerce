@@ -14,7 +14,7 @@ import "./Navbar.css";
 export default function Navbar() {
   return (
     <nav className="h-[100px] font-normal text-text-200text-base">
-      <div className="mx-auto px-4 sm:px-6 lg:px-20">
+      <div className="mx-auto container">
         <div className="flex items-center justify-between">
           {/* DESKTOP */}
           <div className="flex items-center justify-between w-full">

@@ -9,7 +9,7 @@ import Search from "../../assets/svgs/search.svg";
 import Profile from "../../assets/svgs/profile.svg";
 
 // STYLES
-import "./Navbar.css";
+import "./navbar.css";
 
 export default function Navbar() {
   return (

@@ -6,7 +6,10 @@ import userStore from "../../stores/user";
 import { useShallow } from "zustand/react/shallow";
 
 export default function Home() {
-  const setUserData = userStore((state) => state.setUserData);
+  const [setUserData, userData] = userStore(
+    useShallow((state) => [state.setUserData, state.userData])
+  );
+
   async function testFunction() {
     // const { data: signUpData, error: signUpError } =
     //   await supabase.auth.signInWithPassword({
@@ -42,7 +45,7 @@ export default function Home() {
     //   data: { user },
     // } = await supabase.auth.getUser();
     console.log(signUpData["user"]["user_metadata"]);
-    setUserData(signUpData["user"]["user_metadata"]);
+    setUserData({ metaData: signUpData["user"]["user_metadata"] });
     console.log(localStorage.getItem("token"));
     console.log(userData);
     // await supabase.auth.signOut();

@@ -10,8 +10,15 @@ import Profile from "../../assets/svgs/profile.svg";
 
 // STYLES
 import "./navbar.css";
+import { useState } from "react";
+import SignInModal from "../modals/signInModal";
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleIsOpen() {
+    setIsOpen(!isOpen);
+  }
   return (
     <nav className="h-[100px] font-normal text-text-200text-base">
       <div className="mx-auto container">
@@ -25,6 +32,14 @@ export default function Navbar() {
             {/* DESKTOP TABS */}
             <div className="hidden md:block  w-[700px]">
               <div className="flex items-baseline justify-evenly">
+                <button
+                  className="rounded-full text-text-input px-4 py-1 bg-text-300"
+                  onClick={() => {
+                    toggleIsOpen();
+                  }}
+                >
+                  ShowModal
+                </button>
                 <Link to="/" className="nav-item">
                   Home
                 </Link>
@@ -113,6 +128,7 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
+      <SignInModal isOpen={isOpen} toggleOpen={toggleIsOpen}></SignInModal>
     </nav>
   );
 }

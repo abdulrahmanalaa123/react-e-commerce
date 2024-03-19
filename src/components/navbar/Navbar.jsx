@@ -11,7 +11,7 @@ import Profile from "../../assets/svgs/profile.svg";
 // STYLES
 import "./navbar.css";
 import { useState } from "react";
-import SignInModal from "../modals/signInModal";
+import AuthModal from "../modals/AuthModal";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -128,7 +128,7 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
-      <SignInModal isOpen={isOpen} toggleOpen={toggleIsOpen}></SignInModal>
+      <AuthModal isOpen={isOpen} toggleOpen={toggleIsOpen}></AuthModal>
     </nav>
   );
 }

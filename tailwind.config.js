@@ -12,6 +12,21 @@ export default {
       lg: "24px",
     },
     extend: {
+      keyframes: {
+        showModal: {
+          "0%": { transform: "translateY(-48px)", opacity: 0 },
+
+          "100%": { transform: "translateY(0px)", opacity: 1 },
+        },
+        disappearModal: {
+          "0%": { transform: "translateY(0px)", opacity: 1 },
+          "100%": { transform: "translateY(-48px)", opacity: 0 },
+        },
+      },
+      animation: {
+        modalShowAnimation: "showModal 0.2s ease-in",
+        modalDisappearAnimation: "disappearModal 0.2s ease-out",
+      },
       colors: {
         primary: {
           100: "#ECFFE0",

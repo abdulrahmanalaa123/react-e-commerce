@@ -8,5 +8,4 @@ export default async function getUser() {
   if (error) {
     return { error };
   }
-  console.log(user);
 }

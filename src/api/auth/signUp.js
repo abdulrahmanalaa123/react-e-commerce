@@ -5,12 +5,15 @@ export default async function signUp({ credentials, options }) {
   const { data, error } = await supabase.auth.signUp({
     ...credentials,
     options: {
-      ...options,
+      data: {
+        ...options,
+      },
     },
   });
-  if (error) {
-    return { error };
+  if (!error) {
+    userStore
+      .getState()
+      .setUserData({ metaData: data["user"]["user_metadata"] });
   }
-  console.log(data);
-  userStore.getState().setUserData({ metaData: data["user"]["user_metadata"] });
+  return { error };
 }

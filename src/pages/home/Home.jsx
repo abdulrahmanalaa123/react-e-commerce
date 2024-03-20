@@ -19,7 +19,7 @@ export default function Home() {
     await getUser();
   }
   return (
-    <>
+    <div>
       <Hero />
       <button
         className="rounded-full px-4 py-1 bg-slate-400"
@@ -30,6 +30,6 @@ export default function Home() {
         Testing
       </button>
       <Banners />
-    </>
+    </div>
   );
 }

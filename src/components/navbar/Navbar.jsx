@@ -88,7 +88,7 @@ export default function Navbar() {
         </div>
       </div>
       {/* MOBILE OPEN TABS BUTTON */}
-      <div className="md:hidden">
+      <div className="hidden">
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link
             to="/"

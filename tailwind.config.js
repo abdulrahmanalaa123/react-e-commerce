@@ -12,6 +12,10 @@ export default {
       lg: "24px",
     },
     extend: {
+      backgroundImage: {
+        "banner-image": "url('/src/assets/images/banner.png')",
+      },
+      // all animations done here because idk how to combine both tailwind and animations or create custom one off animations
       keyframes: {
         showModal: {
           "0%": { transform: "translateY(-48px)", opacity: 0 },
@@ -22,10 +26,20 @@ export default {
           "0%": { transform: "translateY(0px)", opacity: 1 },
           "100%": { transform: "translateY(-48px)", opacity: 0 },
         },
+        rotatingButton: {
+          "0%": {
+            transform: " translateX(-200px)",
+          },
+          "100%": {
+            transform: "translateX(200px)",
+          },
+        },
       },
       animation: {
         modalShowAnimation: "showModal 0.2s ease-in",
         modalDisappearAnimation: "disappearModal 0.2s ease-out",
+        animateArrow:
+          "rotatingButton 2s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s",
       },
       colors: {
         primary: {

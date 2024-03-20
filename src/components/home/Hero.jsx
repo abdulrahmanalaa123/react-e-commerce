@@ -1,6 +1,7 @@
 import React from "react";
 import HeroImage from "../../assets/images/hero.png";
 import verticalHero from "../../assets/images/verticalHero.png";
+
 const Hero = () => {
   return (
     <div className=" my-[60px]">
@@ -27,7 +28,7 @@ const Hero = () => {
           </button>
         </div>
         {/* RIGHT */}
-        <div className="mt-8 lg:mt-0 ">
+        <div>
           <img
             src={verticalHero}
             alt="Mobile Hero Image"

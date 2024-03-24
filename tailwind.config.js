@@ -39,7 +39,7 @@ export default {
         modalShowAnimation: "showModal 0.2s ease-in",
         modalDisappearAnimation: "disappearModal 0.2s ease-out",
         animateArrow:
-          "rotatingButton 2s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s",
+          "rotatingButton 2s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.15s",
       },
       colors: {
         primary: {

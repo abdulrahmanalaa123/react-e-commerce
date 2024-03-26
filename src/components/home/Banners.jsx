@@ -1,5 +1,5 @@
 import React from "react";
-import SvgArrow from "../../dist/Arrow";
+import SvgArrow from "../../assets/svgs/Arrow";
 export default function Banners() {
   return (
     <div className=" w-full min-h-[480px] flex flex-col place-items-center justify-center gap-12 leading-10 text-center bg-banner-image bg-center bg-no-repeat px-8 bg-fixed">

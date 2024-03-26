@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Carousel() {
   return (
@@ -19,7 +19,7 @@ function CustomCarousel(props) {
   const scrollLeft = useRef(null);
   const dragStartTime = useRef(null);
   const upWalk = useRef(null);
-  const maxScroll = useRef(null);
+
   useEffect(() => {
     if (slider && slider.current) {
       let sliderRef = slider.current;
@@ -28,9 +28,7 @@ function CustomCarousel(props) {
       sliderRef.addEventListener("mouseleave", three);
       sliderRef.addEventListener("mouseup", four);
       sliderRef.addEventListener("mousemove", five);
-      window.addEventListener("resize", () => {
-        maxScroll.current = sliderRef.scrollWidth - sliderRef.clientWidth;
-      });
+
       return () => {
         sliderRef.removeEventListener("mousedown", one);
         sliderRef.removeEventListener("mouseleave", three);
@@ -38,7 +36,7 @@ function CustomCarousel(props) {
         sliderRef.removeEventListener("mousemove", five);
       };
     }
-  }, [slider]);
+  }, []);
 
   function one(e) {
     isDown.current = true;
@@ -50,16 +48,20 @@ function CustomCarousel(props) {
     isDown.current = false;
     upWalk.current = null;
     dragStartTime.current = null;
+    slider.current.style.transform = `none`;
   }
 
   function four() {
     isDown.current = false;
+    slider.current.style.transform = `none`;
 
     // Check if there's any remaining walk distance for animation
     if (upWalk.current && dragStartTime.current) {
       const duration = 300;
+      // get the current time at the start of the animation
       let zeroTime = performance.now();
       let xVelocity =
+        // the velocity multiplier can be named the friction multiplier the higher the number the less the friction which means higher initial velocity
         Math.round(upWalk.current / (dragStartTime.current - zeroTime)) * 8;
       // const step = Math.min(xVelocity / duration);
       const animationFunction = () => {
@@ -85,20 +87,32 @@ function CustomCarousel(props) {
     e.preventDefault();
     const x = e.pageX - slider.current.offsetLeft;
     const walk = x - startX.current;
+
     slider.current.scrollLeft = scrollLeft.current - walk;
 
-    // if (
-    //   slider.current.scrollLeft >= maxScroll ||
-    //   slider.current.scrollLeft <= 0
-    // ) {
-    //   slider.current.style.transform = `translateX(${walk}px)`;
-    // }
+    if (
+      slider.current.scrollLeft >=
+        slider.current.scrollWidth - slider.current.offsetWidth ||
+      slider.current.scrollLeft <= 0
+    ) {
+      if (walk > 0) {
+        slider.current.style.transform = `translateX(${Math.min(walk, 100)}px)`;
+      } else {
+        slider.current.style.transform = `translateX(${Math.max(
+          walk,
+          -100
+        )}px)`;
+      }
+    } else {
+      slider.current.style.transform = `none`;
+    }
+
     upWalk.current = walk;
   }
 
   return (
     <div
-      className=" overflow-hidden whitespace-nowrap transition-transform duration-300 ease-out"
+      className="overflow-hidden whitespace-nowrap transition-transform duration-300 ease-out mt-2 "
       ref={slider}
     >
       {props.children}
@@ -108,7 +122,11 @@ function CustomCarousel(props) {
 
 function Box({ index }) {
   return (
-    <div className="inline-block mr-4 w-72 max-w-full h-72 bg-red-50 ">
+    <div
+      className={`inline-block ${
+        index === 9 ? "" : "mr-4"
+      } w-72 max-w-full h-72 bg-red-50 `}
+    >
       Box {index}
     </div>
   );

@@ -4,7 +4,7 @@ import Banners from "../../components/home/Banners";
 import Carousel from "../../components/home/Carousel";
 export default function Home() {
   return (
-    <div>
+    <div className="overflow-hidden">
       <Hero />
 
       <Banners />

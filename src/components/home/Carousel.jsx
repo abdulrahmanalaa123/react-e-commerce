@@ -40,22 +40,27 @@ function CustomCarousel(props) {
 
   function one(e) {
     isDown.current = true;
+    // the offset of the element from the border of the body
     startX.current = e.pageX - slider.current.offsetLeft;
+    // the initial scroll positon = the latest scrollPosition of the element
     scrollLeft.current = slider.current.scrollLeft;
   }
 
   function three() {
+    //reset basically everything used in the animations
     isDown.current = false;
     upWalk.current = null;
     dragStartTime.current = null;
-    slider.current.style.transform = `none`;
+    slider.current.style.transform = "";
   }
 
   function four() {
+    //reset the 2 refs which are not used in the slide animation
     isDown.current = false;
-    slider.current.style.transform = `none`;
+    slider.current.style.transform = "";
 
     // Check if there's any remaining walk distance for animation
+    // this is the code for the sliding animation
     if (upWalk.current && dragStartTime.current) {
       const duration = 300;
       // get the current time at the start of the animation
@@ -67,6 +72,7 @@ function CustomCarousel(props) {
       const animationFunction = () => {
         const value = (performance.now() - zeroTime) / duration;
         if (value < 1 && xVelocity !== 0) {
+          //
           slider.current.scrollLeft = slider.current.scrollLeft + xVelocity;
           xVelocity = xVelocity * 0.96;
           requestAnimationFrame((t) => animationFunction(t));
@@ -85,9 +91,11 @@ function CustomCarousel(props) {
       dragStartTime.current = performance.now();
     }
     e.preventDefault();
+    // current mouse positiong taking into account the space of the component from the wall
     const x = e.pageX - slider.current.offsetLeft;
+    // the difference between current mouse position inside the component and the startmouse position in  the down click
     const walk = x - startX.current;
-
+    // the difference is between the initial scroll position of the carousel and the the current Mouse X position
     slider.current.scrollLeft = scrollLeft.current - walk;
 
     if (
@@ -104,7 +112,8 @@ function CustomCarousel(props) {
         )}px)`;
       }
     } else {
-      slider.current.style.transform = `none`;
+      // remove the translation from the style
+      slider.current.style.transform = "";
     }
 
     upWalk.current = walk;

@@ -1,6 +1,7 @@
 import React from "react";
 import HeroImage from "../../assets/images/hero.png";
 import verticalHero from "../../assets/images/verticalHero.png";
+import ReusableButton from "../ReusableButton";
 
 const Hero = () => {
   return (
@@ -23,9 +24,7 @@ const Hero = () => {
             ever since the 1500s
           </p>
           {/* CTA BUTTON */}
-          <button className="w-64 max-w-full h-14 px-6 py-4 transition-colors duration-150 bg-text-300 hover:text-text-300 rounded-sm hover:bg-primary-200 flex-col justify-center items-center gap-2 inline-flex">
-            EXPLORE MORE
-          </button>
+          <ReusableButton text={"EXPLORE MORE"}></ReusableButton>
         </div>
         {/* RIGHT */}
         <div>

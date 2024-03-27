@@ -53,7 +53,12 @@ export default {
           300: "#232323",
           input: "#666687",
         },
+        backgrounds: {
+          modalBg: "#FBFFF9",
+          cardsBg: "#EAEAEA4D",
+        },
         bg: "#F6F9F6",
+
         InputBorder: "#DCDCE4",
         error: "#EE1818",
       },

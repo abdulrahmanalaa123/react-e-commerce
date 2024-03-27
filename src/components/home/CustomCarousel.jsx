@@ -1,16 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-
-export default function Carousel() {
-  return (
-    <div>
-      <CustomCarousel>
-        {new Array(10).fill("").map((_, index) => {
-          return <Box index={index} key={index} />;
-        })}
-      </CustomCarousel>
-    </div>
-  );
-}
+import React, { useEffect, useRef } from "react";
 
 function CustomCarousel(props) {
   const slider = useRef(null);
@@ -121,7 +109,7 @@ function CustomCarousel(props) {
 
   return (
     <div
-      className="overflow-hidden whitespace-nowrap transition-transform duration-300 ease-out mt-2 "
+      className="overflow-hidden whitespace-nowrap transition-transform duration-300 ease-out mt-2 flex gap-4 flex-nowrap "
       ref={slider}
     >
       {props.children}
@@ -129,14 +117,4 @@ function CustomCarousel(props) {
   );
 }
 
-function Box({ index }) {
-  return (
-    <div
-      className={`inline-block ${
-        index === 9 ? "" : "mr-4"
-      } w-72 max-w-full h-72 bg-red-50 `}
-    >
-      Box {index}
-    </div>
-  );
-}
+export default CustomCarousel;

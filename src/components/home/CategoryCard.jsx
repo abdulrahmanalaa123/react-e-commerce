@@ -8,7 +8,11 @@ function CategoryCard({ img, category }) {
         <p className="text-lg my-2">{category}</p>
       </div>
       <div className="mb-8">
-        <ReusableButton type="navigate" text={"EXPLORE MORE"}></ReusableButton>
+        <ReusableButton
+          type="navigate"
+          text={"EXPLORE MORE"}
+          onClick={() => {}}
+        ></ReusableButton>
       </div>
     </>
   );

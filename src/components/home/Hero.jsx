@@ -24,7 +24,10 @@ const Hero = () => {
             ever since the 1500s
           </p>
           {/* CTA BUTTON */}
-          <ReusableButton text={"EXPLORE MORE"}></ReusableButton>
+          <ReusableButton
+            text={"EXPLORE MORE"}
+            onClick={() => {}}
+          ></ReusableButton>
         </div>
         {/* RIGHT */}
         <div>

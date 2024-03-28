@@ -20,7 +20,7 @@ export default function Navbar() {
     setIsOpen(!isOpen);
   }
   return (
-    <nav className="h-[100px] font-normal text-text-200text-base">
+    <nav className="h-[100px] font-normal text-text-200 text-base">
       <div className="mx-auto container">
         <div className="flex items-center justify-between">
           {/* DESKTOP */}

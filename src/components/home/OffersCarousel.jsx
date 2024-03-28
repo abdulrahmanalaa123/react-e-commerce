@@ -26,12 +26,12 @@ function BeginnersCarousel() {
                   className="w-[150px] aspect-[3/4] mt-2 mb-4"
                 />
               </div>
-              <div className="mb-4 text-center self-center leading-[30px] text-[20px] ">
+              <div className="mb-4 text-center leading-[30px] text-[20px] ">
                 <p>Price</p>
                 <p>{"8.00$"}</p>
               </div>
               <button
-                className="absolute right-0 top-0 "
+                className="absolute right-2 top-2 "
                 onClick={() => {
                   SetFilledIndex(index);
                 }}

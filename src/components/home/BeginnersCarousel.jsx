@@ -31,7 +31,7 @@ function OffersCarousel() {
                 <p>{"8.00$"}</p>
               </div>
               <button
-                className="absolute right-0 top-0 "
+                className="absolute right-2 top-2"
                 onClick={() => {
                   SetFilledIndex(index);
                 }}

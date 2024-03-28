@@ -2,7 +2,8 @@ import React from "react";
 import SvgArrow from "../../assets/svgs/Arrow";
 export default function Banners() {
   return (
-    <div className=" w-full min-h-[480px] flex flex-col place-items-center justify-center gap-12 leading-10 text-center bg-banner-image bg-center bg-no-repeat px-8 bg-fixed">
+    // 8:3 aspect ratio
+    <div className=" w-full min-h-[480px] flex flex-col place-items-center justify-center gap-12 leading-10 text-center bg-banner-image bg-center bg-no-repeat px-8 ">
       <p className="text-3xl text-white font-light italic">
         Want To Celebrate your special occasion? <br></br>check our gifts
         section

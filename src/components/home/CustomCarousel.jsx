@@ -88,7 +88,7 @@ function CustomCarousel(props) {
 
     if (
       slider.current.scrollLeft >=
-        slider.current.scrollWidth - slider.current.offsetWidth ||
+        slider.current.scrollWidth - slider.current.offsetWidth - 2 ||
       slider.current.scrollLeft <= 0
     ) {
       if (walk > 0) {
@@ -108,12 +108,12 @@ function CustomCarousel(props) {
   }
 
   return (
-    <div
-      className="overflow-hidden whitespace-nowrap transition-transform duration-300 ease-out mt-2 flex gap-4 flex-nowrap "
+    <section
+      className="overflow-x-hidden whitespace-nowrap transition-transform duration-300 ease-out mt-2 flex gap-4 flex-nowrap cursor-grab"
       ref={slider}
     >
       {props.children}
-    </div>
+    </section>
   );
 }
 

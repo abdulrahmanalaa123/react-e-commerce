@@ -1,7 +1,7 @@
 import React from "react";
 import HeroImage from "../../assets/images/hero.png";
 import verticalHero from "../../assets/images/verticalHero.png";
-import ReusableButton from "../ReusableButton";
+import ReusableButton from "../buttons/ReusableButton";
 
 const Hero = () => {
   return (
@@ -24,26 +24,22 @@ const Hero = () => {
             ever since the 1500s
           </p>
           {/* CTA BUTTON */}
-          <button
-            className="px-6 py-4 disabled:bg-text-200 bg-text-300 text-white  hover:bg-primary-200 transition-colors duration-150 hover:text-text-300 w-64 max-w-full rounded-sm"
-            onClick={() => {
-              onClick();
-            }}
-          >
-            EXPLORE MORE
-          </button>
+          <ReusableButton
+            text="EXPLORE MORE"
+            onClick={() => {}}
+          ></ReusableButton>
         </div>
         {/* RIGHT */}
         <div>
           <img
             src={verticalHero}
             alt="Mobile Hero Image"
-            className="size-fit aspect-auto sm:hidden block"
+            className="aspect-auto sm:hidden block"
           />
           <img
             src={HeroImage}
             alt="Hero Image"
-            className="size-fit aspect-auto hidden sm:block"
+            className="aspect-auto hidden sm:block"
           />
         </div>
       </div>

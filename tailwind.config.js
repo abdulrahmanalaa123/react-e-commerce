@@ -56,6 +56,7 @@ export default {
         backgrounds: {
           modalBg: "#FBFFF9",
           cardsBg: "#EAEAEA4D",
+          footerBg: "#ECFFE0",
         },
         bg: "#F6F9F6",
 

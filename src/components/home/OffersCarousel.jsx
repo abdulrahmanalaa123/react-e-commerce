@@ -5,6 +5,13 @@ import Heart from "../../assets/svgs/Heart";
 import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
+import {
+  allProductsPaginated,
+  categoryPaginated,
+  getByOptionValue,
+  getByPriceRange,
+  subCategoryPaginated,
+} from "../../api/proudcts/products";
 
 function BeginnersCarousel() {
   const [filledIndex, SetFilledIndex] = useState(null);
@@ -12,7 +19,18 @@ function BeginnersCarousel() {
     <>
       <CustomHeader text={"SPECIAL OFFERS"}></CustomHeader>
       {/* should be lInk but ill use button for the sake of not breaking */}
-      <button className="ml-auto flex items-center mb-2">
+      <button
+        className="ml-auto flex items-center mb-2"
+        onClick={() => {
+          subCategoryPaginated({
+            subCategory: "Vegetable Seeds",
+            pageNo: 1,
+            pagesCount: 10,
+          });
+          getByOptionValue({ optionValue: "Small", pageNo: 1, pagesCount: 10 });
+          getByPriceRange({ range: [150, 300], pageNo: 1, pagesCount: 10 });
+        }}
+      >
         <span>View All</span>
         <SvgArrow className="fill-black inline-block ml-2"></SvgArrow>
       </button>

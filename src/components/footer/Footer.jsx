@@ -11,7 +11,7 @@ function Footer() {
           industry. Lorem Ipsum.
         </p>
       </div>
-      <div className="sr-only sm:not-sr-only flex flex-grow-[1] flex-shrink basis-auto justify-between ">
+      <div className="sr-only sm:not-sr-only flex flex-grow-[3] flex-shrink basis-auto justify-between ">
         <div>
           <p className="text-lg">Browse</p>
           <ul className="flex flex-col gap-3 mt-4">
@@ -42,22 +42,22 @@ function Footer() {
         </div>
       </div>
       <div className="flex-grow-[1]  flex-shrink basis-auto flex flex-col text-center items-center justify-center sm:block sm:text-start mb-3 sm:mb-0">
-        <p className="text-lg mb-7">Share Your Thoughts?</p>
-        <label htmlFor="thought">Opinion</label>
-        <input
-          type="text"
-          name="thought"
-          id="thought"
-          placeholder="Enter Your Opinion"
-          className="block mt-4 p-3 w-[60%] border border-[#DCDCE4] placeholder-[#666687] rounded-sm mb-4"
-        />
-        <div className="w-[60%]">
+        <p className="text-lg ">Share Your Thoughts?</p>
+        <form action="submit">
+          <input
+            type="text"
+            name="thought"
+            placeholder="Enter Your Opinion"
+            className="block mt-4 p-3 w-64 max-w-full border border-[#DCDCE4] placeholder-[#666687] rounded-sm mb-4"
+          />
           <ReusableButton
             type={"submit"}
-            onClick={() => {}}
-            text={"Submit Your Opinion"}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            text={"Submit Opinion"}
           ></ReusableButton>
-        </div>
+        </form>
       </div>
       <p className="absolute bottom-2  mx-auto">All Right Reserved @2024</p>
     </section>

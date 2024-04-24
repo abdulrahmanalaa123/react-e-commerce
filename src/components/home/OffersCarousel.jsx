@@ -12,7 +12,7 @@ import {
   getByPriceRange,
   subCategoryPaginated,
 } from "../../api/proudcts/products";
-
+import filterProducts from "../../api/proudcts/filteringProducts";
 function BeginnersCarousel() {
   const [filledIndex, SetFilledIndex] = useState(null);
   return (
@@ -22,13 +22,13 @@ function BeginnersCarousel() {
       <button
         className="ml-auto flex items-center mb-2"
         onClick={() => {
-          subCategoryPaginated({
-            subCategory: "Vegetable Seeds",
+          filterProducts({
+            category: "Seeds",
+            color: "Green",
+            priceRange: [150, 300],
             pageNo: 1,
             pagesCount: 10,
           });
-          getByOptionValue({ optionValue: "Small", pageNo: 1, pagesCount: 10 });
-          getByPriceRange({ range: [150, 300], pageNo: 1, pagesCount: 10 });
         }}
       >
         <span>View All</span>

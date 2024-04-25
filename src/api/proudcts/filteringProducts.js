@@ -47,37 +47,10 @@ export default async function filterProducts(
     query = query.gte("price", priceRange[0]).lte("price", priceRange[1]);
   }
 
-  const { data, error } = await query;
-  // old solution using eval
-  // const chainsStr = `${
-  //   category ? `.eq("subcategories.category", "${category}")` : ""
-  // }${subcategory ? `.eq("subcategories.name", "${subcategory}")` : ""}${
-  //   color
-  //     ? ` .eq(
-  //     "product_variation_options.product_variation_values.variation_value",
-  //     "${color}"
-  //   )`
-  //     : ""
-  // }${
-  //   size
-  //     ? ` .eq(
-  //     "product_variation_options.product_variation_values.variation_value",
-  //     "${size}"
-  //   )`
-  //     : ""
-  // }${
-  //   priceRange
-  //     ? ` .gte("price", "${priceRange[0]}")
-  //     .lte("price", "${priceRange[1]}")`
-  //     : ""
-  // }`;
-  // //final evalString for the whole line of code combinging the query and chaining
-  // const evalString = `supabase.from("products").select("${queryStr}")${chainsStr}.range((pageNo - 1) * pagesCount, pageNo * pagesCount - 1);`;
-
-  // const {data,error} = await eval(evalString)
-  // console.log("queryString: ", queryStr);
-  // console.log("chainString: ", chainsStr);
-  // console.log("evaledString: ", evalString);
+  const { data, error } = await query.range(
+    (pageNo - 1) * pagesCount,
+    pageNo * pagesCount - 1
+  );
 
   if (!error) {
     console.log(data);
@@ -85,3 +58,34 @@ export default async function filterProducts(
     console.log(error);
   }
 }
+
+// old solution for chaining other than ifs using eval
+// const chainsStr = `${
+//   category ? `.eq("subcategories.category", "${category}")` : ""
+// }${subcategory ? `.eq("subcategories.name", "${subcategory}")` : ""}${
+//   color
+//     ? ` .eq(
+//     "product_variation_options.product_variation_values.variation_value",
+//     "${color}"
+//   )`
+//     : ""
+// }${
+//   size
+//     ? ` .eq(
+//     "product_variation_options.product_variation_values.variation_value",
+//     "${size}"
+//   )`
+//     : ""
+// }${
+//   priceRange
+//     ? ` .gte("price", "${priceRange[0]}")
+//     .lte("price", "${priceRange[1]}")`
+//     : ""
+// }`;
+// //final evalString for the whole line of code combinging the query and chaining
+// const evalString = `supabase.from("products").select("${queryStr}")${chainsStr}.range((pageNo - 1) * pagesCount, pageNo * pagesCount - 1);`;
+
+// const {data,error} = await eval(evalString)
+// console.log("queryString: ", queryStr);
+// console.log("chainString: ", chainsStr);
+// console.log("evaledString: ", evalString);

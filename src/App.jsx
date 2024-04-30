@@ -1,8 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/navbar/Navbar";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from "react-router-dom";
 import Home from "./pages/home/Home";
-import Footer from "./components/footer/Footer";
+import BaseLayout from "./layouts/BaseLayout";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -15,15 +19,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<BaseLayout />}>
+      <Route index element={<Home />}></Route>
+    </Route>
+  )
+);
 export default function App() {
-  return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-      <Footer></Footer>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }

@@ -45,7 +45,7 @@ function BeginnersCarousel() {
                 />
               </div>
               <div className="mb-4 text-center leading-[30px] text-[20px] ">
-                <p>Price</p>
+                <p>Rose</p>
                 <p>{"8.00$"}</p>
               </div>
               <button

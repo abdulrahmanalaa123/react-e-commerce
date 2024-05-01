@@ -1,13 +1,5 @@
 import { initializeApp } from "firebase/app";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  createRoutesFromElements,
-} from "react-router-dom";
-import Home from "./pages/home/Home";
-import BaseLayout from "./layouts/BaseLayout";
-
+import AppProvider from "./providers/app";
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -19,13 +11,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<BaseLayout />}>
-      <Route index element={<Home />}></Route>
-    </Route>
-  )
-);
+
 export default function App() {
-  return <RouterProvider router={router} />;
+  return <AppProvider />;
 }

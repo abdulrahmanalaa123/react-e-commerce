@@ -10,6 +10,7 @@ export default {
       "2xl": "36px",
       xl: "32px",
       lg: "24px",
+      md: "20px",
     },
     extend: {
       backgroundImage: {

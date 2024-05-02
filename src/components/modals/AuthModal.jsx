@@ -3,9 +3,9 @@ import "./modals.css";
 import transparentLogo from "../../assets/svgs/transparentLogo.svg";
 import { useFormStatus } from "../../hooks/formStatus";
 import signIn from "../../api/auth/signIn";
-import SignInForm from "../forms/SignInForm";
+import SignInForm from "../auth/forms/SignInForm";
 import { useState } from "react";
-import SignUpForm from "../forms/SignUpForm";
+import SignUpForm from "../auth/forms/SignUpForm";
 import signUp from "../../api/auth/signUp";
 
 ReactModal.setAppElement("body");

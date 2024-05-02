@@ -7,7 +7,7 @@ import { supabase } from "../../lib/supabaseClient";
 // operators on the request will just edit the response so only who fits the comparison will have the value but everything is returned inner is
 // used to only return whose comparison satsifies their values
 
-export async function allProductsPaginated({ pageNo, pagesCount }) {
+async function allProductsPaginated({ pageNo, pagesCount }) {
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select("*,sub_name: subcategories(name),category: subcategories(category)")
@@ -17,7 +17,7 @@ export async function allProductsPaginated({ pageNo, pagesCount }) {
     console.log(products);
   }
 }
-export async function categoryPaginated({ category, pageNo, pagesCount }) {
+async function categoryPaginated({ category, pageNo, pagesCount }) {
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select(
@@ -30,11 +30,7 @@ export async function categoryPaginated({ category, pageNo, pagesCount }) {
     console.log(products);
   }
 }
-export async function subCategoryPaginated({
-  subCategory,
-  pageNo,
-  pagesCount,
-}) {
+async function subCategoryPaginated({ subCategory, pageNo, pagesCount }) {
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select(
@@ -48,7 +44,7 @@ export async function subCategoryPaginated({
   }
 }
 
-export async function getByOption({ option, pageNo, pagesCount }) {
+async function getByOption({ option, pageNo, pagesCount }) {
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select(
@@ -62,7 +58,7 @@ export async function getByOption({ option, pageNo, pagesCount }) {
     console.log(products);
   }
 }
-export async function getByOptionValue({ optionValue, pageNo, pagesCount }) {
+async function getByOptionValue({ optionValue, pageNo, pagesCount }) {
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select(
@@ -79,7 +75,7 @@ export async function getByOptionValue({ optionValue, pageNo, pagesCount }) {
     console.log(products);
   }
 }
-export async function getByPriceRange({ range, pageNo, pagesCount }) {
+async function getByPriceRange({ range, pageNo, pagesCount }) {
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select("*")

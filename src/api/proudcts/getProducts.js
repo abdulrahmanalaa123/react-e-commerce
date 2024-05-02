@@ -1,15 +1,18 @@
 // must be imported using eval its used in compile time not importing would cause an error
 import { supabase } from "../../lib/supabaseClient";
 
-export default async function filterProducts(
-  { category, subcategory, color, size, priceRange, pageNo, pagesCount } = {
-    category: "",
-    subcategory: "",
-    color: "",
-    size: "",
-    priceRange: "",
+// could be enhanced using "or" or "filter" methods in supabase but i aint gonna try now ill try later first i gotta finish the page itself
+// writing the input parameters like that solves the issue for required parameter entry of the function makes you able to call the function getProducts()
+// usage of the function should be every parameter should be contained in an array and this is written here instead of type assertion is because of javascript lmao
+export default async function getProducts(
+  { category, subcategory, color, size, priceRange, pageNo } = {
+    category: [],
+    subcategory: [],
+    color: [],
+    size: [],
+    priceRange: [],
     pageNo: 1,
-    pagesCount: 10,
+    pagesCount: 16,
   }
 ) {
   // query creation
@@ -25,25 +28,26 @@ export default async function filterProducts(
   let query = supabase.from("products").select(queryStr);
   //the equality chains that needs to be done so we can filter by the value we're selecting
   // done in ifs for better readability
-  if (category) {
-    query = query.eq("subcategories.category", category);
+
+  if (category.length) {
+    query = query.in("subcategories.category", category);
   }
-  if (subcategory) {
-    query = query.eq("subcategories.name", subcategory);
+  if (subcategory.length) {
+    query = query.in("subcategories.name", subcategory);
   }
-  if (color) {
-    query = query.eq(
+  if (color.length) {
+    query = query.in(
       "product_variation_options.product_variation_values.variation_value",
       color
     );
   }
-  if (size) {
-    query = query.eq(
+  if (size.length) {
+    query = query.in(
       "product_variation_options.product_variation_values.variation_value",
       color
     );
   }
-  if (priceRange) {
+  if (priceRange.length) {
     query = query.gte("price", priceRange[0]).lte("price", priceRange[1]);
   }
 

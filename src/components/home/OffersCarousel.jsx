@@ -5,14 +5,8 @@ import Heart from "../../assets/svgs/Heart";
 import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
-import {
-  allProductsPaginated,
-  categoryPaginated,
-  getByOptionValue,
-  getByPriceRange,
-  subCategoryPaginated,
-} from "../../api/proudcts/products";
-import filterProducts from "../../api/proudcts/filteringProducts";
+
+import getProducts from "../../api/proudcts/getProducts";
 function BeginnersCarousel() {
   const [filledIndex, SetFilledIndex] = useState(null);
   return (
@@ -22,7 +16,7 @@ function BeginnersCarousel() {
       <button
         className="ml-auto flex items-center mb-2"
         onClick={() => {
-          filterProducts({
+          getProducts({
             category: "Seeds",
             color: "Green",
             priceRange: [150, 300],

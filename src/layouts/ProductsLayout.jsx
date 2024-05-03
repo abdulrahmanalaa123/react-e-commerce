@@ -8,7 +8,8 @@ import productsQueryGenerator from "../utils/queryGenerator";
 import searchProducts from "../api/proudcts/searchProducts";
 import queryDecoder from "../utils/queryDecoder";
 import filterSVG from "../assets/svgs/filter.svg";
-import FilterCheckBox from "../components/products/FilterCheckBox";
+import SubCategoryCheckBox from "../components/productsView/SubCategoryCheckBox";
+import ColorCheckBox from "../components/productsView/ColorCheckBox";
 
 function ProductsLayout() {
   const params = useParams();
@@ -45,32 +46,70 @@ function ProductsLayout() {
             <span className="font-medium text-md ">Filter</span>
             <img src={filterSVG} alt="filter-icon" className="w-5 h-4" />
           </div>
-          <div id="category-filter" className="w-full">
-            <div>
+          <div id="category-filter" className="w-full mb-5">
+            <div className="mb-9">
               <p className="font-medium text-md text-center ">Categories</p>
-              <div className="w-full h-[2px] bg-black mt-3"></div>
+              <div className="w-full h-[2px] bg-black mt-2"></div>
             </div>
-            <div className="w-full">
-              <FilterCheckBox
+            <div className="flex flex-col gap-9">
+              <SubCategoryCheckBox
                 name={"Trees"}
                 editSearchParams={editSearchParams}
                 paramKey={"Subcategories"}
-              ></FilterCheckBox>
-              <FilterCheckBox
+              ></SubCategoryCheckBox>
+              <SubCategoryCheckBox
                 name={"Brown"}
                 editSearchParams={editSearchParams}
                 paramKey={"Color"}
-              ></FilterCheckBox>
-              <FilterCheckBox
+              ></SubCategoryCheckBox>
+              <SubCategoryCheckBox
                 name={"Small"}
                 editSearchParams={editSearchParams}
                 paramKey={"Size"}
-              ></FilterCheckBox>
-              <FilterCheckBox
+              ></SubCategoryCheckBox>
+              <SubCategoryCheckBox
                 name={"0"}
                 editSearchParams={editSearchParams}
                 paramKey={"Price"}
-              ></FilterCheckBox>
+              ></SubCategoryCheckBox>
+            </div>
+          </div>
+          <div id="color-filter" className="w-full">
+            <div className="mb-9">
+              <p className="font-medium text-md text-center ">Color Options</p>
+              <div className="w-full h-[2px] bg-black mt-2"></div>
+            </div>
+            <div className="flex place-content-center gap-2">
+              <ColorCheckBox
+                name={"Blue"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
+              <ColorCheckBox
+                name={"Red"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
+              <ColorCheckBox
+                name={"Green"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
+              <ColorCheckBox
+                name={"Beige"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
+              <ColorCheckBox
+                name={"Yellow"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
+              <ColorCheckBox
+                name={"Purple"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
             </div>
           </div>
         </section>

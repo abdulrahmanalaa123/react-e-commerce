@@ -1,13 +1,13 @@
 // the solution is really dumb and shouldnt use state managers in my opinion for this case since the state managed is by the search params hook
 // https://medium.com/codex/handling-checkboxes-in-react-3a2514b140d2
-function FilterCheckBox({
+function SubCategoryCheckBox({
   editSearchParams,
   name,
   paramKey,
   initialCheck = false,
 }) {
   return (
-    <div className="my-9 flex items-center gap-[10px] checkbox-focus:bg-backgrounds-modalBg">
+    <div className="flex items-center gap-[10px]">
       <input
         type="checkbox"
         id={`${paramKey}-${name}`}
@@ -28,4 +28,4 @@ function FilterCheckBox({
   );
 }
 
-export default FilterCheckBox;
+export default SubCategoryCheckBox;

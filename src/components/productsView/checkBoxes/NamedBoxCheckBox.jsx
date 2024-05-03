@@ -1,4 +1,4 @@
-function BoxedCheckBox({
+function NamedBoxCheckBox({
   editSearchParams,
   paramKey,
   name,
@@ -25,4 +25,4 @@ function BoxedCheckBox({
   );
 }
 
-export default BoxedCheckBox;
+export default NamedBoxCheckBox;

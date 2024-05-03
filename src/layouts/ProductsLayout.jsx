@@ -10,6 +10,7 @@ import queryDecoder from "../utils/queryDecoder";
 import filterSVG from "../assets/svgs/filter.svg";
 import SubCategoryCheckBox from "../components/productsView/SubCategoryCheckBox";
 import ColorCheckBox from "../components/productsView/ColorCheckBox";
+import BoxedCheckBox from "../components/productsView/BoxedCheckBox";
 
 function ProductsLayout() {
   const params = useParams();
@@ -63,9 +64,9 @@ function ProductsLayout() {
                 paramKey={"Color"}
               ></SubCategoryCheckBox>
               <SubCategoryCheckBox
-                name={"Small"}
+                name={"Indoor Plants"}
                 editSearchParams={editSearchParams}
-                paramKey={"Size"}
+                paramKey={"Subcategories"}
               ></SubCategoryCheckBox>
               <SubCategoryCheckBox
                 name={"0"}
@@ -74,14 +75,14 @@ function ProductsLayout() {
               ></SubCategoryCheckBox>
             </div>
           </div>
-          <div id="color-filter" className="w-full">
+          <div id="color-filter" className="w-full mb-5">
             <div className="mb-9">
               <p className="font-medium text-md text-center ">Color Options</p>
               <div className="w-full h-[2px] bg-black mt-2"></div>
             </div>
             <div className="flex place-content-center gap-2">
               <ColorCheckBox
-                name={"Blue"}
+                name={"Beige"}
                 editSearchParams={editSearchParams}
                 paramKey={"Color"}
               ></ColorCheckBox>
@@ -91,17 +92,17 @@ function ProductsLayout() {
                 paramKey={"Color"}
               ></ColorCheckBox>
               <ColorCheckBox
+                name={"Yellow"}
+                editSearchParams={editSearchParams}
+                paramKey={"Color"}
+              ></ColorCheckBox>
+              <ColorCheckBox
                 name={"Green"}
                 editSearchParams={editSearchParams}
                 paramKey={"Color"}
               ></ColorCheckBox>
               <ColorCheckBox
-                name={"Beige"}
-                editSearchParams={editSearchParams}
-                paramKey={"Color"}
-              ></ColorCheckBox>
-              <ColorCheckBox
-                name={"Yellow"}
+                name={"Blue"}
                 editSearchParams={editSearchParams}
                 paramKey={"Color"}
               ></ColorCheckBox>
@@ -110,6 +111,34 @@ function ProductsLayout() {
                 editSearchParams={editSearchParams}
                 paramKey={"Color"}
               ></ColorCheckBox>
+            </div>
+          </div>
+          <div id="size-filter" className="w-full">
+            <div className="mb-9">
+              <p className="font-medium text-md text-center ">Size</p>
+              <div className="w-full h-[2px] bg-black mt-2"></div>
+            </div>
+            <div className="flex flex-wrap gap-4 ">
+              <BoxedCheckBox
+                name={"Small"}
+                editSearchParams={editSearchParams}
+                paramKey={"Size"}
+              ></BoxedCheckBox>
+              <BoxedCheckBox
+                name={"Medium"}
+                editSearchParams={editSearchParams}
+                paramKey={"Size"}
+              ></BoxedCheckBox>
+              <BoxedCheckBox
+                name={"Large"}
+                editSearchParams={editSearchParams}
+                paramKey={"Size"}
+              ></BoxedCheckBox>{" "}
+              <BoxedCheckBox
+                name={"XLarge"}
+                editSearchParams={editSearchParams}
+                paramKey={"Size"}
+              ></BoxedCheckBox>
             </div>
           </div>
         </section>

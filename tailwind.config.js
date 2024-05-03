@@ -59,9 +59,11 @@ export default {
           cardsBg: "#EAEAEA4D",
           footerBg: "#ECFFE0",
         },
+
         bg: "#F6F9F6",
 
         InputBorder: "#DCDCE4",
+
         error: "#EE1818",
       },
     },

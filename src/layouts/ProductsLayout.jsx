@@ -57,19 +57,19 @@ function ProductsLayout() {
                 paramKey={"Subcategories"}
               ></FilterCheckBox>
               <FilterCheckBox
-                name={"Trees"}
+                name={"Brown"}
                 editSearchParams={editSearchParams}
-                paramKey={"Subcategories"}
+                paramKey={"Color"}
               ></FilterCheckBox>
               <FilterCheckBox
-                name={"Trees"}
+                name={"Small"}
                 editSearchParams={editSearchParams}
-                paramKey={"Subcategories"}
+                paramKey={"Size"}
               ></FilterCheckBox>
               <FilterCheckBox
-                name={"Trees"}
+                name={"0"}
                 editSearchParams={editSearchParams}
-                paramKey={"Subcategories"}
+                paramKey={"Price"}
               ></FilterCheckBox>
             </div>
           </div>

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
 import { createSearchParams, useSearchParams } from "react-router-dom";
+import queryDecoder from "../utils/queryDecoder";
 
 export const useSearchQueries = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
-  //   this works
+  //this works wont try to optimize
   const addQueryKey = (key, val) => {
     const queryObj = getQueryObject();
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first
@@ -17,7 +17,7 @@ export const useSearchQueries = () => {
 
     setSearchParams(createSearchParams(queryObj));
   };
-  //   this works
+  //this works wont try to optimize
   const removeQueryKey = (key, val) => {
     const queryObj = getQueryObject();
     if (Array.isArray(queryObj[key])) {
@@ -46,17 +46,3 @@ export const useSearchQueries = () => {
     searchParams,
   };
 };
-
-function queryDecoder(searchParam) {
-  const parsedObject = {};
-  for (const [key, val] of searchParam.entries()) {
-    if (Array.isArray(parsedObject[key])) {
-      parsedObject[key] = [...parsedObject[key], val];
-    } else {
-      parsedObject[key] = [val];
-    }
-  }
-  return parsedObject;
-}
-
-export default queryDecoder;

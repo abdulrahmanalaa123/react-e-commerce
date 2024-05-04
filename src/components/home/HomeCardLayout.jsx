@@ -1,4 +1,4 @@
-function CardLayout(props) {
+function HomeCardLayout(props) {
   return (
     <div className="relative w-[26rem] max-w-full bg-backgrounds-cardsBg flex flex-col items-center flex-shrink-0 justify-between">
       {props.children}
@@ -6,4 +6,4 @@ function CardLayout(props) {
   );
 }
 
-export default CardLayout;
+export default HomeCardLayout;

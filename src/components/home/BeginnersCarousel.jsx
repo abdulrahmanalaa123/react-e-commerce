@@ -1,10 +1,11 @@
-import CardLayout from "./CardLayout";
+import CardLayout from "./HomeCardLayout";
 import CustomHeader from "./CustomHeader";
 import offerFlower from "../../assets/images/OfferFlower.png";
 import Heart from "../../assets/svgs/Heart";
 import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
+import GoArrow from "../../assets/svgs/goToPage.svg";
 
 function OffersCarousel() {
   const [filledIndex, SetFilledIndex] = useState(null);
@@ -20,6 +21,17 @@ function OffersCarousel() {
         {new Array(4).fill(null).map((_, index) => {
           return (
             <CardLayout key={index}>
+              <div
+                className="group absolute top-0 left-0 hover:bg-[#00000026] w-full h-full cursor-pointer"
+                onClick={() => {
+                  console.log("div clicked");
+                }}
+              >
+                <img
+                  src={GoArrow}
+                  className="hidden group-hover:block absolute top-0 left-0 right-0 bottom-0 mx-auto my-auto "
+                />
+              </div>
               <div>
                 <img
                   src={offerFlower}

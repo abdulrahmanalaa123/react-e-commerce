@@ -4,7 +4,7 @@ import flower3 from "../../assets/images/flower 3.png";
 import flower4 from "../../assets/images/flower 4.png";
 
 import CustomHeader from "./CustomHeader";
-import CardLayout from "./CardLayout";
+import HomeCardLayout from "./HomeCardLayout";
 import CategoryCard from "./CategoryCard";
 import CustomCarousel from "./CustomCarousel";
 
@@ -21,12 +21,12 @@ export default function CategoryCarousel() {
       <CustomCarousel>
         {categories.map((object, index) => {
           return (
-            <CardLayout key={index}>
+            <HomeCardLayout key={index}>
               <CategoryCard
                 img={object.img}
                 category={object.category}
               ></CategoryCard>
-            </CardLayout>
+            </HomeCardLayout>
           );
         })}
       </CustomCarousel>

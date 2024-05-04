@@ -3,7 +3,7 @@ import ReusableButton from "../buttons/ReusableButton";
 
 function Footer() {
   return (
-    <section className="absolute left-0 mt-28 bg-backgrounds-footerBg p-6 right-0 flex flex-wrap gap-12 justify-center">
+    <section className="absolute left-0  bg-backgrounds-footerBg p-6 right-0 flex flex-wrap gap-12 justify-center">
       <div className="flex sm:block sm:text-start flex-shrink basis-auto  text-center items-center flex-col">
         <img src={Logo} alt="footer-logo" />
         <p className="w-[27ch]">

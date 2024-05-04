@@ -12,7 +12,7 @@ function NamedBoxCheckBox({ editSearchParams, paramKey, name, state = false }) {
       />
       <label
         htmlFor={`${paramKey}-${name}`}
-        className="cursor-pointer p-2 text-center font-normal text-[#00000066] border border-[#00000066] rounded peer-checked:border-black peer-checked:text-black transition-colors duration-150"
+        className="cursor-pointer p-2 text-center font-normal text-[#00000066] border border-[#00000066] rounded peer-focus-visible:border-black peer-focus-visible:text-black peer-checked:border-black peer-checked:text-black transition-colors duration-150"
       >
         {name}
       </label>

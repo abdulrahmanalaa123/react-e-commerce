@@ -6,26 +6,27 @@ import { useSearchQueries } from "../../../hooks/searchQueries";
 
 const availableFilters = {
   Color: ["Beige", "Red", "Yellow", "Green", "Blue", "Purple"],
-  Size: ["Small", "Medium", "Large", "XLarge"],
+  Size: ["Small", "Medium", "Large"],
   SubCategories: ["Trees", "Indoor Plants", "Fruit Trees", "Vegetables"],
 };
 
 function FilteringComponent() {
-  const { addQueryKey, removeQueryKey, getQueryObject } = useSearchQueries();
+  const { addQueryKey, removeQueryKey, getQueryObject, clearQueries } =
+    useSearchQueries();
+  // dont know if this is the best way to call the queryObject instead of adding it into some sort of useState inside the hook or sth but idk best way
+  // i think
+  const queryObject = getQueryObject();
   // its handled with two because of using the built in target checker instead of passing the paramKey and values to the param and using one on change function
   // and needing to use event
   // on second thoughts its better this way
-  console.log("rerender");
-  const queryObject = getQueryObject();
   function editSearchParams(event, paramKey, val) {
     if (event.target.checked) {
       addQueryKey(paramKey, val);
-      console.log("added", paramKey, val);
     } else {
       removeQueryKey(paramKey, val);
-      console.log("removed", paramKey, val);
     }
   }
+
   return (
     <section
       id="filters"
@@ -37,19 +38,22 @@ function FilteringComponent() {
       </div>
       <div id="category-filter" className="w-full mb-5">
         <div className="mb-9">
-          <p className="font-medium text-md text-center ">Categories</p>
+          <p className="font-medium text-md text-center ">SubCategories</p>
           <div className="w-full h-[2px] bg-black mt-2"></div>
         </div>
         <div className="flex flex-col gap-9">
           {availableFilters["SubCategories"].map((value) => {
             return (
+              //instead of changign the state from being local to be stored in the searchURL is more consistent and better in every measure
+              // but a neat trick is using the initialCheck which was the old way and editing the key of each component to be `SubCategories___${value}___${queryObject.length != 0}`
+              // and it wouldve fixed the issue of navigating to the plants page and not changing the state even tho its not in the searchParams but this is a trick i thought worth to write
+              // but not a good solution in any shape or form
               <SubCategoryCheckBox
                 paramKey={"SubCategories"}
                 key={`SubCategories___${value}`}
                 name={value}
                 editSearchParams={editSearchParams}
                 state={queryObject["SubCategories"]?.includes(value)}
-                // initialCheck={queryObject["SubCategories"]?.includes(value)}
               ></SubCategoryCheckBox>
             );
           })}
@@ -71,13 +75,12 @@ function FilteringComponent() {
                 name={value}
                 editSearchParams={editSearchParams}
                 state={queryObject["Color"]?.includes(value)}
-                // initialCheck={queryObject["Color"]?.includes(value)}
               ></ColorCheckBox>
             );
           })}
         </div>
       </div>
-      <div id="size-filter" className="w-full mb-5">
+      <div id="size-filter" className="w-full mb-6">
         <div className="mb-9">
           <p className="font-medium text-md text-center ">Size</p>
           <div className="w-full h-[2px] bg-black mt-2"></div>
@@ -91,12 +94,19 @@ function FilteringComponent() {
                 name={value}
                 state={queryObject["Size"]?.includes(value)}
                 editSearchParams={editSearchParams}
-                // initialCheck={queryObject["Size"]?.includes(value)}
               ></NamedBoxCheckBox>
             );
           })}
         </div>
       </div>
+      {Object.keys(queryObject).length != 0 && (
+        <button
+          className="mb-4  mx-auto border-[0.5px] border-black w-full py-1 rounded-sm text-text-300"
+          onClick={clearQueries}
+        >
+          Clear All
+        </button>
+      )}
     </section>
   );
 }

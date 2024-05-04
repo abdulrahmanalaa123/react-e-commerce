@@ -1,6 +1,6 @@
 import ProductImage from "../../../assets/images/product.png";
 import Heart from "../../../assets/svgs/Heart";
-import GoArrow from "../../../assets/svgs/goToPage.svg";
+import HoverButton from "../../buttons/HoverButton";
 
 const product = {
   name: "Faded short sleeve variable",
@@ -8,8 +8,8 @@ const product = {
   image: ProductImage,
 };
 const ArrayofNulls = Array(16).fill(null);
+
 function ProductsSection() {
-  console.log("ProductsSection rendered");
   return (
     <section id="Products-Section" className="flex-auto">
       <p className="text-text-300 font-medium text-md mb-4">Results</p>
@@ -17,26 +17,18 @@ function ProductsSection() {
         {ArrayofNulls.map((_, index) => (
           <div
             key={index}
-            className="bg-backgrounds-cardsBg flex flex-col relative items-center justify-between py-8 "
+            className="bg-backgrounds-cardsBg flex flex-col relative items-center justify-between py-2 "
           >
-            <div
-              className="group absolute top-0 left-0 hover:bg-[#00000026] w-full h-full cursor-pointer"
-              onClick={() => {
-                console.log("div clicked");
-              }}
-            >
-              <img
-                src={GoArrow}
-                className="hidden group-hover:block absolute top-0 left-0 right-0 bottom-0 mx-auto my-auto "
-              />
-            </div>
-            <img src={product.image} className="max-w-[110px] max-h-[140px]" />
+            <HoverButton></HoverButton>
+
+            {/* design specifications idk if its a good design choice or a bad one */}
+            <img src={product.image} className="max-w-[94px] max-h-[120px]" />
             <div className="text-center text-wrap w-[20ch] text-ellipsis">
-              <p>{product.name}</p>
-              <p className="mt-4">{`${product.price}.00$`}</p>
+              <p className="mb-4">{product.name}</p>
+              <p>{`${product.price}.00$`}</p>
             </div>
             <button
-              className="absolute right-2 top-2 "
+              className="absolute right-2 top-2"
               onClick={() => {
                 console.log("heart clicked");
               }}

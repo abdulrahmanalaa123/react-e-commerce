@@ -5,9 +5,9 @@ import Heart from "../../assets/svgs/Heart";
 import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
-import GoArrow from "../../assets/svgs/goToPage.svg";
-
 import getProducts from "../../api/products/getProducts";
+import HoverButton from "../buttons/HoverButton";
+
 function BeginnersCarousel() {
   const [filledIndex, SetFilledIndex] = useState(null);
   return (
@@ -33,17 +33,8 @@ function BeginnersCarousel() {
         {new Array(4).fill(null).map((_, index) => {
           return (
             <HomeCardLayout key={index}>
-              <div
-                className="group absolute top-0 left-0 hover:bg-[#00000026] w-full h-full cursor-pointer"
-                onClick={() => {
-                  console.log("div clicked");
-                }}
-              >
-                <img
-                  src={GoArrow}
-                  className="hidden group-hover:block absolute top-0 left-0 right-0 bottom-0 mx-auto my-auto "
-                />
-              </div>
+              <HoverButton></HoverButton>
+
               <div>
                 <img
                   src={offerFlower}

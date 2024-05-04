@@ -1,9 +1,8 @@
-import { createSearchParams, useSearchParams } from "react-router-dom";
 import filterSVG from "../../../assets/svgs/filter.svg";
 import ColorCheckBox from "../checkBoxes/ColorCheckBox";
 import NamedBoxCheckBox from "../checkBoxes/NamedBoxCheckBox";
 import SubCategoryCheckBox from "../checkBoxes/SubCategoryCheckBox";
-import queryDecoder from "../../../utils/queryDecoder";
+import { useSearchQueries } from "../../../hooks/searchQueries";
 
 const availableFilters = {
   Color: ["Beige", "Red", "Yellow", "Green", "Blue", "Purple"],
@@ -12,22 +11,19 @@ const availableFilters = {
 };
 
 function FilteringComponent() {
-  let [searchParams, setSearchParams] = useSearchParams();
+  const { addQueryKey, removeQueryKey, getQueryObject } = useSearchQueries();
   // its handled with two because of using the built in target checker instead of passing the paramKey and values to the param and using one on change function
   // and needing to use event
   // on second thoughts its better this way
-
-  function editSearchParams(event, paramKey, name) {
+  console.log("rerender");
+  const queryObject = getQueryObject();
+  function editSearchParams(event, paramKey, val) {
     if (event.target.checked) {
-      const finalParam = { ...searchParams };
-      finalParam[paramKey] = name;
-      setSearchParams(createSearchParams(finalParam));
-      console.log("added", paramKey, name);
+      addQueryKey(paramKey, val);
+      console.log("added", paramKey, val);
     } else {
-      const finalParam = queryDecoder(searchParams);
-      delete finalParam[paramKey];
-      setSearchParams(createSearchParams(finalParam));
-      console.log("removed", paramKey, name);
+      removeQueryKey(paramKey, val);
+      console.log("removed", paramKey, val);
     }
   }
   return (
@@ -49,8 +45,11 @@ function FilteringComponent() {
             return (
               <SubCategoryCheckBox
                 paramKey={"SubCategories"}
+                key={`SubCategories___${value}`}
                 name={value}
                 editSearchParams={editSearchParams}
+                state={queryObject["SubCategories"]?.includes(value)}
+                // initialCheck={queryObject["SubCategories"]?.includes(value)}
               ></SubCategoryCheckBox>
             );
           })}
@@ -66,8 +65,13 @@ function FilteringComponent() {
             return (
               <ColorCheckBox
                 paramKey={"Color"}
+                // 3 underscores used because naming of the element ids inside is with a dash
+                // so no confusion happens if it can even happen that ids can interefere with component keys in react while i think it doesnt
+                key={`Color___${value}`}
                 name={value}
                 editSearchParams={editSearchParams}
+                state={queryObject["Color"]?.includes(value)}
+                // initialCheck={queryObject["Color"]?.includes(value)}
               ></ColorCheckBox>
             );
           })}
@@ -83,8 +87,11 @@ function FilteringComponent() {
             return (
               <NamedBoxCheckBox
                 paramKey={"Size"}
+                key={`Size___${value}`}
                 name={value}
+                state={queryObject["Size"]?.includes(value)}
                 editSearchParams={editSearchParams}
+                // initialCheck={queryObject["Size"]?.includes(value)}
               ></NamedBoxCheckBox>
             );
           })}

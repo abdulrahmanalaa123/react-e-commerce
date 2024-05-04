@@ -9,18 +9,13 @@ const colorMapping = {
   Red: "#EE1818",
 };
 
-function ColorCheckBox({
-  editSearchParams,
-  name,
-  paramKey,
-  initialCheck = false,
-}) {
+function ColorCheckBox({ editSearchParams, name, paramKey, state = false }) {
   return (
     <div>
       <input
         type="checkbox"
         id={`${paramKey}-${name}`}
-        defaultChecked={initialCheck}
+        checked={state}
         className="sr-only peer"
         onChange={(e) => {
           editSearchParams(e, paramKey, name);
@@ -28,7 +23,7 @@ function ColorCheckBox({
       />
       <label
         htmlFor={`${paramKey}-${name}`}
-        className="w-6 h-6 rounded-full transition-all duration-75 inline-block outline outline-1 outline-[#00000040]  peer-focus-visible:outline-[3px] peer-focus-visible:outline-[#00000080] peer-checked:outline-[3px] peer-checked:outline-[#00000080]"
+        className="cursor-pointer w-6 h-6 rounded-full transition-all duration-75 inline-block outline outline-1 outline-[#00000040]  peer-focus-visible:outline-[3px] peer-focus-visible:outline-[#00000080] peer-checked:outline-[3px] peer-checked:outline-[#00000080]"
         style={{ backgroundColor: colorMapping[name] }}
       ></label>
     </div>

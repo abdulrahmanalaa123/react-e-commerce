@@ -4,7 +4,7 @@ function SubCategoryCheckBox({
   editSearchParams,
   name,
   paramKey,
-  initialCheck = false,
+  state = false,
 }) {
   return (
     <div className="flex items-center gap-[10px]">
@@ -12,7 +12,7 @@ function SubCategoryCheckBox({
         type="checkbox"
         id={`${paramKey}-${name}`}
         className="peer sr-only"
-        defaultChecked={initialCheck}
+        checked={state}
         onChange={(e) => {
           editSearchParams(e, paramKey, name);
         }}

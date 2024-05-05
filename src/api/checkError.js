@@ -1,4 +1,4 @@
-export default async function checkError(supabaseHandle, props) {
+async function checkError(supabaseHandle, props) {
   try {
     const returnObject = await supabaseHandle(props);
     if (returnObject.error) {

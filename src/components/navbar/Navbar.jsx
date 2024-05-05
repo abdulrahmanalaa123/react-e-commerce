@@ -49,7 +49,7 @@ export default function Navbar() {
                 <Link to="/products" className="nav-item">
                   Garden supplies
                 </Link>
-                <Link to="/seeds" className="nav-item">
+                <Link to="/products/Seeds" className="nav-item">
                   Seeds
                 </Link>
                 <Link to="/pots" className="nav-item">

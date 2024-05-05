@@ -1,31 +1,44 @@
 // must be imported using eval its used in compile time not importing would cause an error
+import { useQuery } from "@tanstack/react-query";
+import { productFetchingConfig } from "../../config/queryOptions";
 import { supabase } from "../../lib/supabaseClient";
 
-// could be enhanced using "or" or "filter" methods in supabase but i aint gonna try now ill try later first i gotta finish the page itself
-// writing the input parameters like that solves the issue for required parameter entry of the function makes you able to call the function getProducts()
-// usage of the function should be every parameter should be contained in an array and this is written here instead of type assertion is because of javascript lmao
-export default async function getProducts(
-  { category, subcategory, color, size, priceRange, pageNo } = {
-    category: [],
-    subcategory: [],
-    color: [],
-    size: [],
-    priceRange: [],
-    pageNo: 1,
-    pagesCount: 16,
-  }
-) {
+// function parameters are error prone when you enter an empty object which shouldnt create errors but it does so the default function usage is with an empty object
+// and used to get all products
+export async function getProducts({
+  // category shouldnt be in a list since the user can preview each category on its own
+  // but leave it as is for features if possible
+  // can enforce type chechking if category belongs to my 4 categories and return an error with no request because
+  // my categories are made as an enum in the database so i use casting which may induce errors and faulty requests so i might check if it belongs to my 4 main categories
+  // Plants,Seeds,Garden Supplies,Pots might be added as a future edit
+  category = [],
+  subcategory = [],
+  // might be refactored to option that contains two objects or something
+  color = [],
+  size = [],
+  priceRange = [],
+  pageNo = 1,
+}) {
   // query creation
   // need to include each column for it to be able to query by it although its not needed in the products viewing page
-  const queryStr = `name,featured_image,price${
-    subcategory ? ",sub_name: subcategories!inner(name)" : ""
-  }${category ? ",category: subcategories!inner(category)" : ""}${
-    color || size
-      ? ",options: product_variation_options!inner(variation_name,product_variation_values(variation_value))"
+  const queryStr = `name,featured_image,price,discount${
+    // done in this awful way to destructure the data properly
+    // instead of calling ...subcategories!inner 2times which for some reason it cant let me do
+    category.length && subcategory.length
+      ? ",...subcategories!inner(sub_name: name,category)"
+      : category.length
+      ? ",...subcategories!inner(category)"
+      : subcategory.length
+      ? "...subcategories!inner(sub_name: name)"
+      : ""
+  }${
+    color.length || size.length
+      ? ",options: product_variation_options!inner(option: variation_name,values: product_variation_values!inner(variation_value))"
       : ""
   }`;
 
   let query = supabase.from("products").select(queryStr);
+
   //the equality chains that needs to be done so we can filter by the value we're selecting
   // done in ifs for better readability
 
@@ -36,37 +49,53 @@ export default async function getProducts(
     query = query.in("subcategories.name", subcategory);
   }
   if (color.length) {
+    query = query.eq("product_variation_options.variation_name", "Color");
+
     query = query.in(
       "product_variation_options.product_variation_values.variation_value",
       color
     );
   }
   if (size.length) {
+    query = query.eq("product_variation_options.variation_name", "Size");
     query = query.in(
       "product_variation_options.product_variation_values.variation_value",
-      color
+      size
     );
   }
   if (priceRange.length) {
     query = query.gte("price", priceRange[0]).lte("price", priceRange[1]);
   }
-
-  const { data, error } = await query.range(
-    (pageNo - 1) * pagesCount,
-    pageNo * pagesCount - 1
-  );
+  // 16 is the current page count can be edited
+  const { data, error } = await query.range((pageNo - 1) * 16, pageNo * 16 - 1);
 
   if (!error) {
     console.log(data);
+
+    return data;
   } else {
     console.log(error);
+    throw error;
   }
 }
 
+export const useProducts = ({ category, queryObject }) => {
+  return useQuery({
+    ...productFetchingConfig,
+    queryKey: [
+      "products",
+      { ...(category && { category: [category] }), ...queryObject },
+    ],
+    queryFn: ({ queryKey }) => {
+      // the queryObject combined with the category if found if not it will work as well
+      return getProducts(queryKey[1]);
+    },
+  });
+};
 // old solution for chaining other than ifs using eval
 // const chainsStr = `${
 //   category ? `.eq("subcategories.category", "${category}")` : ""
-// }${subcategory ? `.eq("subcategories.name", "${subcategory}")` : ""}${
+// }${subCategory ? `.eq("subcategories.name", "${subCategory}")` : ""}${
 //   color
 //     ? ` .eq(
 //     "product_variation_options.product_variation_values.variation_value",

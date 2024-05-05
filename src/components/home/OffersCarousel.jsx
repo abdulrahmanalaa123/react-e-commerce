@@ -5,7 +5,7 @@ import Heart from "../../assets/svgs/Heart";
 import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
-import getProducts from "../../api/products/getProducts";
+import { getProducts } from "../../api/products/getProducts";
 import HoverButton from "../buttons/HoverButton";
 
 function BeginnersCarousel() {

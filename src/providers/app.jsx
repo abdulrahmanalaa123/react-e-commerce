@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, useNavigate } from "react-router-dom";
 import router from "../routes/index";
 import { ErrorBoundary } from "react-error-boundary";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const ErrorFallback = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ function AppProvider({ children }) {
   return (
     <ErrorBoundary fallback={ErrorFallback}>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+
         <RouterProvider router={router}>{children}</RouterProvider>
       </QueryClientProvider>
     </ErrorBoundary>

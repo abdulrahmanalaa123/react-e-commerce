@@ -5,9 +5,9 @@ import SubCategoryCheckBox from "../checkBoxes/SubCategoryCheckBox";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 
 const availableFilters = {
-  Color: ["Beige", "Red", "Yellow", "Green", "Blue", "Purple"],
-  Size: ["Small", "Medium", "Large"],
-  SubCategories: ["Trees", "Indoor Plants", "Fruit Trees", "Vegetables"],
+  color: ["Beige", "Red", "Yellow", "Green", "Blue", "Purple"],
+  size: ["Small", "Medium", "Large"],
+  subcategory: ["Trees", "Indoor Plants", "Fruit Trees", "Vegetables"],
 };
 
 function FilteringComponent() {
@@ -42,18 +42,18 @@ function FilteringComponent() {
           <div className="w-full h-[2px] bg-black mt-2"></div>
         </div>
         <div className="flex flex-col gap-9">
-          {availableFilters["SubCategories"].map((value) => {
+          {availableFilters["subcategory"].map((value) => {
             return (
               //instead of changign the state from being local to be stored in the searchURL is more consistent and better in every measure
               // but a neat trick is using the initialCheck which was the old way and editing the key of each component to be `SubCategories___${value}___${queryObject.length != 0}`
               // and it wouldve fixed the issue of navigating to the plants page and not changing the state even tho its not in the searchParams but this is a trick i thought worth to write
               // but not a good solution in any shape or form
               <SubCategoryCheckBox
-                paramKey={"SubCategories"}
-                key={`SubCategories___${value}`}
+                paramKey={"subcategory"}
+                key={`subcategory___${value}`}
                 name={value}
                 editSearchParams={editSearchParams}
-                state={queryObject["SubCategories"]?.includes(value)}
+                state={queryObject["subcategory"]?.includes(value)}
               ></SubCategoryCheckBox>
             );
           })}
@@ -65,16 +65,16 @@ function FilteringComponent() {
           <div className="w-full h-[2px] bg-black mt-2"></div>
         </div>
         <div className="flex place-content-center gap-4">
-          {availableFilters["Color"].map((value) => {
+          {availableFilters["color"].map((value) => {
             return (
               <ColorCheckBox
-                paramKey={"Color"}
+                paramKey={"color"}
                 // 3 underscores used because naming of the element ids inside is with a dash
                 // so no confusion happens if it can even happen that ids can interefere with component keys in react while i think it doesnt
-                key={`Color___${value}`}
+                key={`color___${value}`}
                 name={value}
                 editSearchParams={editSearchParams}
-                state={queryObject["Color"]?.includes(value)}
+                state={queryObject["color"]?.includes(value)}
               ></ColorCheckBox>
             );
           })}
@@ -86,13 +86,13 @@ function FilteringComponent() {
           <div className="w-full h-[2px] bg-black mt-2"></div>
         </div>
         <div className="flex flex-wrap gap-4">
-          {availableFilters["Size"].map((value) => {
+          {availableFilters["size"].map((value) => {
             return (
               <NamedBoxCheckBox
-                paramKey={"Size"}
+                paramKey={"size"}
                 key={`Size___${value}`}
                 name={value}
-                state={queryObject["Size"]?.includes(value)}
+                state={queryObject["size"]?.includes(value)}
                 editSearchParams={editSearchParams}
               ></NamedBoxCheckBox>
             );

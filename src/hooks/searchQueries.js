@@ -2,7 +2,7 @@ import { createSearchParams, useSearchParams } from "react-router-dom";
 import queryDecoder from "../utils/queryDecoder";
 
 export const useSearchQueries = () => {
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   //this works wont try to optimize
   const addQueryKey = (key, val) => {

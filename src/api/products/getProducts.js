@@ -29,7 +29,7 @@ export async function getProducts({
       : category.length
       ? ",...subcategories!inner(category)"
       : subcategory.length
-      ? "...subcategories!inner(sub_name: name)"
+      ? ",...subcategories!inner(sub_name: name)"
       : ""
   }${
     color.length || size.length

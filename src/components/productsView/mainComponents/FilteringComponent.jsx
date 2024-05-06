@@ -1,45 +1,25 @@
 import filterSVG from "../../../assets/svgs/filter.svg";
-import ColorCheckBox from "../checkBoxes/ColorCheckBox";
-import NamedBoxCheckBox from "../checkBoxes/NamedBoxCheckBox";
-import SubCategoryCheckBox from "../checkBoxes/SubCategoryCheckBox";
 import { useSearchQueries } from "../../../hooks/searchQueries";
-import { useSubcategories } from "../../../api/filters/getSubcategories";
-import { useParams } from "react-router-dom";
-import { useVariationOptions } from "../../../api/filters/getFilters";
-import FilterTitle from "../FilterTitle";
+import VariationOptionsFilter from "../filters/VariationOptionsFilter";
+import SubcategoryFilter from "../filters/SubcategoryFilter";
 
-const availableFilters = {
-  color: ["Beige", "Red", "Yellow", "Green", "Blue", "Purple"],
-  size: ["Small", "Medium", "Large"],
-  subcategory: ["Trees", "Indoor Plants", "Fruit Trees", "Vegetables"],
-};
-
+//instead of changign the state from being local to the checkbox to be stored in the searchURL which is more consistent and better in every measure
+// but a neat trick is using the initialCheck which was the old way and editing the key of each component to be `SubCategories___${value}___${queryObject.length != 0}`
+// and it wouldve fixed the issue of navigating to the plants page and not changing the state even tho its not in the searchParams but this is a trick i thought worth to write
+// but not a good solution in any shape or form
 function FilteringComponent() {
-  const { category } = useParams();
-  const { addQueryKey, removeQueryKey, getQueryObject, clearQueries } =
-    useSearchQueries();
-  const { data, isLoading, error, isError, isSuccess } =
-    useSubcategories(category);
+  const { getQueryObject, clearQueries } = useSearchQueries();
+
   // invoked 2 times idk why maybe because both useParams and searchQueries
   // not because of them and not because of the useSubCategories Hook idk why
   // later will test it
-  const { data: variationData, isSuccess: variationSuccess } =
-    useVariationOptions("Seeds");
 
-  console.log(variationData);
   // dont know if this is the best way to call the queryObject instead of adding it into some sort of useState inside the hook or sth but idk best way
   // i think
   const queryObject = getQueryObject();
   // its handled with two because of using the built in target checker instead of passing the paramKey and values to the param and using one on change function
   // and needing to use event
   // on second thoughts its better this way
-  function editSearchParams(event, paramKey, val) {
-    if (event.target.checked) {
-      addQueryKey(paramKey, val);
-    } else {
-      removeQueryKey(paramKey, val);
-    }
-  }
 
   return (
     <section
@@ -50,62 +30,9 @@ function FilteringComponent() {
         <span className="font-medium text-md ">Filter</span>
         <img src={filterSVG} alt="filter-icon" className="w-5 h-4" />
       </div>
-      <div id="category-filter" className="w-full mb-5">
-        <FilterTitle title={"SubCategories"}></FilterTitle>
-        <div className="flex flex-col gap-9">
-          {isSuccess &&
-            data.map((value) => {
-              return (
-                //instead of changign the state from being local to be stored in the searchURL is more consistent and better in every measure
-                // but a neat trick is using the initialCheck which was the old way and editing the key of each component to be `SubCategories___${value}___${queryObject.length != 0}`
-                // and it wouldve fixed the issue of navigating to the plants page and not changing the state even tho its not in the searchParams but this is a trick i thought worth to write
-                // but not a good solution in any shape or form
-                <SubCategoryCheckBox
-                  paramKey={"subcategory"}
-                  key={`subcategory___${value.name}`}
-                  name={value.name}
-                  editSearchParams={editSearchParams}
-                  state={queryObject["subcategory"]?.includes(value.name)}
-                ></SubCategoryCheckBox>
-              );
-            })}
-        </div>
-      </div>
-      <div id="color-filter" className="w-full mb-5">
-        <FilterTitle title={"Color Options"}></FilterTitle>
-        <div className="flex place-content-center gap-4">
-          {availableFilters["color"].map((value) => {
-            return (
-              <ColorCheckBox
-                paramKey={"color"}
-                // 3 underscores used because naming of the element ids inside is with a dash
-                // so no confusion happens if it can even happen that ids can interefere with component keys in react while i think it doesnt
-                key={`color___${value}`}
-                name={value}
-                editSearchParams={editSearchParams}
-                state={queryObject["color"]?.includes(value)}
-              ></ColorCheckBox>
-            );
-          })}
-        </div>
-      </div>
-      <div id="size-filter" className="w-full mb-6">
-        <FilterTitle title={"Size Options"}></FilterTitle>
-
-        <div className="flex flex-wrap gap-4">
-          {availableFilters["size"].map((value) => {
-            return (
-              <NamedBoxCheckBox
-                paramKey={"size"}
-                key={`Size___${value}`}
-                name={value}
-                state={queryObject["size"]?.includes(value)}
-                editSearchParams={editSearchParams}
-              ></NamedBoxCheckBox>
-            );
-          })}
-        </div>
-      </div>
+      <SubcategoryFilter></SubcategoryFilter>
+      <VariationOptionsFilter></VariationOptionsFilter>
+      {/* hopefully a price filtering option at the end */}
       {Object.keys(queryObject).length != 0 && (
         <button
           className="mb-4  mx-auto border-[0.5px] border-black w-full py-1 rounded-sm text-text-300"

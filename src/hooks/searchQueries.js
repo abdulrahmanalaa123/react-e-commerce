@@ -1,9 +1,21 @@
-import { createSearchParams, useSearchParams } from "react-router-dom";
+import {
+  createSearchParams,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import queryDecoder from "../utils/queryDecoder";
 
 export const useSearchQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const params = useParams();
 
+  function editSearchParamsCheckBoxFunction(event, paramKey, val) {
+    if (event.target.checked) {
+      addQueryKey(paramKey, val);
+    } else {
+      removeQueryKey(paramKey, val);
+    }
+  }
   //this works wont try to optimize
   const addQueryKey = (key, val) => {
     const queryObj = getQueryObject();
@@ -44,5 +56,7 @@ export const useSearchQueries = () => {
     addQueryKey,
     getQueryObject,
     searchParams,
+    params,
+    editSearchParamsCheckBoxFunction,
   };
 };

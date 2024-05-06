@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useProducts } from "../../../api/products/getProducts";
 import ProductImage from "../../../assets/images/product.png";
 import Heart from "../../../assets/svgs/Heart";
@@ -6,18 +5,15 @@ import { useSearchQueries } from "../../../hooks/searchQueries";
 import HoverButton from "../../buttons/HoverButton";
 
 const product = {
-  name: "Faded short sleeve variable",
-  price: 8.0,
   image: ProductImage,
 };
-const ArrayofNulls = Array(16).fill(null);
 
 function ProductsSection() {
-  const { getQueryObject } = useSearchQueries();
-  const { category } = useParams();
+  const { getQueryObject, params } = useSearchQueries();
+
   const { data, error, isError, isLoading, isFetching, isSuccess } =
     useProducts({
-      category: category,
+      category: params.category,
       queryObject: getQueryObject(),
     });
   return (

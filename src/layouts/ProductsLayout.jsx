@@ -3,11 +3,6 @@ import FilteringComponent from "../components/productsView/mainComponents/Filter
 import ProductsSection from "../components/productsView/mainComponents/ProductsSection";
 
 function ProductsLayout() {
-  //the problem now is it rerenders the whole component on the whole component and i want only the products component to rerender
-  // but this is an issue to fix later
-
-  console.log("rendered");
-
   return (
     <>
       <section id="search">

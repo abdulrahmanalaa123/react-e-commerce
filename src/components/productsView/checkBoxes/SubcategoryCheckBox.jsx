@@ -1,6 +1,6 @@
 // the solution is really dumb and shouldnt use state managers in my opinion for this case since the state managed is by the search params hook
 // https://medium.com/codex/handling-checkboxes-in-react-3a2514b140d2
-function SubCategoryCheckBox({
+function SubcategoryCheckBox({
   editSearchParams,
   name,
   paramKey,
@@ -28,4 +28,4 @@ function SubCategoryCheckBox({
   );
 }
 
-export default SubCategoryCheckBox;
+export default SubcategoryCheckBox;

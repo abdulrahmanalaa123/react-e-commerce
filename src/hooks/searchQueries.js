@@ -5,6 +5,14 @@ import {
 } from "react-router-dom";
 import queryDecoder from "../utils/queryDecoder";
 
+const permittedValues = {
+  color: true,
+  size: true,
+  priceRange: true,
+  subcategory: true,
+  category: true,
+  pageNo: true,
+};
 export const useSearchQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();

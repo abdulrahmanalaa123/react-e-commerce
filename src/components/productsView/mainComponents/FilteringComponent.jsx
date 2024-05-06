@@ -2,7 +2,7 @@ import filterSVG from "../../../assets/svgs/filter.svg";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 import VariationOptionsFilter from "../filters/VariationOptionsFilter";
 import SubcategoryFilter from "../filters/SubcategoryFilter";
-
+import PriceFilter from "../filters/PriceFilter";
 //instead of changign the state from being local to the checkbox to be stored in the searchURL which is more consistent and better in every measure
 // but a neat trick is using the initialCheck which was the old way and editing the key of each component to be `SubCategories___${value}___${queryObject.length != 0}`
 // and it wouldve fixed the issue of navigating to the plants page and not changing the state even tho its not in the searchParams but this is a trick i thought worth to write
@@ -32,6 +32,7 @@ function FilteringComponent() {
       </div>
       <SubcategoryFilter></SubcategoryFilter>
       <VariationOptionsFilter></VariationOptionsFilter>
+      <PriceFilter></PriceFilter>
       {/* hopefully a price filtering option at the end */}
       {Object.keys(queryObject).length != 0 && (
         <button

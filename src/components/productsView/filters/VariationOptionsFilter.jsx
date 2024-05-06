@@ -22,8 +22,8 @@ function VariationOptionsFilter() {
 
       return (
         <div
-          id={`${params.category}-${normalizedKey}-filter`}
-          key={`${params.category}-${normalizedKey}`}
+          id={`${normalizedKey}-filter`}
+          key={`${normalizedKey}`}
           className="w-full mb-5"
         >
           {/* normal key is used because its capitalized */}
@@ -36,7 +36,7 @@ function VariationOptionsFilter() {
                     paramKey={normalizedKey}
                     // 3 underscores used because naming of the element ids inside is with a dash
                     // so no confusion happens if it can even happen that ids can interefere with component keys in react while i think it doesnt
-                    key={`${params.category}___${normalizedKey}___${val}`}
+                    key={`${normalizedKey}___${val}`}
                     name={val}
                     editSearchParams={editSearchParamsCheckBoxFunction}
                     state={queryObject[normalizedKey]?.includes(val)}

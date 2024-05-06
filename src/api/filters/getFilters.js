@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import { filterOptionsConfig } from "../../config/queryOptions";
+import { formatHelper } from "../../utils/formatHelper";
 
 export async function getVariationOptions(category) {
   const { data, error } = await supabase.rpc(
@@ -31,10 +32,12 @@ export async function getVariationOptions(category) {
 export const useVariationOptions = (category) => {
   return useQuery({
     ...filterOptionsConfig,
-    queryKey: category ? ["variations", category] : ["variations"],
+    queryKey: formatHelper["category"](category)
+      ? ["variations", category]
+      : ["variations"],
     queryFn: () => {
       // didnt use queryKey because categories migth not be there
-      return getVariationOptions(category ?? "");
+      return getVariationOptions(formatHelper["category"](category));
     },
   });
 };

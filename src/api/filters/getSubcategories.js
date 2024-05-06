@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import { filterOptionsConfig } from "../../config/queryOptions";
+import { formatHelper } from "../../utils/formatHelper";
 
 export async function getSubcategories(category) {
   const { data, error } = await supabase.rpc("get_category_subcategories", {
@@ -17,10 +18,12 @@ export async function getSubcategories(category) {
 export const useSubcategories = (category) => {
   return useQuery({
     ...filterOptionsConfig,
-    queryKey: category ? ["subcategories", category] : ["subcategories"],
+    queryKey: formatHelper["category"](category)
+      ? ["subcategories", category]
+      : ["subcategories"],
     queryFn: () => {
       // didnt use queryKey because categories migth not be there
-      return getSubcategories(category ?? "");
+      return getSubcategories(formatHelper["category"](category));
     },
   });
 };

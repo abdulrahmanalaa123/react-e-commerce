@@ -11,8 +11,8 @@ function ProductsLayout() {
             console.log("testing");
             console.log(
               getProducts({
-                category: ["Seeds"],
-                subcategory: ["Vegetable Seeds"],
+                category: [""],
+                subcategory: [""],
               })
             );
           }}

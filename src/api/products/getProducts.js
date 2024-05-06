@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { productFetchingConfig } from "../../config/queryOptions";
 import { supabase } from "../../lib/supabaseClient";
+import { queryFormatter } from "../../utils/queryFormatter";
 
 // function parameters are error prone when you enter an empty object which shouldnt create errors but it does so the default function usage is with an empty object
 // and used to get all products
@@ -63,8 +64,20 @@ export async function getProducts({
       size
     );
   }
+
   if (priceRange.length) {
-    query = query.gte("price", priceRange[0]).lte("price", priceRange[1]);
+    let min = Infinity;
+    let max = -Infinity;
+    for (const value of priceRange) {
+      // done like this expecting queries with inverted values probably
+      let currMin = Math.min(...value);
+      let currMax = Math.max(...value);
+
+      min = currMin <= min ? currMin : min;
+      max = currMax >= max ? currMax : max;
+    }
+
+    query = query.gte("price", min).lte("price", max);
   }
   // 16 is the current page count can be edited
   const { data, error } = await query.range((pageNo - 1) * 16, pageNo * 16 - 1);
@@ -80,15 +93,18 @@ export async function getProducts({
 }
 
 export const useProducts = ({ category, queryObject }) => {
+  const queryKey = {
+    ...(category && { category: [category] }),
+    ...queryObject,
+  };
+  const paramsObject = queryFormatter(queryKey);
+
   return useQuery({
     ...productFetchingConfig,
-    queryKey: [
-      "products",
-      { ...(category && { category: [category] }), ...queryObject },
-    ],
-    queryFn: ({ queryKey }) => {
+    queryKey: ["products", paramsObject],
+    queryFn: () => {
       // the queryObject combined with the category if found if not it will work as well
-      return getProducts(queryKey[1]);
+      return getProducts(paramsObject);
     },
   });
 };

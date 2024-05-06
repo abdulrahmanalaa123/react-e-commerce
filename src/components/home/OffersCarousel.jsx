@@ -14,18 +14,7 @@ function BeginnersCarousel() {
     <div className="mb-28">
       <CustomHeader text={"SPECIAL OFFERS"}></CustomHeader>
       {/* should be lInk but ill use button for the sake of not breaking */}
-      <button
-        className="ml-auto flex items-center mb-2"
-        onClick={() => {
-          getProducts({
-            category: "Seeds",
-            color: "Green",
-            priceRange: [150, 300],
-            pageNo: 1,
-            pagesCount: 10,
-          });
-        }}
-      >
+      <button className="ml-auto flex items-center mb-2" onClick={() => {}}>
         <span>View All</span>
         <SvgArrow className="fill-black inline-block ml-2"></SvgArrow>
       </button>

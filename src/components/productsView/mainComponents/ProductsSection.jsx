@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useProducts } from "../../../api/products/getProducts";
 import ProductImage from "../../../assets/images/product.png";
 import SvgArrow from "../../../assets/svgs/Arrow";
@@ -6,6 +5,8 @@ import Heart from "../../../assets/svgs/Heart";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 import HoverButton from "../../buttons/HoverButton";
 import PaginationButton from "../PaginationButton";
+import { formatHelper } from "../../../utils/formatHelper";
+import LeftArrow from "../../../assets/svgs/LeftArrow";
 const product = {
   image: ProductImage,
 };
@@ -19,24 +20,22 @@ function ProductsSection() {
       queryObject: getQueryObject(),
     });
 
-  const [trailingState, setTrailingState] = useState({});
-  const { activePage, totalPages } = (() => {
+  const { activePage, totalPages, trailingState } = (() => {
     const queryObj = getQueryObject();
-    const activePage = queryObj["pageNo"] ?? 1;
+    const activePage = formatHelper["pageNo"](queryObj["pageNo"]);
     let totalPages;
+    let trailingState = {
+      startIndex: 2,
+      length: 0,
+      leadingTrailing: false,
+      preceedingTrailing: false,
+    };
     if (isSuccess) {
-      totalPages = Array.from(
-        { length: Math.floor(data.count / 16) },
-        (_, index) => index + 1
-      );
+      totalPages = Math.ceil(data.count / 16);
+      trailingState = trailsCalculator(totalPages, activePage);
     }
-    return { activePage, totalPages };
+    return { activePage, totalPages, trailingState };
   })();
-  useState(() => {
-    if (isSuccess) {
-      setTrailingState(trailsCalculator(totalPages.length, activePage));
-    }
-  }, [isSuccess]);
 
   return (
     <section id="Products-Section" className="flex-auto">
@@ -71,7 +70,16 @@ function ProductsSection() {
         )}
       </div>
       {isSuccess && data.data.length !== 0 && (
-        <div className="flex items-center justify-center mt-10 gap-4 flex-wrap">
+        <div className="flex items-baseline justify-center mt-10 gap-4 flex-wrap">
+          <button
+            className="group text-buttons-unhoveredProductButtons hover:text-black border-buttons-unhoveredProductButtons border hover:border-black p-2 rounded-sm"
+            onClick={() => {
+              editQueryKey("pageNo", activePage - 1);
+            }}
+          >
+            <LeftArrow className="group-hover:fill-black fill-buttons-unhoveredProductButtons inline-block mr-1"></LeftArrow>
+            Back
+          </button>
           <PaginationButton
             val={1}
             active={1 === Number(activePage)}
@@ -81,36 +89,50 @@ function ProductsSection() {
             }}
           ></PaginationButton>
           {trailingState.preceedingTrailing && (
-            <div className="font-bold text-black text-2xl">...</div>
+            <div className="font-bold text-black ">...</div>
           )}
-          {totalPages.length > 1 ? (
+          {trailingState.length > 0 ? (
             Array.from(
               { length: trailingState.length },
-              (_, index) => index + startIndex
-            )
+              (_, index) => index + trailingState.startIndex
+            ).map((val) => {
+              return (
+                <PaginationButton
+                  val={val}
+                  active={val === Number(activePage)}
+                  key={`page-button-${val}`}
+                  onclick={() => {
+                    // this is bs because i know it will remove pageNo parameter i can keept it
+                    editQueryKey("pageNo", val);
+                  }}
+                ></PaginationButton>
+              );
+            })
           ) : (
             <></>
           )}
           {trailingState.leadingTrailing && (
-            <div className="font-bold text-black text-2xl">...</div>
+            <div className="font-bold text-black ">...</div>
           )}
           <PaginationButton
-            val={totalPages[totalPages.length - 1]}
-            active={totalPages[totalPages.length - 1] === Number(activePage)}
+            val={totalPages}
+            active={totalPages === Number(activePage)}
             onclick={() => {
               // this is bs because i know it will remove pageNo parameter i can keept it
-              editQueryKey("pageNo", totalPages[totalPages.length - 1]);
+              editQueryKey("pageNo", totalPages);
             }}
           ></PaginationButton>
-          <button
-            className="group text-buttons-unhoveredProductButtons hover:text-black border-buttons-unhoveredProductButtons border hover:border-black p-2 rounded-sm"
-            onClick={() => {
-              editQueryKey("pageNo", Number(activePage) + 1);
-            }}
-          >
-            Next
-            <SvgArrow className="group-hover:fill-black fill-buttons-unhoveredProductButtons inline-block ml-1"></SvgArrow>
-          </button>
+          {activePage < totalPages && (
+            <button
+              className="group text-buttons-unhoveredProductButtons hover:text-black border-buttons-unhoveredProductButtons border hover:border-black p-2 rounded-sm"
+              onClick={() => {
+                editQueryKey("pageNo", activePage + 1);
+              }}
+            >
+              Next
+              <SvgArrow className="group-hover:fill-black fill-buttons-unhoveredProductButtons inline-block ml-1"></SvgArrow>
+            </button>
+          )}
         </div>
       )}
     </section>
@@ -121,32 +143,32 @@ export default ProductsSection;
 
 function trailsCalculator(totalPages, activePage) {
   // should be 3 for mobile devices
-  const valuesCount = 5;
+  const valuesCount = 4;
   const preceedingLimit = Math.floor(valuesCount / 2);
   const leadingLimit = Math.ceil(valuesCount / 2);
 
+  // main equation activePage - 1 (start element) > preceedingLimit + 1 (element worth to put the ellipsis for)
   const preceedingTrailing =
-    activePage > preceedingLimit + 1 && totalPages >= valuesCount + 2;
+    activePage > preceedingLimit + 2 && totalPages > valuesCount + 2;
+
   const leadingTrailing =
-    totalPages - activePage > leadingLimit + 1 && totalPages >= valuesCount + 2;
+    totalPages - activePage > leadingLimit + 2 && totalPages > valuesCount + 2;
 
   let startIndex;
-  let endIndex;
-  // each -1 one on the endIndex counts for the end element that must always be there
+  let length;
   if (!preceedingTrailing && !leadingTrailing) {
     startIndex = 2;
-    endIndex = totalPages - 1;
+    length = totalPages - startIndex;
   } else if (preceedingTrailing && leadingTrailing) {
     startIndex = activePage - preceedingLimit;
-    endIndex = activePage + leadingLimit - 1;
+    length = valuesCount;
   } else if (preceedingTrailing && !leadingTrailing) {
     startIndex = totalPages - valuesCount;
-    endIndex = totalPages - 1;
+    length = valuesCount;
   } else if (!preceedingTrailing && leadingTrailing) {
     startIndex = 2;
-    endIndex = valuesCount - 1;
+    length = valuesCount;
   }
-  const length = endIndex - startIndex;
   return { startIndex, length, leadingTrailing, preceedingTrailing };
 }
 // failed attempt at solving the pageNo issue using closures was pointless and i knew from the beginning but was fun nonetheless

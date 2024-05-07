@@ -34,10 +34,7 @@ export const useSearchQueries = () => {
   // will be used in pageNo only probably
   const editQueryKey = (key, val) => {
     const queryObj = getQueryObject();
-    console.log(
-      "inspecting query of empty list",
-      queryDecoder(createSearchParams({ hello: [] }))
-    );
+
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first
     // testing is needed ofc
     if (Array.isArray(queryObj[key])) {

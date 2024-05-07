@@ -24,7 +24,7 @@ function FilteringComponent() {
   return (
     <section
       id="filters"
-      className="flex flex-col w-[256px] items-center mt-[46px]"
+      className="flex flex-col w-[256px] items-center mt-[46px] overflow-y-auto"
     >
       <div className="flex items-center gap-4 mb-8">
         <span className="font-medium text-md ">Filter</span>

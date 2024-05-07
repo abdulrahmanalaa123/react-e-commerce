@@ -57,14 +57,15 @@ export const formatHelper = {
     } else {
       actualVal = val;
     }
-    return isNan(Number(actualVal)) ? 1 : Number(actualVal);
+    // number isnt nan where number !== number only holds true for nan
+    return Number(actualVal) !== Number(actualVal) ? 1 : Number(actualVal);
   },
   category: (val) => {
     const validCategories = ["Plants", "Seeds", "GardenSupplies", "Pots"];
     if (Array.isArray(val)) {
       return val.filter((val) => validCategories.includes(val));
     } else {
-      return validCategories.includes(val) ? val : "";
+      return validCategories.includes(val) ? Math.abs(val) : "";
     }
   },
 };

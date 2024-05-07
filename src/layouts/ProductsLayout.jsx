@@ -1,20 +1,29 @@
-import { getProducts } from "../api/products/getProducts";
+import { useEffect } from "react";
 import FilteringComponent from "../components/productsView/mainComponents/FilteringComponent";
 import ProductsSection from "../components/productsView/mainComponents/ProductsSection";
+import { useNavigate } from "react-router-dom";
+import { useSearchQueries } from "../hooks/searchQueries";
+import { formatHelper } from "../utils/formatHelper";
 
 function ProductsLayout() {
+  const navigate = useNavigate();
+  const { params } = useSearchQueries();
+  useEffect(() => {
+    if (
+      params.category !== undefined &&
+      !formatHelper["category"](params.category)
+    ) {
+      // can be replaced by throwing an error and
+      console.log("boys we're going on a ride");
+      navigate("/products", { replace: true });
+    }
+  }, [params.category]);
   return (
     <>
       <section id="search">
         <button
           onClick={() => {
-            console.log("testing");
-            console.log(
-              getProducts({
-                category: [""],
-                subcategory: [""],
-              })
-            );
+            navigate("/products/blalbal", { replace: true });
           }}
         >
           searchBar

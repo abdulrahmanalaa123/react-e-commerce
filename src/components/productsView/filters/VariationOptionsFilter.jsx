@@ -15,6 +15,7 @@ function VariationOptionsFilter() {
     useSearchQueries();
   const queryObject = getQueryObject();
   const { data, isSuccess } = useVariationOptions(params.category);
+
   return (
     isSuccess &&
     Object.keys(data).map((key) => {
@@ -24,7 +25,7 @@ function VariationOptionsFilter() {
         <div
           id={`${normalizedKey}-filter`}
           key={`${normalizedKey}`}
-          className="w-full mb-5"
+          className="w-full mb-5 pl-1"
         >
           {/* normal key is used because its capitalized */}
           <FilterTitle title={`${key} options`}></FilterTitle>

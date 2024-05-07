@@ -12,8 +12,9 @@ function PriceFilter() {
   const { getQueryObject, editSearchParamsCheckBoxFunction } =
     useSearchQueries();
   const queryObject = getQueryObject();
+
   return (
-    <div id="price-filter" className="w-full mb-5">
+    <div id="price-filter" className="w-full mb-5 pl-1">
       <FilterTitle title={"Price Filter"}></FilterTitle>
       <div className="flex flex-wrap gap-4">
         {availablePriceRanges.map((range) => (

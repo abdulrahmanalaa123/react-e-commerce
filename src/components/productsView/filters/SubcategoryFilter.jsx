@@ -8,8 +8,9 @@ function SubcategoryFilter() {
     useSearchQueries();
   const queryObject = getQueryObject();
   const { data, isSuccess } = useSubcategories(params.category);
+
   return (
-    <div id="subcategory-filter" className="w-full mb-5">
+    <div id="subcategory-filter" className="w-full mb-5 pl-1">
       <FilterTitle title={"Subcategories"}></FilterTitle>
       <div className="flex flex-col gap-9">
         {isSuccess &&

@@ -38,7 +38,7 @@ export async function getProducts({
       : ""
   }`;
 
-  let query = supabase.from("products").select(queryStr);
+  let query = supabase.from("products").select(queryStr, { count: "exact" });
 
   //the equality chains that needs to be done so we can filter by the value we're selecting
   // done in ifs for better readability
@@ -80,12 +80,15 @@ export async function getProducts({
     query = query.gte("price", min).lte("price", max);
   }
   // 16 is the current page count can be edited
-  const { data, error } = await query.range((pageNo - 1) * 16, pageNo * 16 - 1);
+  const { data, count, error } = await query.range(
+    (pageNo - 1) * 16,
+    pageNo * 16 - 1
+  );
 
   if (!error) {
     console.log(data);
-
-    return data;
+    console.log(count);
+    return { data, count };
   } else {
     console.log(error);
     throw error;

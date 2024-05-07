@@ -5,14 +5,6 @@ import {
 } from "react-router-dom";
 import queryDecoder from "../utils/queryDecoder";
 
-const permittedValues = {
-  color: true,
-  size: true,
-  priceRange: true,
-  subcategory: true,
-  category: true,
-  pageNo: true,
-};
 export const useSearchQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
@@ -29,8 +21,27 @@ export const useSearchQueries = () => {
     const queryObj = getQueryObject();
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first
     // testing is needed ofc
+    if (queryObj["pageNo"]) {
+      delete queryObj.pageNo;
+    }
     if (Array.isArray(queryObj[key]) && !queryObj[key]?.includes(val)) {
       queryObj[key] = [...queryObj[key], val];
+    } else {
+      queryObj[key] = [val];
+    }
+    setSearchParams(createSearchParams(queryObj));
+  };
+  // will be used in pageNo only probably
+  const editQueryKey = (key, val) => {
+    const queryObj = getQueryObject();
+    console.log(
+      "inspecting query of empty list",
+      queryDecoder(createSearchParams({ hello: [] }))
+    );
+    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first
+    // testing is needed ofc
+    if (Array.isArray(queryObj[key])) {
+      queryObj[key] = [val];
     } else {
       queryObj[key] = [val];
     }
@@ -40,10 +51,10 @@ export const useSearchQueries = () => {
   //this works wont try to optimize
   const removeQueryKey = (key, val) => {
     const queryObj = getQueryObject();
+
     if (Array.isArray(queryObj[key])) {
       queryObj[key] = queryObj[key].filter((element) => element !== val);
     }
-
     setSearchParams(createSearchParams(queryObj));
   };
   //object must be in format {key:[val] or key:[val1,val2,val3]}
@@ -61,6 +72,7 @@ export const useSearchQueries = () => {
     clearQueries,
     createNewQuery,
     removeQueryKey,
+    editQueryKey,
     addQueryKey,
     getQueryObject,
     searchParams,

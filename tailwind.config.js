@@ -54,6 +54,9 @@ export default {
           300: "#232323",
           input: "#666687",
         },
+        buttons: {
+          unhoveredProductButtons: "#00000066",
+        },
         backgrounds: {
           modalBg: "#FBFFF9",
           cardsBg: "#EAEAEA4D",

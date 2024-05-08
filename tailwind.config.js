@@ -53,6 +53,7 @@ export default {
           200: "#585858",
           300: "#232323",
           input: "#666687",
+          error: "#EE1818",
         },
         buttons: {
           unhoveredProductButtons: "#00000066",

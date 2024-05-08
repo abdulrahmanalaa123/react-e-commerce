@@ -7,7 +7,7 @@ function SubcategoryCheckBox({
   state = false,
 }) {
   return (
-    <div className="flex items-center gap-[10px]">
+    <div className="flex items-center gap-[10px] has-[:checked]:bg-backgrounds-footerBg p-2 rounded has-[:focus-visible]:bg-backgrounds-footerBg">
       <input
         type="checkbox"
         id={`${paramKey}-${name}`}

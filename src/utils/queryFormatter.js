@@ -1,5 +1,6 @@
 import { formatHelper } from "./formatHelper";
 
+// only used in the products query since i need to format the whole query
 export function queryFormatter(queryObject) {
   const finalObject = {};
   // filtered object from random keys wouldnt

@@ -1,6 +1,6 @@
 function NamedBoxCheckBox({ editSearchParams, paramKey, name, state = false }) {
   return (
-    <div className="mb-4">
+    <div className="mb-4 ">
       <input
         type="checkbox"
         id={`${paramKey}-${name}`}

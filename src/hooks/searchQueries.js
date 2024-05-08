@@ -19,7 +19,7 @@ export const useSearchQueries = () => {
   //this works wont try to optimize
   const addQueryKey = (key, val) => {
     const queryObj = getQueryObject();
-    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first
+    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
     // testing is needed ofc
     if (queryObj["pageNo"]) {
       delete queryObj.pageNo;
@@ -35,7 +35,7 @@ export const useSearchQueries = () => {
   const editQueryKey = (key, val) => {
     const queryObj = getQueryObject();
 
-    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first
+    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
     // testing is needed ofc
     if (Array.isArray(queryObj[key])) {
       queryObj[key] = [val];

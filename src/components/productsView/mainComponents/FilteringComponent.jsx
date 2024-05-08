@@ -33,8 +33,8 @@ function FilteringComponent() {
       <SubcategoryFilter></SubcategoryFilter>
       <VariationOptionsFilter></VariationOptionsFilter>
       <PriceFilter></PriceFilter>
-      {/* hopefully a price filtering option at the end */}
-      {Object.keys(queryObject).length != 0 && (
+      {Object.keys(queryObject).filter((key) => key !== "pageNo").length !=
+        0 && (
         <button
           className="mb-4  mx-auto border-[0.5px] border-black w-full py-1 rounded-sm text-text-300"
           onClick={clearQueries}

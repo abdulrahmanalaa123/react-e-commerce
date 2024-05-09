@@ -1,5 +1,6 @@
 import {
   createSearchParams,
+  useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -8,7 +9,7 @@ import queryDecoder from "../utils/queryDecoder";
 export const useSearchQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
-
+  const navigate = useNavigate();
   function editSearchParamsCheckBoxFunction(event, paramKey, val) {
     if (event.target.checked) {
       addQueryKey(paramKey, val);
@@ -54,8 +55,12 @@ export const useSearchQueries = () => {
     }
     setSearchParams(createSearchParams(queryObj));
   };
-  //object must be in format {key:[val] or key:[val1,val2,val3]}
+  // object must be in format {key:[val] or key:[val1,val2,val3]}
+
+  // this is used for search queries thats why i want this behaviour \
+  // maybe not preferred but things have gotten out of hand and rebuilding all that aint worth the trouble
   const createNewQuery = (object) => {
+    navigate("/products", { replace: true });
     setSearchParams(createSearchParams(object));
   };
   const getQueryObject = () => {

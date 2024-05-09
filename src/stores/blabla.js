@@ -59,5 +59,3 @@ const useFilterProducts = () => {
     removeFilter,
   };
 };
-
-export default useFilterProducts;

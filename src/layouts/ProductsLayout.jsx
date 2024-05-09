@@ -4,7 +4,7 @@ import ProductsSection from "../components/productsView/mainComponents/ProductsS
 import { useNavigate } from "react-router-dom";
 import { useSearchQueries } from "../hooks/searchQueries";
 import { formatHelper } from "../utils/formatHelper";
-
+import SearchBar from "../components/productsView/mainComponents/SearchBar";
 function ProductsLayout() {
   const navigate = useNavigate();
   const { params } = useSearchQueries();
@@ -20,14 +20,8 @@ function ProductsLayout() {
   }, [params.category]);
   return (
     <>
-      <section id="search">
-        <button
-          onClick={() => {
-            navigate("/products/blalbal", { replace: true });
-          }}
-        >
-          searchBar
-        </button>
+      <section id="search" className="my-9">
+        <SearchBar></SearchBar>
       </section>
       <section id="products-view" className="flex w-full h-full mb-14 gap-4">
         <FilteringComponent></FilteringComponent>

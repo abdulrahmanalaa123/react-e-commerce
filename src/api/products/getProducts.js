@@ -14,6 +14,7 @@ export async function getProducts({
   // Plants,Seeds,Garden Supplies,Pots might be added as a future edit
   category = [],
   subcategory = [],
+  sKey = "",
   // might be refactored to option that contains two objects or something
   color = [],
   size = [],
@@ -45,6 +46,10 @@ export async function getProducts({
 
   if (category.length) {
     query = query.in("subcategories.category", category);
+  }
+  if (sKey) {
+    // a really simple search pattern not that good but good enough for me im not creating a search engine
+    query = query.ilike("name", sKey.length === 1 ? `${sKey}%` : `%${sKey}%`);
   }
   if (subcategory.length) {
     query = query.in("subcategories.name", subcategory);

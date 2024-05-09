@@ -20,7 +20,6 @@ function ProductsSection() {
   });
 
   // would like to optimize for a use callback or use memo
-
   return (
     <section id="Products-Section" className="flex-auto">
       <p className="text-text-300 font-medium text-md mb-4">Results</p>

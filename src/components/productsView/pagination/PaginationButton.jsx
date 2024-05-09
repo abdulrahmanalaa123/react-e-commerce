@@ -1,4 +1,4 @@
-function PaginationButton({ val, active, onclick = () => {} }) {
+function PaginationButton({ val, active }) {
   return (
     // fixed the UI bug by not assigning any properties if its not active and abide by the tailwind properties
     <button
@@ -7,7 +7,6 @@ function PaginationButton({ val, active, onclick = () => {} }) {
         backgroundColor: active ? "#232323" : "",
         color: active ? "rgb(255 255 255)" : "",
       }}
-      onClick={onclick}
     >
       {val}
     </button>

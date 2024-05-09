@@ -37,47 +37,47 @@ function PaginationComponent({ count }) {
           <LeftArrow className="group-hover:fill-black group-disabled:fill-buttons-unhoveredProductButtons fill-buttons-unhoveredProductButtons inline-block mr-1"></LeftArrow>
           Back
         </button>
-        <PaginationButton
-          val={1}
-          active={1 === Number(activePage)}
-          onclick={() => {
-            // this is bs because i know it will remove pageNo parameter i can keept it
-            editQueryKey("pageNo", 1);
+        {/* using event bubbling for pagination using the inner value of each button child since the pagination components are 
+        simple and are just a simple button with a val inside it which cant be used everywhere but here it worked like the products view for example
+        each press has a unique id which is isnt apparent in the html but here it works can be used in the subcategories filter but i wont 
+        this is here just as a learning trick and a proof of  concept
+         */}
+        <div
+          className="flex gap-4"
+          onClick={(e) => {
+            editQueryKey("pageNo", e.target.innerText);
           }}
-        ></PaginationButton>
-        {trailingState.preceedingTrailing && (
-          <div className="font-bold text-black ">...</div>
-        )}
-        {trailingState.length > 0 &&
-          Array.from(
-            { length: trailingState.length },
-            (_, index) => index + trailingState.startIndex
-          ).map((val) => {
-            return (
-              <PaginationButton
-                val={val}
-                active={val === Number(activePage)}
-                key={`page-button-${val}`}
-                onclick={() => {
-                  // this is bs because i know it will remove pageNo parameter i can keept it
-                  editQueryKey("pageNo", val);
-                }}
-              ></PaginationButton>
-            );
-          })}
-        {trailingState.leadingTrailing && (
-          <div className="font-bold text-black ">...</div>
-        )}
-        {totalPages !== 1 && (
+        >
           <PaginationButton
-            val={totalPages}
-            active={totalPages === Number(activePage)}
-            onclick={() => {
-              // this is bs because i know it will remove pageNo parameter i can keept it
-              editQueryKey("pageNo", totalPages);
-            }}
+            val={1}
+            active={1 === Number(activePage)}
           ></PaginationButton>
-        )}
+          {trailingState.preceedingTrailing && (
+            <div className="font-bold text-black ">...</div>
+          )}
+          {trailingState.length > 0 &&
+            Array.from(
+              { length: trailingState.length },
+              (_, index) => index + trailingState.startIndex
+            ).map((val) => {
+              return (
+                <PaginationButton
+                  val={val}
+                  active={val === Number(activePage)}
+                  key={`page-button-${val}`}
+                ></PaginationButton>
+              );
+            })}
+          {trailingState.leadingTrailing && (
+            <div className="font-bold text-black ">...</div>
+          )}
+          {totalPages !== 1 && (
+            <PaginationButton
+              val={totalPages}
+              active={totalPages === Number(activePage)}
+            ></PaginationButton>
+          )}
+        </div>
 
         <button
           id="Next-Button"

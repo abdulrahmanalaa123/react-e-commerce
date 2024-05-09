@@ -5,7 +5,10 @@ function productSearchStorageObject() {
 
   this.addSearchTerm = (val) => {
     const currentSearches = JSON.parse(localStorage.getItem("searchTerms"));
-    const newSearch = currentSearches ? [val, ...currentSearches] : [val];
+    const newSearch =
+      currentSearches && !currentSearches.includes(val)
+        ? [val, ...currentSearches]
+        : [val];
     localStorage.setItem("searchTerms", JSON.stringify(newSearch));
   };
 

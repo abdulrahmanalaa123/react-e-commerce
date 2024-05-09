@@ -1,16 +1,12 @@
 import filterSVG from "../../../assets/svgs/filter.svg";
-import { useSearchQueries } from "../../../hooks/searchQueries";
-import { productSearchHistory } from "../../../objects/customSearchHistoryObject";
-import { formatHelper } from "../../../utils/formatHelper";
+
 import { useState } from "react";
 import SearchHistoryDropDown from "../search/SearchHistoryDropDown";
 import useHandleClickOutisde from "../../../hooks/handleClickOutside";
+import useSearchHistory from "../../../hooks/searchHistory";
 
 function SearchBar() {
-  const { getQueryObject, createNewQuery } = useSearchQueries();
-  const [filterVal, setFilterVal] = useState(
-    formatHelper["sKey"](getQueryObject()["sKey"])
-  );
+  const { filterVal, setFilterVal, search, initialVal } = useSearchHistory();
   const [searchHistoryDropDownShown, setSearchHistoryDropDownShown] =
     useState(false);
 
@@ -19,24 +15,23 @@ function SearchBar() {
   function handleClickOutside() {
     setSearchHistoryDropDownShown(false);
   }
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      productSearchHistory.addSearchTerm(e.target.value);
-      createNewQuery({ sKey: e.target.value });
-    }
-  }
+
   return (
     <div className="w-full px-4 flex items-center gap-2 mx-auto md:w-1/2 md:px-0">
-      <div className="relative flex-auto " ref={ref}>
+      <div
+        className="relative flex-auto "
+        ref={ref}
+        // it must have a key if im searching or not to rerender the component when switching pages
+        key={`${initialVal}`}
+      >
         <input
           type="text"
           id="search-bar"
           className=" py-[10px] px-7 w-full peer rounded-lg border-[#EAEAEF] border focus-visible:border-2 transition-colors duration-150
          focus-visible:border-primary-300  focus-visible:outline-none focus-visible:shadow-none   text-[#32324D] placeholder:text-[#8E8EA9]"
           placeholder="Search for an Entry"
-          onKeyDown={handleKeyDown}
+          onKeyDown={search}
           value={filterVal}
-          autoFocus={formatHelper["sKey"](getQueryObject()["sKey"])}
           onFocus={() => {
             setSearchHistoryDropDownShown(true);
           }}
@@ -45,7 +40,7 @@ function SearchBar() {
           }}
         />
         {searchHistoryDropDownShown && (
-          <SearchHistoryDropDown filterVal={filterVal}></SearchHistoryDropDown>
+          <SearchHistoryDropDown></SearchHistoryDropDown>
         )}
         <label
           htmlFor="search-bar"

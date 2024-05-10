@@ -6,6 +6,7 @@ function queryDecoder(searchParam) {
     if (Array.isArray(parsedObject[key])) {
       parsedObject[key] = [...parsedObject[key], val];
     } else {
+      // remove empty objects
       parsedObject[key] = [val];
     }
   }

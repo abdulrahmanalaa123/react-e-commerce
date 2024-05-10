@@ -21,7 +21,12 @@ function ProductsLayout() {
   return (
     <>
       <section id="search" className="my-9">
-        <SearchBar></SearchBar>
+        {/* must have a key to determine if it needs to reset states which is through transitions */}
+        <SearchBar
+          key={`${
+            params.category !== undefined ? params.category : "AllSearchBar"
+          }`}
+        ></SearchBar>
       </section>
       <section id="products-view" className="flex w-full h-full mb-14 gap-4">
         <FilteringComponent></FilteringComponent>

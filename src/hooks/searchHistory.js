@@ -5,46 +5,48 @@ import { useSearchQueries } from "./searchQueries";
 
 function useSearchHistory() {
   const { getQueryObject, createNewQuery } = useSearchQueries();
-  const initialVal = formatHelper["sKey"](getQueryObject()["sKey"]);
-  const [filterVal, setFilterVal] = useState(
-    formatHelper["sKey"](getQueryObject()["sKey"])
-  );
-  const [searchHistory, setSearchHistory] = useState(
-    productSearchHistory
-      .getSearchHistory()
-      ?.filter((value) =>
-        value.toLowerCase().includes(filterVal.toLowerCase())
-      ) ?? []
-  );
+  const initialValSetter = () => formatHelper["sKey"](getQueryObject()["sKey"]);
+  const [filterVal, setFilterVal] = useState(initialValSetter);
+  const searchHistorySetter = () =>
+    productSearchHistory.getSearchHistory().filter((value) => {
+      return value.toLowerCase().includes(filterVal.toLowerCase());
+    });
+  const [searchHistory, setSearchHistory] = useState(searchHistorySetter);
+
   useEffect(() => {
-    const value =
-      productSearchHistory
-        .getSearchHistory()
-        ?.filter((value) =>
-          value.toLowerCase().includes(filterVal.toLowerCase())
-        ) ?? [];
-    setSearchHistory(value);
+    setSearchHistory(searchHistorySetter());
   }, [filterVal]);
 
-  const search = (e) => {
-    if (e.key === "Enter") {
+  const searchWithKeys = (e) => {
+    if (e.key === "Enter" && e.target.value !== "") {
       productSearchHistory.addSearchTerm(e.target.value);
       createNewQuery({ sKey: e.target.value });
     }
+  };
+
+  const searchWithClick = (item) => {
+    productSearchHistory.addSearchTerm(item);
+    createNewQuery({ sKey: item });
   };
 
   const clearHistory = () => {
     productSearchHistory.clearSearchHistory();
     setSearchHistory([]);
   };
+
+  const removeItemFromHistory = (item) => {
+    productSearchHistory.removeSearchTerm(item);
+
+    setSearchHistory(productSearchHistory.getSearchHistory());
+  };
   return {
     filterVal,
     setFilterVal,
     searchHistory,
-
+    removeItemFromHistory,
     clearHistory,
-    initialVal,
-    search,
+    searchWithKeys,
+    searchWithClick,
   };
 }
 

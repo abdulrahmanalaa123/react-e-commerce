@@ -38,12 +38,14 @@ export const formatHelper = {
     const filteredVals = vals
       .map((val) => val.replace(/[^\w\s\.\$\p{L}]/gi, ""))
       .filter((val) => val !== "");
+
     return filteredVals;
   },
   subcategory: (vals) => {
     const filteredVals = vals
       .map((val) => val.replace(/[^\w\s\.\p{L}]/gi, ""))
       .filter((val) => val !== "");
+
     return filteredVals;
   },
   priceRange: (vals) => {
@@ -66,7 +68,7 @@ export const formatHelper = {
 
     // number isnt nan where number !== number only holds true for nan
     // the 0 check because empty strings are converted into 0 when converted into numbers
-    return Number(actualVal) !== Number(actualVal) || Number(actualVal) !== 0
+    return Number(actualVal) !== Number(actualVal) || Number(actualVal) === 0
       ? 1
       : Math.abs(Number(actualVal));
   },
@@ -84,6 +86,7 @@ export const formatHelper = {
     if (Array.isArray(val)) {
       return val[0];
     }
-    return val ?? "";
+    const returnVal = val == null ? "" : val;
+    return returnVal;
   },
 };

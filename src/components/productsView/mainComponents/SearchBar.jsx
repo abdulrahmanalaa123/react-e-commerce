@@ -6,31 +6,37 @@ import useHandleClickOutisde from "../../../hooks/handleClickOutside";
 import useSearchHistory from "../../../hooks/searchHistory";
 
 function SearchBar() {
-  const { filterVal, setFilterVal, search, initialVal } = useSearchHistory();
+  const {
+    filterVal,
+    setFilterVal,
+    searchWithKeys,
+    searchHistory,
+    clearHistory,
+    searchWithClick,
+    removeItemFromHistory,
+  } = useSearchHistory();
   const [searchHistoryDropDownShown, setSearchHistoryDropDownShown] =
     useState(false);
 
   const ref = useHandleClickOutisde(handleClickOutside);
 
+  function properSearchWithClick(item) {
+    searchWithClick(item);
+    setSearchHistoryDropDownShown(false);
+  }
   function handleClickOutside() {
     setSearchHistoryDropDownShown(false);
   }
-
   return (
     <div className="w-full px-4 flex items-center gap-2 mx-auto md:w-1/2 md:px-0">
-      <div
-        className="relative flex-auto "
-        ref={ref}
-        // it must have a key if im searching or not to rerender the component when switching pages
-        key={`${initialVal}`}
-      >
+      <div className="relative flex-auto " ref={ref}>
         <input
           type="text"
           id="search-bar"
           className=" py-[10px] px-7 w-full peer rounded-lg border-[#EAEAEF] border focus-visible:border-2 transition-colors duration-150
          focus-visible:border-primary-300  focus-visible:outline-none focus-visible:shadow-none   text-[#32324D] placeholder:text-[#8E8EA9]"
           placeholder="Search for an Entry"
-          onKeyDown={search}
+          onKeyDown={searchWithKeys}
           value={filterVal}
           onFocus={() => {
             setSearchHistoryDropDownShown(true);
@@ -39,8 +45,13 @@ function SearchBar() {
             setFilterVal(e.target.value);
           }}
         />
-        {searchHistoryDropDownShown && (
-          <SearchHistoryDropDown></SearchHistoryDropDown>
+        {searchHistoryDropDownShown && searchHistory.length > 0 && (
+          <SearchHistoryDropDown
+            searchHistory={searchHistory}
+            clearHistory={clearHistory}
+            searchWithClick={properSearchWithClick}
+            removeItemFromHistory={removeItemFromHistory}
+          ></SearchHistoryDropDown>
         )}
         <label
           htmlFor="search-bar"

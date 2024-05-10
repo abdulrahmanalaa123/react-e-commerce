@@ -14,7 +14,7 @@ const product = {
 function ProductsSection() {
   const { getQueryObject, params } = useSearchQueries();
 
-  const { data, error, isError, isLoading, isFetching, refetch } = useProducts({
+  const { data, isError, isLoading, isFetching, refetch } = useProducts({
     category: params.category,
     queryObject: getQueryObject(),
   });

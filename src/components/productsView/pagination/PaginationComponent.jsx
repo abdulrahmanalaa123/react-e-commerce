@@ -4,25 +4,30 @@ import LeftArrow from "../../../assets/svgs/LeftArrow";
 import SvgArrow from "../../../assets/svgs/Arrow";
 import trailsCalculator from "../../../utils/paginationCalculator";
 import PaginationButton from "./PaginationButton";
+import { useMemo } from "react";
 
 function PaginationComponent({ count }) {
-  const { getQueryObject, editQueryKey } = useSearchQueries();
+  const { getQueryObject, editQueryKey, locationKey } = useSearchQueries();
 
   // there is a way more efficient way to do it since only thing that needs to be decoupled is the totalPages and the trails Calculator is changed only if the activePage state
   // changes seperating them out of 1 fuinction is the best solution because they all require different states to compute especially the trailsCalculator but fuck it
   //  that would enable each component not to rerender and decouple it from the sucess state in the products section which would be cleaner
-  const { activePage, totalPages, trailingState } = (() => {
+  const { activePage } = useMemo(() => {
     const queryObj = getQueryObject();
     const activePage = formatHelper["pageNo"](queryObj["pageNo"]);
+    return { activePage };
+  }, [locationKey]);
+  const { totalPages, trailingState } = useMemo(() => {
     const totalPages = Math.ceil(count / 16);
     const trailingState = trailsCalculator(totalPages, activePage);
-    return { activePage, totalPages, trailingState };
-  })();
+    return { totalPages, trailingState };
+  }, [count, activePage]);
   return (
     totalPages !== 0 && (
       <div
         className="flex items-baseline justify-center mt-10 gap-4 flex-wrap"
         id="Pagination-Buttons"
+        key={`pagination-${locationKey}`}
       >
         <button
           id="Back-Button"
@@ -42,42 +47,46 @@ function PaginationComponent({ count }) {
         each press has a unique id which is isnt apparent in the html but here it works can be used in the subcategories filter but i wont 
         this is here just as a learning trick and a proof of  concept
          */}
-        <div
-          className="flex gap-4 flex-wrap"
-          onClick={(e) => {
-            editQueryKey("pageNo", e.target.innerText);
+
+        <PaginationButton
+          val={1}
+          active={1 === Number(activePage)}
+          onClick={() => {
+            editQueryKey("pageNo", 1);
           }}
-        >
+        ></PaginationButton>
+        {trailingState.preceedingTrailing && (
+          <div className="font-bold text-black ">...</div>
+        )}
+        {trailingState.length > 0 &&
+          Array.from(
+            { length: trailingState.length },
+            (_, index) => index + trailingState.startIndex
+          ).map((val) => {
+            return (
+              <PaginationButton
+                val={val}
+                active={val === Number(activePage)}
+                key={`page-button-${val}`}
+                onClick={() => {
+                  editQueryKey("pageNo", val);
+                }}
+              ></PaginationButton>
+            );
+          })}
+        {trailingState.leadingTrailing && (
+          <div className="font-bold text-black ">...</div>
+        )}
+        {totalPages !== 1 && (
+          // putting the function here is better readability than using bubbling as well as better than not
           <PaginationButton
-            val={1}
-            active={1 === Number(activePage)}
+            val={totalPages}
+            active={totalPages === Number(activePage)}
+            onClick={() => {
+              editQueryKey("pageNo", totalPages);
+            }}
           ></PaginationButton>
-          {trailingState.preceedingTrailing && (
-            <div className="font-bold text-black ">...</div>
-          )}
-          {trailingState.length > 0 &&
-            Array.from(
-              { length: trailingState.length },
-              (_, index) => index + trailingState.startIndex
-            ).map((val) => {
-              return (
-                <PaginationButton
-                  val={val}
-                  active={val === Number(activePage)}
-                  key={`page-button-${val}`}
-                ></PaginationButton>
-              );
-            })}
-          {trailingState.leadingTrailing && (
-            <div className="font-bold text-black ">...</div>
-          )}
-          {totalPages !== 1 && (
-            <PaginationButton
-              val={totalPages}
-              active={totalPages === Number(activePage)}
-            ></PaginationButton>
-          )}
-        </div>
+        )}
 
         <button
           id="Next-Button"

@@ -10,21 +10,12 @@ import PriceFilter from "../filters/PriceFilter";
 function FilteringComponent() {
   const { getQueryObject, clearQueries } = useSearchQueries();
 
-  // invoked 2 times idk why maybe because both useParams and searchQueries
-  // not because of them and not because of the useSubCategories Hook idk why
-  // later will test it
-
-  // dont know if this is the best way to call the queryObject instead of adding it into some sort of useState inside the hook or sth but idk best way
-  // i think
   const queryObject = getQueryObject();
-  // its handled with two because of using the built in target checker instead of passing the paramKey and values to the param and using one on change function
-  // and needing to use event
-  // on second thoughts its better this way
 
   return (
     <section
       id="filters"
-      className="flex flex-col w-[256px] items-center mt-[46px] overflow-y-auto"
+      className="flex flex-col w-64 items-center mt-[2.875rem] overflow-y-auto"
     >
       <div className="flex items-center gap-4 mb-8">
         <span className="font-medium text-md ">Filter</span>

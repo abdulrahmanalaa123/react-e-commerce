@@ -20,10 +20,6 @@ function SearchBar() {
 
   const ref = useHandleClickOutisde(handleClickOutside);
 
-  function properSearchWithClick(item) {
-    searchWithClick(item);
-    setSearchHistoryDropDownShown(false);
-  }
   function handleClickOutside() {
     setSearchHistoryDropDownShown(false);
   }
@@ -49,7 +45,7 @@ function SearchBar() {
           <SearchHistoryDropDown
             searchHistory={searchHistory}
             clearHistory={clearHistory}
-            searchWithClick={properSearchWithClick}
+            searchWithClick={searchWithClick}
             removeItemFromHistory={removeItemFromHistory}
           ></SearchHistoryDropDown>
         )}

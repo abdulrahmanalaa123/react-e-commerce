@@ -1,5 +1,6 @@
 import {
   createSearchParams,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -9,6 +10,8 @@ import queryDecoder from "../utils/queryDecoder";
 export const useSearchQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
+  const locationKey = useLocation().key;
+
   const navigate = useNavigate();
   function editSearchParamsCheckBoxFunction(event, paramKey, val) {
     if (event.target.checked) {
@@ -76,6 +79,7 @@ export const useSearchQueries = () => {
     removeQueryKey,
     editQueryKey,
     addQueryKey,
+    locationKey,
     getQueryObject,
     searchParams,
     params,

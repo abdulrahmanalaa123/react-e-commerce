@@ -3,6 +3,7 @@ import ProductImage from "../../../assets/images/product.png";
 import Heart from "../../../assets/svgs/Heart";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 import HoverButton from "../../buttons/HoverButton";
+import EmptyData from "../dataStateComponents/EmptyData";
 import ErrorComponent from "../dataStateComponents/ErrorComponent";
 import LoadingComponent from "../dataStateComponents/LoadingComponent";
 import PaginationComponent from "../pagination/PaginationComponent";
@@ -28,7 +29,7 @@ function ProductsSection() {
         <LoadingComponent></LoadingComponent>
       ) : isError ? (
         <ErrorComponent refetchFunction={refetch}></ErrorComponent>
-      ) : (
+      ) : data.data.length ? (
         <>
           <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]  sm:grid-cols-[repeat(auto-fit,minmax(11.875rem,max-content))]">
             {data.data.map((element, index) => (
@@ -60,6 +61,8 @@ function ProductsSection() {
           </div>
           <PaginationComponent count={data.count}></PaginationComponent>
         </>
+      ) : (
+        <EmptyData></EmptyData>
       )}
     </section>
   );

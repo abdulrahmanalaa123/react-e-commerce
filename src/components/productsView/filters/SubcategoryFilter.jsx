@@ -14,7 +14,10 @@ function SubcategoryFilter() {
   );
 
   return (
-    <div id="subcategory-filter" className="w-full mb-5 pl-1">
+    <div
+      id="subcategory-filter"
+      className="w-full mb-5 pl-1 transition-all duration-150"
+    >
       <FilterTitle title={"Subcategories"}></FilterTitle>
       <div className="flex flex-col gap-9">
         {isLoading || isFetching ? (

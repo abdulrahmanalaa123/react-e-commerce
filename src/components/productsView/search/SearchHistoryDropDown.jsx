@@ -1,4 +1,4 @@
-import CloseSvg from "../../../assets/svgs/close.svg";
+import SvgClose from "../../../assets/svgs/Close";
 
 function SearchHistoryDropDown({
   filterVal,
@@ -14,17 +14,17 @@ function SearchHistoryDropDown({
     >
       {
         <button
-          className="self-end text-[0.75rem] flex justify-between py-1 px-2 border rounded-md border-black hover:bg-backgrounds-modalBg"
+          className="self-end text-[0.75rem] flex justify-between items-center py-1 px-2 transition-colors duration-100 hover:text-white font-bold rounded-md hover:bg-text-300 hover:outline-2 "
           onClick={clearHistory}
         >
           Clear History
-          <img src={CloseSvg} className="w-4 h-4" />
+          <SvgClose className="w-4 h-4 stroke-2"></SvgClose>
         </button>
       }
       {searchHistory.map((value) => (
         <div
           key={`searchHistoryElement-${value}`}
-          className="w-full flex justify-between hover:bg-backgrounds-cardsBg py-4 px-2 rounded-lg cursor-pointer"
+          className="w-full flex justify-between items-center *:transition-colors *:duration-100 hover:bg-text-300 focus-visible:bg-text-300 focus-visible:text-white hover:text-white py-4 px-2 rounded-lg cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
             searchWithClick(value);
@@ -32,13 +32,13 @@ function SearchHistoryDropDown({
         >
           {value}
           <button
-            className="self-end text-[0.75rem] flex items-center py-1 px-1 border rounded-md border-black z-10 hover:bg-backgrounds-cardsBg"
+            className="self-end text-[0.75rem] flex items-center py-1 px-1 rounded-md"
             onClick={(e) => {
               e.stopPropagation();
               removeItemFromHistory(value);
             }}
           >
-            <img src={CloseSvg} className="w-4 h-4" />
+            <SvgClose className="w-6 h-6 stroke-2"></SvgClose>
           </button>
         </div>
       ))}

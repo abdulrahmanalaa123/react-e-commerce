@@ -43,7 +43,7 @@ function PaginationComponent({ count }) {
         this is here just as a learning trick and a proof of  concept
          */}
         <div
-          className="flex gap-4"
+          className="flex gap-4 flex-wrap"
           onClick={(e) => {
             editQueryKey("pageNo", e.target.innerText);
           }}

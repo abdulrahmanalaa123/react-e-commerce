@@ -22,6 +22,13 @@ function PaginationComponent({ count }) {
     const trailingState = trailsCalculator(totalPages, activePage);
     return { totalPages, trailingState };
   }, [count, activePage]);
+
+  function scrollEditQuery(val) {
+    editQueryKey("pageNo", val);
+    if (val !== Number(activePage)) {
+      window.scrollTo(0, 100);
+    }
+  }
   return (
     totalPages !== 0 && (
       <div
@@ -35,7 +42,7 @@ function PaginationComponent({ count }) {
             disabled:border-buttons-unhoveredProductButtons disabled:text-buttons-unhoveredProductButtons hover-enabled:text-black
              border-buttons-unhoveredProductButtons border hover:border-black p-2 rounded-sm"
           onClick={() => {
-            editQueryKey("pageNo", activePage - 1);
+            scrollEditQuery(activePage - 1);
           }}
           disabled={activePage <= 1}
         >
@@ -52,7 +59,7 @@ function PaginationComponent({ count }) {
           val={1}
           active={1 === Number(activePage)}
           onClick={() => {
-            editQueryKey("pageNo", 1);
+            scrollEditQuery(1);
           }}
         ></PaginationButton>
         {trailingState.preceedingTrailing && (
@@ -69,7 +76,7 @@ function PaginationComponent({ count }) {
                 active={val === Number(activePage)}
                 key={`page-button-${val}`}
                 onClick={() => {
-                  editQueryKey("pageNo", val);
+                  scrollEditQuery(val);
                 }}
               ></PaginationButton>
             );
@@ -83,7 +90,7 @@ function PaginationComponent({ count }) {
             val={totalPages}
             active={totalPages === Number(activePage)}
             onClick={() => {
-              editQueryKey("pageNo", totalPages);
+              scrollEditQuery(totalPages);
             }}
           ></PaginationButton>
         )}
@@ -94,7 +101,7 @@ function PaginationComponent({ count }) {
              disabled:border-buttons-unhoveredProductButtons disabled:text-buttons-unhoveredProductButtons hover:text-black
               border-buttons-unhoveredProductButtons border hover:border-black p-2 rounded-sm"
           onClick={() => {
-            editQueryKey("pageNo", activePage + 1);
+            scrollEditQuery(activePage + 1);
           }}
           disabled={activePage >= totalPages}
         >

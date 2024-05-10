@@ -23,7 +23,7 @@ function SubcategoryCheckBox({
         peer-focus-visible:shadow-[0px_0px_0px_4px_#EBE9FE] peer-checked:bg-text-300 relative peer-checked:before:absolute  peer-checked:before:-top-1 peer-checked:before:content-[url('/src/assets/svgs/check.svg')] 
         peer-checked:before:w-full peer-checked:before:inline-block peer-checked:before:h-full "
       ></label>
-      <span className="font-medium text-[20px]">{name}</span>
+      <span className="font-medium md:text-md">{name}</span>
     </div>
   );
 }

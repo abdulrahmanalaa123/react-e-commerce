@@ -15,7 +15,12 @@ function FilteringComponent() {
   return (
     <section
       id="filters"
-      className="flex flex-col w-64 items-center mt-[2.875rem] overflow-y-auto"
+      className="flex flex-col w-full h-full md:w-64 items-center mt-[2.875rem]  overflow-y-scroll md:overflow-y-auto"
+      // idk if i should put a key on this section since i want to basically rerender with any movement other than pagination
+      // and decent keys explaining the current situation for example the current search query excluding pagination would be just fine
+      // might fiddle later
+      // but it does rerender with pagination
+      // but that optimization for later not now because it requires thinking and these components took 10 days to finsih so its too much
     >
       <div className="flex items-center gap-4 mb-8">
         <span className="font-medium text-md ">Filter</span>

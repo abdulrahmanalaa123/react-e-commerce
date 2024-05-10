@@ -30,7 +30,7 @@ function ProductsSection() {
         <ErrorComponent refetchFunction={refetch}></ErrorComponent>
       ) : (
         <>
-          <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(240px,max-content))]  sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))]">
+          <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]  sm:grid-cols-[repeat(auto-fit,minmax(11.875rem,max-content))]">
             {data.data.map((element, index) => (
               <div
                 key={index}

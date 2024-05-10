@@ -23,6 +23,15 @@ export default {
 
           "100%": { transform: "translateY(0px)", opacity: 1 },
         },
+        showFilterModal: {
+          "0%": { transform: "translateX(75%)", opacity: 0 },
+
+          "100%": { transform: "translateX(0px)", opacity: 1 },
+        },
+        disappearFilterModal: {
+          "0%": { transform: "translateX(0px)", opacity: 1 },
+          "100%": { transform: "translateX(75%)", opacity: 0 },
+        },
         disappearModal: {
           "0%": { transform: "translateY(0px)", opacity: 1 },
           "100%": { transform: "translateY(-48px)", opacity: 0 },
@@ -39,6 +48,8 @@ export default {
       animation: {
         modalShowAnimation: "showModal 0.2s ease-in",
         modalDisappearAnimation: "disappearModal 0.2s ease-out",
+        filterModalShowAnimation: "showFilterModal 0.2s ease-in",
+        filterModalDisappearAnimation: "disappearFilterModal 0.2s ease-out",
         animateArrow:
           "rotatingButton 2s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.15s",
       },

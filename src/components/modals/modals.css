@@ -7,7 +7,14 @@
   @apply animate-modalShowAnimation;
   animation-fill-mode: forwards;
 }
-
+.filterAppearAnimation {
+  @apply animate-filterModalShowAnimation;
+  animation-fill-mode: forwards;
+}
+.filterDisappearAnimation {
+  @apply animate-filterModalDisappearAnimation;
+  animation-fill-mode: none;
+}
 .disappearAnimation {
   @apply animate-modalDisappearAnimation;
   animation-fill-mode: none;

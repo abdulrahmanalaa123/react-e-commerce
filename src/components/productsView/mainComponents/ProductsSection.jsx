@@ -13,11 +13,11 @@ const product = {
 };
 
 function ProductsSection() {
-  const { getQueryObject, params } = useSearchQueries();
+  const { queryObj, params } = useSearchQueries();
 
   const { data, isError, isLoading, isFetching, refetch } = useProducts({
     category: params.category,
-    queryObject: getQueryObject(),
+    queryObject: queryObj,
   });
 
   // would like to optimize for a use callback or use memo

@@ -1,4 +1,4 @@
-import { useSubcategories } from "../../../api/filters/getSubcategories";
+import { useCategorySubcategories } from "../../../api/filters/getCategorySubcategories";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 import FilterTitle from "./FilterTitle";
 import SubcategoryCheckBox from "../checkBoxes/SubcategoryCheckBox";
@@ -6,12 +6,11 @@ import LoadingComponent from "../dataStateComponents/LoadingComponent";
 import ErrorComponent from "../dataStateComponents/ErrorComponent";
 
 function SubcategoryFilter() {
-  const { getQueryObject, params, editSearchParamsCheckBoxFunction } =
+  const { queryObj, params, editSearchParamsCheckBoxFunction } =
     useSearchQueries();
-  const queryObject = getQueryObject();
-  const { data, isLoading, isFetching, isError, refetch } = useSubcategories(
-    params.category
-  );
+
+  const { data, isLoading, isFetching, isError, refetch } =
+    useCategorySubcategories(params.category);
 
   return (
     <div
@@ -35,7 +34,7 @@ function SubcategoryFilter() {
                 key={`subcategory___${value.name}`}
                 name={value.name}
                 editSearchParams={editSearchParamsCheckBoxFunction}
-                state={queryObject["subcategory"]?.includes(value.name)}
+                state={queryObj["subcategory"]?.includes(value.name)}
               ></SubcategoryCheckBox>
             );
           })

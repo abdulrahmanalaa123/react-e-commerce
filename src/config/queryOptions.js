@@ -9,7 +9,7 @@ export const productFetchingConfig = {
   // retryOnMount: true,
   // retryDelay: (attempt) =>
   //   Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
-  //10 mins
+  //10 mins and gcTime by default is 5mins just to not overload the cache
   staleTime: 10 * 60 * 1000,
 };
 

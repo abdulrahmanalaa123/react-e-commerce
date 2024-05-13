@@ -7,22 +7,20 @@ import PaginationButton from "./PaginationButton";
 import { useMemo } from "react";
 
 function PaginationComponent({ count }) {
-  const { getQueryObject, editQueryKey, locationKey } = useSearchQueries();
+  const { queryObj, editQueryKey, locationKey } = useSearchQueries();
 
   // there is a way more efficient way to do it since only thing that needs to be decoupled is the totalPages and the trails Calculator is changed only if the activePage state
   // changes seperating them out of 1 fuinction is the best solution because they all require different states to compute especially the trailsCalculator but fuck it
   //  that would enable each component not to rerender and decouple it from the sucess state in the products section which would be cleaner
-  const { activePage } = useMemo(() => {
-    const queryObj = getQueryObject();
-    const activePage = formatHelper["pageNo"](queryObj["pageNo"]);
-    return { activePage };
-  }, [locationKey]);
+  const activePage = formatHelper["pageNo"](queryObj["pageNo"]);
+
   const { totalPages, trailingState } = useMemo(() => {
     const totalPages = Math.ceil(count / 16);
     const trailingState = trailsCalculator(totalPages, activePage);
     return { totalPages, trailingState };
   }, [count, activePage]);
 
+  // could use usecallback using activePage as a dependency btu not very useful here and since my max amount of children is basically 7 or 8
   function scrollEditQuery(val) {
     editQueryKey("pageNo", val);
     if (val !== Number(activePage)) {

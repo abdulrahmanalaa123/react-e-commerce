@@ -9,9 +9,7 @@ const availablePriceRanges = [
   "400-500",
 ];
 function PriceFilter() {
-  const { getQueryObject, editSearchParamsCheckBoxFunction } =
-    useSearchQueries();
-  const queryObject = getQueryObject();
+  const { queryObj, editSearchParamsCheckBoxFunction } = useSearchQueries();
 
   return (
     <div id="price-filter" className="w-full mb-5 pl-1">
@@ -20,9 +18,9 @@ function PriceFilter() {
         {availablePriceRanges.map((range) => (
           <NamedBoxCheckBox
             paramKey={"priceRange"}
-            key={`priceRange___${range}`}
+            key={`queryObj${range}`}
             name={`${range}$`}
-            state={queryObject["priceRange"]?.includes(`${range}$`)}
+            state={queryObj["priceRange"]?.includes(`${range}$`)}
             editSearchParams={editSearchParamsCheckBoxFunction}
           ></NamedBoxCheckBox>
         ))}

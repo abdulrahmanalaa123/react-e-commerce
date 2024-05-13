@@ -1,4 +1,4 @@
-import { useVariationOptions } from "../../../api/filters/getFilters";
+import { useCategoryVariationOptions } from "../../../api/filters/getCategoryVariationOptions";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 import FilterTitle from "./FilterTitle";
 import ColorCheckBox from "../checkBoxes/ColorCheckBox";
@@ -13,12 +13,11 @@ const availableFilters = {
   size: ["Small", "Medium", "Large"],
 };
 function VariationOptionsFilter() {
-  const { getQueryObject, params, editSearchParamsCheckBoxFunction } =
+  const { queryObj, params, editSearchParamsCheckBoxFunction } =
     useSearchQueries();
-  const queryObject = getQueryObject();
-  const { data, isLoading, isFetching, isError, refetch } = useVariationOptions(
-    params.category
-  );
+
+  const { data, isLoading, isFetching, isError, refetch } =
+    useCategoryVariationOptions(params.category);
 
   if (isLoading || isFetching) {
     return (
@@ -55,7 +54,7 @@ function VariationOptionsFilter() {
                   key={`${normalizedKey}___${val}`}
                   name={val}
                   editSearchParams={editSearchParamsCheckBoxFunction}
-                  state={queryObject[normalizedKey]?.includes(val)}
+                  state={queryObj[normalizedKey]?.includes(val)}
                 ></ColorCheckBox>
               );
             } else {
@@ -67,7 +66,7 @@ function VariationOptionsFilter() {
                   key={`${normalizedKey}___${val}`}
                   name={val}
                   editSearchParams={editSearchParamsCheckBoxFunction}
-                  state={queryObject[normalizedKey]?.includes(val)}
+                  state={queryObj[normalizedKey]?.includes(val)}
                 ></NamedBoxCheckBox>
               );
             }

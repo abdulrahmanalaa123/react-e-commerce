@@ -1,6 +1,7 @@
 function trailsCalculator(totalPages, activePage) {
   // should be 3 for mobile devices
   const valuesCount = 4;
+
   const preceedingLimit = Math.floor(valuesCount / 2);
   const leadingLimit = Math.ceil(valuesCount / 2);
 

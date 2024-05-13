@@ -23,7 +23,7 @@ export async function getProducts({
 }) {
   // query creation
   // need to include each column for it to be able to query by it although its not needed in the products viewing page
-  const queryStr = `name,featured_image,price,discount${
+  const queryStr = `name,id,featured_image,price,discount${
     // done in this awful way to destructure the data properly
     // instead of calling ...subcategories!inner 2times which for some reason it cant let me do
     category.length && subcategory.length
@@ -110,9 +110,9 @@ export const useProducts = ({ category, queryObject }) => {
   return useQuery({
     ...productFetchingConfig,
     queryKey: ["products", paramsObject],
-    queryFn: () => {
+    queryFn: ({ queryKey }) => {
       // the queryObject combined with the category if found if not it will work as well
-      return getProducts(paramsObject);
+      return getProducts(queryKey[1]);
     },
   });
 };

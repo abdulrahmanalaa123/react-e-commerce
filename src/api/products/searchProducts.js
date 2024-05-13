@@ -1,10 +1,6 @@
 import { supabase } from "../../lib/supabaseClient";
 
-export default async function searchProducts({
-  searchKey,
-  pageNo = 1,
-  pagesCount = 16,
-}) {
+async function searchProducts({ searchKey, pageNo = 1, pagesCount = 16 }) {
   const { data, error } = await supabase
     .from("products")
     .select("name,featured_image,price")

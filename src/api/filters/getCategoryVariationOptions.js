@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabaseClient";
 import { filterOptionsConfig } from "../../config/queryOptions";
 import { formatHelper } from "../../utils/formatHelper";
 
-export async function getVariationOptions(category) {
+export async function getCategoryVariationOptions(category) {
   const { data, error } = await supabase.rpc(
     "get_distinct_variations_by_category",
     {
@@ -29,7 +29,7 @@ export async function getVariationOptions(category) {
   }
 }
 
-export const useVariationOptions = (category) => {
+export const useCategoryVariationOptions = (category) => {
   // formatHlper added here as a safe check and not get the errors of invalid requests because it annoys me i dont think it would be an issue to perform a faulty request
   // but it helps it acts as a loader because the useQuery is initialized the moment he types the faulty categroy so when he navigates back to products the request would already be finalized
   return useQuery({
@@ -37,9 +37,9 @@ export const useVariationOptions = (category) => {
     queryKey: formatHelper["category"](category)
       ? ["variations", category]
       : ["variations"],
-    queryFn: () => {
+    queryFn: ({ queryKey }) => {
       // didnt use queryKey because categories migth not be there
-      return getVariationOptions(formatHelper["category"](category));
+      return getCategoryVariationOptions(queryKey[1] ?? "");
     },
   });
 };

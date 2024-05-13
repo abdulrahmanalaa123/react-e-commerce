@@ -8,8 +8,8 @@ import SearchBar from "../components/productsView/mainComponents/SearchBar";
 import MobileFilterButton from "../components/productsView/filters/MobileFilterButton";
 
 function ProductsLayout() {
-  const navigate = useNavigate();
   const { params, locationKey } = useSearchQueries();
+  const navigate = useNavigate();
   useEffect(() => {
     if (
       params.category !== undefined &&
@@ -21,6 +21,7 @@ function ProductsLayout() {
       navigate("/products", { replace: true });
     }
   }, [params.category]);
+
   return (
     <>
       <section id="search" className="my-9">

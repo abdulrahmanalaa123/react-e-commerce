@@ -101,20 +101,24 @@ export async function getProducts({
 }
 
 export const useProducts = ({ category, queryObject }) => {
+  return useQuery(productsQuery({ category, queryObject }));
+};
+
+// all queries are extracted to a query and a hook for future use of loaders
+export const productsQuery = ({ category, queryObject }) => {
   const queryKey = {
     ...(category && { category: [category] }),
     ...queryObject,
   };
   const paramsObject = queryFormatter(queryKey);
-
-  return useQuery({
+  return {
     ...productFetchingConfig,
     queryKey: ["products", paramsObject],
     queryFn: ({ queryKey }) => {
       // the queryObject combined with the category if found if not it will work as well
       return getProducts(queryKey[1]);
     },
-  });
+  };
 };
 // old solution for chaining other than ifs using eval
 // const chainsStr = `${

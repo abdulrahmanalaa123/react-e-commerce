@@ -33,6 +33,7 @@ function VariationOptionsFilter() {
     );
   }
   return Object.keys(data).map((key) => {
+    // key is normalized because database data in Caps and my function inputs are all lowerCase
     const normalizedKey = key.toLowerCase();
 
     return (
@@ -43,7 +44,7 @@ function VariationOptionsFilter() {
       >
         {/* normal key is used because its capitalized */}
         <FilterTitle title={`${key} options`}></FilterTitle>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 gap-y-4">
           {data[key].map((val) => {
             if (normalizedKey === "color") {
               return (

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useProducts } from "../../../api/products/getProducts";
 import ProductImage from "../../../assets/images/product.png";
 import Heart from "../../../assets/svgs/Heart";
@@ -13,13 +14,18 @@ const product = {
 };
 
 function ProductsSection() {
-  const { queryObj, params } = useSearchQueries();
+  const { queryObj, params, navigate } = useSearchQueries();
 
   const { data, isError, isLoading, isFetching, refetch } = useProducts({
     category: params.category,
     queryObject: queryObj,
   });
-
+  const onClickNavigate = useCallback(
+    (productId) => {
+      navigate(`/product/${productId}`);
+    },
+    [navigate]
+  );
   // would like to optimize for a use callback or use memo
   return (
     <section id="Products-Section" className="flex-auto">
@@ -37,7 +43,11 @@ function ProductsSection() {
                 key={index}
                 className="bg-backgrounds-cardsBg flex flex-col relative items-center justify-center gap-2 py-2 "
               >
-                <HoverButton></HoverButton>
+                <HoverButton
+                  onClick={() => {
+                    onClickNavigate(element.id);
+                  }}
+                ></HoverButton>
                 {/* UI on the image responsiveness needs work  */}
                 {/* design specifications idk if its a good design choice or a bad one */}
                 <img

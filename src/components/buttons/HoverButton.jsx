@@ -6,9 +6,7 @@ function HoverButton({ onClick = () => {} }) {
     <button
       className="group absolute top-0 left-0 hover:bg-[#00000026] focus-visible:bg-[#00000026] w-full h-full cursor-pointer"
       type="navigator"
-      onClick={() => {
-        console.log("div clicked");
-      }}
+      onClick={onClick}
     >
       <img
         src={GoArrow}

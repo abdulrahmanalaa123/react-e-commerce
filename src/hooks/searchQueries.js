@@ -52,11 +52,7 @@ export const useSearchQueries = () => {
   const editQueryKey = (key, val) => {
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
     // testing is needed ofc
-    if (Array.isArray(queryObj[key])) {
-      queryObj[key] = [val];
-    } else {
-      queryObj[key] = [val];
-    }
+    queryObj[key] = [val];
     setSearchParams(createSearchParams(queryObj));
   };
   //this works wont try to optimize
@@ -86,7 +82,7 @@ export const useSearchQueries = () => {
     editQueryKey,
     addQueryKey,
     locationKey,
-
+    navigate,
     searchParams,
     queryObj,
     params,

@@ -1,11 +1,13 @@
-import { useParams } from "react-router-dom";
-import { getProductVariationOptionsImages } from "../../api/filters/getProductVariationOptions";
-import FilterTitle from "../productsView/filters/FilterTitle";
 import ColorCheckBox from "../productsView/checkBoxes/ColorCheckBox";
 import NamedBoxCheckBox from "../productsView/checkBoxes/NamedBoxCheckBox";
 // redunduncy of repeating the same variation Options component but remember avoid hasty abstractions need to figure out a good abstraction
 // that doesnt fuck up my logic ill keep it wet here first then apply dry later
-function ProductSelector({ variations, data, matchedVals }) {
+function ProductSelector({
+  variations,
+  data,
+  valsToMatch,
+  modifiedEditQueryVariation,
+}) {
   return (
     <section
       id="variation-selector"
@@ -37,6 +39,8 @@ function ProductSelector({ variations, data, matchedVals }) {
                         // so no confusion happens if it can even happen that ids can interefere with component keys in react while i think it doesnt
                         key={`${normalizedKey}___${val}`}
                         name={val}
+                        state={valsToMatch().includes(val)}
+                        editSearchParams={modifiedEditQueryVariation}
                       ></ColorCheckBox>
                     );
                   } else {
@@ -47,6 +51,8 @@ function ProductSelector({ variations, data, matchedVals }) {
                         // so no confusion happens if it can even happen that ids can interefere with component keys in react while i think it doesnt
                         key={`${normalizedKey}___${val}`}
                         name={val}
+                        state={valsToMatch().includes(val)}
+                        editSearchParams={modifiedEditQueryVariation}
                       ></NamedBoxCheckBox>
                     );
                   }
@@ -71,12 +77,12 @@ function ProductSelector({ variations, data, matchedVals }) {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M1.99992 2.66671H13.9999C14.3681 2.66671 14.6666 2.36823 14.6666 2.00004C14.6666 1.63185 14.3681 1.33337 13.9999 1.33337H1.99992C1.63173 1.33337 1.33325 1.63185 1.33325 2.00004C1.33325 2.36823 1.63173 2.66671 1.99992 2.66671Z"
                 fill="white"
                 stroke="white"
-                stroke-linecap="round"
+                strokeLinecap="round"
               />
             </svg>
           </button>
@@ -92,12 +98,12 @@ function ProductSelector({ variations, data, matchedVals }) {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M7.33325 7.33337V2.00004C7.33325 1.63185 7.63173 1.33337 7.99992 1.33337C8.36811 1.33337 8.66659 1.63185 8.66659 2.00004V7.33337H13.9999C14.3681 7.33337 14.6666 7.63185 14.6666 8.00004C14.6666 8.36823 14.3681 8.66671 13.9999 8.66671H8.66659V14C8.66659 14.3682 8.36811 14.6667 7.99992 14.6667C7.63173 14.6667 7.33325 14.3682 7.33325 14V8.66671H1.99992C1.63173 8.66671 1.33325 8.36823 1.33325 8.00004C1.33325 7.63185 1.63173 7.33337 1.99992 7.33337H7.33325Z"
                 fill="white"
                 stroke="white"
-                stroke-linecap="round"
+                strokeLinecap="round"
               />
             </svg>
           </button>

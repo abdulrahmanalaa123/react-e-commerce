@@ -25,15 +25,26 @@ export async function getProductByVariation({ productId, variationString }) {
   }
 }
 
-export const useProduct = ({ productId, variationString }) => {
-  return useQuery(productQuery({ productId, variationString }));
+export const useProduct = ({ productId, queryObj }) => {
+  return useQuery(productQuery({ productId, queryObj }));
 };
 
-export const productQuery = ({ productId, variationString }) => {
+export const productQuery = ({ productId, queryObj }) => {
+  // let variationString = "";
+  // if (Object.keys(queryObj).length > 0) {
+  //   variationString = [...Object.values(queryObj), data.name]
+  //     .join("")
+  //     .split("")
+  //     .sort()
+  //     .join("")
+  //     .toLowerCase();
+  // }
+
   return {
     queryKey: [
       "product",
-      { productId, ...(variationString && { variationString }) },
+      // , ...(variationString && { variationString })
+      { productId },
     ],
     queryFn: ({ queryKey }) => {
       return getProductByVariation(queryKey[1]);

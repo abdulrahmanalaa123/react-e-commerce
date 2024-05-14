@@ -36,31 +36,46 @@ export const useSearchQueries = () => {
 
   //this works wont try to optimize
   const addQueryKey = (key, val) => {
-    if (queryObj["pageNo"]) {
-      delete queryObj.pageNo;
+    const localQueryObj = { ...queryObj };
+    if (localQueryObj["pageNo"]) {
+      delete localQueryObj.pageNo;
     }
-    if (Array.isArray(queryObj[key]) && !queryObj[key]?.includes(val)) {
-      queryObj[key] = [...queryObj[key], val];
+    if (
+      Array.isArray(localQueryObj[key]) &&
+      !localQueryObj[key]?.includes(val)
+    ) {
+      localQueryObj[key] = [...localQueryObj[key], val];
     } else {
-      queryObj[key] = [val];
+      localQueryObj[key] = [val];
     }
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
     // testing is needed ofc
-    setSearchParams(createSearchParams(queryObj));
+    setSearchParams(createSearchParams(localQueryObj));
   };
   // will be used in pageNo only probably
   const editQueryKey = (key, val) => {
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
     // testing is needed ofc
-    queryObj[key] = [val];
-    setSearchParams(createSearchParams(queryObj));
+    const localQueryObj = { ...queryObj };
+    localQueryObj[key] = [val];
+    setSearchParams(createSearchParams(localQueryObj));
   };
+
+  const bundledEditQueryKey = useCallback((entries) => {
+    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
+    // testing is needed ofc
+
+    setSearchParams(createSearchParams(Object.fromEntries(entries)));
+  }, []);
   //this works wont try to optimize
   const removeQueryKey = (key, val) => {
-    if (Array.isArray(queryObj[key])) {
-      queryObj[key] = queryObj[key].filter((element) => element !== val);
+    const localQueryObj = { ...queryObj };
+    if (Array.isArray(localQueryObj[key])) {
+      localQueryObj[key] = localQueryObj[key].filter(
+        (element) => element !== val
+      );
     }
-    setSearchParams(createSearchParams(queryObj));
+    setSearchParams(createSearchParams(localQueryObj));
   };
   // object must be in format {key:[val] or key:[val1,val2,val3]}
 
@@ -82,6 +97,7 @@ export const useSearchQueries = () => {
     editQueryKey,
     addQueryKey,
     locationKey,
+    bundledEditQueryKey,
     navigate,
     searchParams,
     queryObj,

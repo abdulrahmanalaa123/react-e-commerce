@@ -13,7 +13,7 @@ function ProductSelector({
       id="variation-selector"
       className="flex-auto bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min"
     >
-      <p className="font-medium text-md p-2">{data.name.toUpperCase()}</p>
+      <p className="font-medium text-md p-2">{data.name}</p>
       <p className="font-medium text-md p-2">{`${data.price}.00$`}</p>
 
       {Object.keys(variations).map((key) => {

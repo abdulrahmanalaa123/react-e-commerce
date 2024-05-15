@@ -18,7 +18,7 @@ export async function getProductByVariation({ productId, variationString }) {
     if (data.length) {
       return data[0];
     } else {
-      return [];
+      return await getBasicProduct(productId);
     }
   } else {
     throw error;
@@ -30,24 +30,40 @@ export const useProduct = ({ productId, queryObj }) => {
 };
 
 export const productQuery = ({ productId, queryObj }) => {
-  // let variationString = "";
-  // if (Object.keys(queryObj).length > 0) {
-  //   variationString = [...Object.values(queryObj), data.name]
-  //     .join("")
-  //     .split("")
-  //     .sort()
-  //     .join("")
-  //     .toLowerCase();
-  // }
+  let variationString = "";
+  if (Object.keys(queryObj).length > 0) {
+    variationString = [...Object.values(queryObj), productId]
+      .join("")
+      .toLowerCase()
+      .split("")
+      .sort()
+      .join("")
+      .replaceAll("-", "");
+  }
 
   return {
     queryKey: [
       "product",
-      // , ...(variationString && { variationString })
-      { productId },
+      { ...(variationString && { variationString }), productId },
     ],
     queryFn: ({ queryKey }) => {
       return getProductByVariation(queryKey[1]);
     },
   };
 };
+
+async function getBasicProduct(productId) {
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      "id,baseImage:featured_image,name,discount,description,...subcategories!inner(category),price"
+    )
+    .eq("id", productId);
+
+  if (!error) {
+    console.log(data);
+    return data[0];
+  } else {
+    throw error;
+  }
+}

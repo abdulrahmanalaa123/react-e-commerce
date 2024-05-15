@@ -30,7 +30,6 @@ function ProductSection() {
       const currentOptions = Object.keys(variationData.distinct);
       const currentCheckBoxesValues = data.combination_string.split("-");
       if (queriedOptions.length !== currentOptions.length) {
-        console.log(Object.entries(variationData.distinct));
         const currentEntries = Object.entries(variationData.distinct).reduce(
           (accum, entry) => {
             const filteredVals = entry[1].filter((val) =>

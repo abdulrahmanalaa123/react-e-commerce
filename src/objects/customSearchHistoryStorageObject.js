@@ -11,7 +11,7 @@ function productSearchStorageObject() {
     let newSearch = [];
     if (currentSearches) {
       if (currentSearches.includes(val)) {
-        newSearch = currentSearches;
+        newSearch = [val, ...currentSearches.filter((value) => value !== val)];
       } else {
         newSearch = val ? [val, ...currentSearches] : currentSearches;
       }

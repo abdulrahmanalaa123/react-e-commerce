@@ -31,6 +31,9 @@ export const useProduct = ({ productId, queryObj }) => {
 
 export const productQuery = ({ productId, queryObj }) => {
   let variationString = "";
+  // UUID sorting needs to change to add the UUID concatenated a sorted filteringCriteria since
+  // sorting the UUID ruins it but i would need to both change the backend and here so ill leave it like this since the data
+  // is way too small for collissions but ill edit it later
   if (Object.keys(queryObj).length > 0) {
     variationString = [...Object.values(queryObj), productId]
       .join("")

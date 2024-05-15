@@ -3,6 +3,7 @@ import { useProductVariationOptionsImages } from "../../api/filters/getProductVa
 import { useProduct } from "../../api/products/getProductByVariation";
 import { useSearchQueries } from "../../hooks/searchQueries";
 import ProductSelector from "./ProductSelector";
+import SmallPhotosCarousel from "./SmallPhotoCarousel";
 
 function ProductSection() {
   const { queryObj, params, bundledEditQueryKey, editQueryKey } =
@@ -54,13 +55,48 @@ function ProductSection() {
   return (
     <section
       id="product-view"
-      className="flex flex-grow flex-shrink basis-3/4 flex-wrap gap-6"
+      className="flex flex-grow flex-shrink basis-3/4  gap-6"
     >
       <section
         id="image-gallery"
-        className="flex-grow flex-shrink basis-1/3 bg-black"
+        className="w-1/2 z-0 flex-col flex flex-grow flex-shrink basis-3/4"
       >
-        hello
+        {variationSuccess && (
+          <SmallPhotosCarousel>
+            {[
+              ...Object.values(variationData.images["Beige"]),
+              ...Object.values(variationData.images["Green"]),
+            ].map((image) => {
+              return (
+                <div className="h-full w-full">
+                  <img src={image} alt="" className="object-contain" />
+                </div>
+              );
+            })}
+          </SmallPhotosCarousel>
+        )}
+        {variationSuccess && (
+          <div>
+            <SmallPhotosCarousel config={{ hasArrows: false }}>
+              <div className="flex-grow w-[calc(100%-60px)] flex flex-nowrap">
+                {[
+                  ...Object.values(variationData.images["Beige"]),
+                  ...Object.values(variationData.images["Green"]),
+                ].map((image) => {
+                  return (
+                    <div className="h-[10vh] max-w-full w-[300px] justify-center items-center flex border-2 border-black">
+                      <img
+                        src={image}
+                        alt=""
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </SmallPhotosCarousel>
+          </div>
+        )}
       </section>
       {variationSuccess && isSuccess && (
         <ProductSelector

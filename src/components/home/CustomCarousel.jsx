@@ -109,7 +109,7 @@ function CustomCarousel(props) {
 
   return (
     <section
-      className="overflow-x-hidden whitespace-nowrap transition-transform duration-300 ease-out mt-2 flex gap-4 flex-nowrap cursor-grab"
+      className="overflow-x-hidden overflow-y-hidden w-full whitespace-nowrap transition-transform duration-300 ease-out mt-2 flex gap-4 flex-nowrap cursor-grab"
       ref={slider}
     >
       {props.children}

@@ -49,8 +49,12 @@ const PhotosCarousel = ({
         draggable
         {...config}
         arrows={{ prev: leftRef.current, next: rightRef.current }}
+        // the context detail is the context of the custom slide event implemented inside gliderJS
         onSlideVisible={(context) => onSlideChange(context.detail.slide)}
         scrollToSlide={initialSlideIdx}
+        onRefresh={() => {
+          onSlideChange(0);
+        }}
       >
         {children}
       </Glider>
@@ -87,7 +91,7 @@ const LeftArrow = forwardRef((props, ref) => {
 const RightArrow = forwardRef((props, ref) => {
   return (
     <div
-      className="h-full rounded-r-sm absolute disabled:hidden right-0 bottom-0 top-0 flex px-4 z-10 cursor-pointer justify-center items-center   bg-gradient-to-r from-white from-0% via-[#E0E0E006] via-[2.53%] to-[#4A494926] to-[3%] hover:bg-text-300 hover:bg-opacity-50"
+      className="h-full rounded-r-sm absolute right-0 bottom-0 top-0 flex px-4 z-10 cursor-pointer justify-center items-center   bg-gradient-to-r from-white from-0% via-[#E0E0E006] via-[2.53%] to-[#4A494926] to-[3%] hover:bg-text-300 hover:bg-opacity-50"
       id="buttonNext"
       ref={ref}
       {...props}

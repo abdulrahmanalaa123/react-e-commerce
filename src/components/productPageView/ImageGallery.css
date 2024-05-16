@@ -52,6 +52,9 @@
   background-color: #eaeaea4d;
   display: flex;
   flex-wrap: nowrap;
-
+  margin-inline: auto;
   align-items: stretch;
+}
+--current-selected {
+  border: 3px solid magenta;
 }

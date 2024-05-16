@@ -11,7 +11,7 @@ function ProductSelector({
   return (
     <section
       id="variation-selector"
-      className="w-1/2 bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min z-10"
+      className="flex-auto md:w-1/2 bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min z-10"
     >
       <p className="font-medium text-md p-2">{data.name}</p>
       <p className="font-medium text-md p-2">{`${data.price}.00$`}</p>

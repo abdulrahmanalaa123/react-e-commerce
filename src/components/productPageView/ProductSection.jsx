@@ -4,7 +4,8 @@ import { useProduct } from "../../api/products/getProductByVariation";
 import { useSearchQueries } from "../../hooks/searchQueries";
 import ProductSelector from "./ProductSelector";
 import SmallPhotosCarousel from "./SmallPhotoCarousel";
-
+import "glider-js/glider.min.css";
+import "./ProductSection.css";
 function ProductSection() {
   const { queryObj, params, bundledEditQueryKey, editQueryKey } =
     useSearchQueries();
@@ -55,47 +56,68 @@ function ProductSection() {
   return (
     <section
       id="product-view"
-      className="flex flex-grow flex-shrink basis-3/4  gap-6"
+      className="flex flex-col md:flex-row flex-grow flex-shrink basis-3/4  gap-6"
     >
-      <section
-        id="image-gallery"
-        className="w-1/2 z-0 flex-col flex flex-grow flex-shrink basis-3/4"
-      >
+      <section id="image-gallery" className="w-1/2 z-0 flex-col flex h-[480px]">
         {variationSuccess && (
-          <SmallPhotosCarousel>
+          <SmallPhotosCarousel className="relative rounded-sm w-full h-full">
             {[
               ...Object.values(variationData.images["Beige"]),
               ...Object.values(variationData.images["Green"]),
             ].map((image) => {
               return (
-                <div className="h-full w-full">
-                  <img src={image} alt="" className="object-contain" />
+                <div>
+                  <img
+                    src={image}
+                    alt=""
+                    className="w-full h-full object-scale-down"
+                  />
                 </div>
               );
             })}
           </SmallPhotosCarousel>
         )}
         {variationSuccess && (
-          <div>
-            <SmallPhotosCarousel config={{ hasArrows: false }}>
-              <div className="flex-grow w-[calc(100%-60px)] flex flex-nowrap">
-                {[
-                  ...Object.values(variationData.images["Beige"]),
-                  ...Object.values(variationData.images["Green"]),
-                ].map((image) => {
-                  return (
-                    <div className="h-[10vh] max-w-full w-[300px] justify-center items-center flex border-2 border-black">
-                      <img
-                        src={image}
-                        alt=""
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </SmallPhotosCarousel>
-          </div>
+          <SmallPhotosCarousel
+            config={{
+              hasArrows: false,
+              slidesToScroll: 2,
+              slidesToShow: 2,
+              responsive: [
+                {
+                  breakpoint: 864,
+                  settings: {
+                    slidesToShow: 5,
+                  },
+                },
+                {
+                  breakpoint: 764,
+                  settings: {
+                    slidesToShow: 3,
+                  },
+                },
+              ],
+            }}
+            className="relative rounded-sm before:absolute before:inset-0 before:content-[''] before:pointer-events-none 
+            before:bg-gradient-to-r before:from-[rgba(255,255,255,0.7)] before:from-0% before:via-transparent 
+             before:to-[rgba(255,255,255,0.7)] before:to-100% before:z-10
+             before:w-full before:h-full  h-min max-h-20 mt-6 max-w-full mx-8"
+          >
+            {[
+              ...Object.values(variationData.images["Beige"]),
+              ...Object.values(variationData.images["Green"]),
+            ].map((image) => {
+              return (
+                <div className="w-full h-full mx-3 min-w-min px-0 ">
+                  <img
+                    src={image}
+                    alt=""
+                    className="w-full h-full object-scale-down"
+                  />
+                </div>
+              );
+            })}
+          </SmallPhotosCarousel>
         )}
       </section>
       {variationSuccess && isSuccess && (

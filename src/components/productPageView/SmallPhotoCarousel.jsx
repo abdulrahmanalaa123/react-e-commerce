@@ -1,7 +1,6 @@
 import { forwardRef, useCallback, useEffect, useMemo, useRef } from "react";
 import Glider from "react-glider";
-import "glider-js/glider.min.css";
-import "./carousel.css";
+
 const defaultConfig = {
   duration: 0.75,
   slidesToShow: 1,
@@ -20,7 +19,7 @@ const PhotosCarousel = ({
   onSlideChange = () => null,
   initialSlideIdx = 1,
   currentSlideIdx,
-  className = "relative rounded-sm",
+  className = "",
   config: customConfig = {},
 }) => {
   const carouselRef = useRef(null);

@@ -14,6 +14,7 @@ function ImageGallery({ images }) {
     },
     [setCurrentPhotoIdx]
   );
+  //   this all is shit and will use react-slick later now i need to fucking optimize somehow
   return (
     <section
       id="image-gallery"

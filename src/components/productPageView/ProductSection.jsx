@@ -17,38 +17,45 @@ function ProductSection() {
 
   const returnValsToMatch = () => {
     // they will always be the same but supposing and could just always use combination string
-    const val = data?.combination_string?.split("-");
+    const val = data?.combination_string?.split("-") ?? [];
     return val;
   };
 
-  const modifiedEditQueryVariation = (e, key, val) => {
-    // first check option belongings of the rest of the vals
-    if (e.target.checked) {
-      const queriedOptions = Object.keys(queryObj);
-      const currentOptions = Object.keys(variationData.distinct);
-      const currentCheckBoxesValues = returnValsToMatch();
-      if (queriedOptions.length !== currentOptions.length) {
-        const currentEntries = Object.entries(variationData.distinct).reduce(
-          (accum, entry) => {
-            const filteredVals = entry[1].filter((val) =>
-              currentCheckBoxesValues.includes(val)
-            );
+  // must usecallback because of the memoization of components as well as it beign called everywhere
+  // in the nested tree
+  const modifiedEditQueryVariation = useCallback(
+    (e, key, val) => {
+      // first check option belongings of the rest of the vals
+      if (e.target.checked) {
+        const queriedOptions = Object.keys(queryObj);
+        const currentOptions = Object.keys(variationData.distinct);
+        const currentCheckBoxesValues = new Set(returnValsToMatch());
+        if (queriedOptions.length !== currentOptions.length) {
+          const newCurrentEntries = new Map(
+            Object.entries(variationData.distinct)
+          );
+          newCurrentEntries.forEach((value, key, map) => {
+            console.log("value is:", value);
+            if (Array.isArray(value)) {
+              const finalValue = value.filter((availableOptions) =>
+                currentCheckBoxesValues.has(availableOptions)
+              );
+              map.set(key.toLowerCase(), ...finalValue);
+              map.delete(key);
+            }
+          });
+          newCurrentEntries.set(key, val);
 
-            return entry[0].toLowerCase() !== key
-              ? [...accum, [entry[0].toLowerCase(), ...filteredVals]]
-              : accum;
-          },
-          []
-        );
+          const finalQueryKeys = [...newCurrentEntries];
 
-        const finalQueryKeys = [...currentEntries, [key, val]];
-        console.log(finalQueryKeys);
-        bundledEditQueryKey(finalQueryKeys);
-      } else {
-        editQueryKey(key, val);
+          bundledEditQueryKey(finalQueryKeys);
+        } else {
+          editQueryKey(key, val);
+        }
       }
-    }
-  };
+    },
+    [JSON.stringify(queryObj), JSON.stringify(returnValsToMatch())]
+  );
 
   const returnCurrentImageGall = () => {
     const currentOptions = returnValsToMatch();
@@ -57,11 +64,11 @@ function ProductSection() {
     );
 
     if (availableGalleries.length) {
-      console.log(Object.values(variationData.images[availableGalleries[0]]));
       return Object.values(variationData.images[availableGalleries[0]]);
     }
     return [data.baseImage];
   };
+
   return (
     <section
       id="product-view"

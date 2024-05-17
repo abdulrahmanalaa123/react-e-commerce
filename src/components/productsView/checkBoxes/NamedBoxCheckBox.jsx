@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 function NamedBoxCheckBox({ editSearchParams, paramKey, name, state = false }) {
   return (
     <div className=" flex place-content-center place-items-center">
@@ -20,4 +22,4 @@ function NamedBoxCheckBox({ editSearchParams, paramKey, name, state = false }) {
   );
 }
 
-export default NamedBoxCheckBox;
+export default memo(NamedBoxCheckBox);

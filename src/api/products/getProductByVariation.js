@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 
 export async function getProductByVariation({ productId, variationString }) {
@@ -52,6 +52,7 @@ export const productQuery = ({ productId, queryObj }) => {
     queryFn: ({ queryKey }) => {
       return getProductByVariation(queryKey[1]);
     },
+    placeholderData: keepPreviousData,
   };
 };
 

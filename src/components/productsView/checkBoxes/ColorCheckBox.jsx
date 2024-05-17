@@ -1,4 +1,7 @@
 // done like this instead of changing my database and entering colors by their hex value which would be the better solution and querying them but to reduce loading
+
+import { memo } from "react";
+
 // as well as ease of coding for me ill use this method
 const colorMapping = {
   Blue: "#024B5B",
@@ -30,4 +33,4 @@ function ColorCheckBox({ editSearchParams, name, paramKey, state = false }) {
   );
 }
 
-export default ColorCheckBox;
+export default memo(ColorCheckBox);

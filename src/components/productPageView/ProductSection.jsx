@@ -4,12 +4,17 @@ import { useProduct } from "../../api/products/getProductByVariation";
 import { useSearchQueries } from "../../hooks/searchQueries";
 import ProductSelector from "./ProductSelector";
 import ImageGallery from "./ImageGallery";
+import { useInvariantProduct } from "../../api/products/getInvariantProduct";
+
 function ProductSection() {
   const { queryObj, params, bundledEditQueryKey, editQueryKey } =
     useSearchQueries();
 
   const { data: variationData, isSuccess: variationSuccess } =
     useProductVariationOptionsImages(params.productId);
+
+  const { data: invariantData, isSuccess: isInvariantDataSuccess } =
+    useInvariantProduct(params.productId);
   const { data, isSuccess, isError } = useProduct({
     productId: params.productId,
     queryObj,
@@ -31,10 +36,10 @@ function ProductSection() {
         const currentOptions = Object.keys(variationData.distinct);
         const currentCheckBoxesValues = new Set(returnValsToMatch());
         if (queriedOptions.length !== currentOptions.length) {
-          const newCurrentEntries = new Map(
+          const currentEntries = new Map(
             Object.entries(variationData.distinct)
           );
-          newCurrentEntries.forEach((value, key, map) => {
+          currentEntries.forEach((value, key, map) => {
             console.log("value is:", value);
             if (Array.isArray(value)) {
               const finalValue = value.filter((availableOptions) =>
@@ -44,9 +49,9 @@ function ProductSection() {
               map.delete(key);
             }
           });
-          newCurrentEntries.set(key, val);
+          currentEntries.set(key, val);
 
-          const finalQueryKeys = [...newCurrentEntries];
+          const finalQueryKeys = [...currentEntries];
 
           bundledEditQueryKey(finalQueryKeys);
         } else {
@@ -66,7 +71,7 @@ function ProductSection() {
     if (availableGalleries.length) {
       return Object.values(variationData.images[availableGalleries[0]]);
     }
-    return [data.baseImage];
+    return [invariantData.baseImage];
   };
 
   return (
@@ -74,13 +79,14 @@ function ProductSection() {
       id="product-view"
       className="flex flex-col md:flex-row flex-grow flex-shrink basis-3/4  gap-6"
     >
-      {variationSuccess && isSuccess && (
+      {variationSuccess && isSuccess && isInvariantDataSuccess && (
         <ImageGallery images={returnCurrentImageGall()}></ImageGallery>
       )}
-      {variationSuccess && isSuccess && (
+      {variationSuccess && isSuccess && isInvariantDataSuccess && (
         <ProductSelector
           variations={variationData.distinct}
-          data={data}
+          data={data.length ? data : invariantData}
+          invariantData={invariantData}
           valsToMatch={returnValsToMatch}
           modifiedEditQueryVariation={modifiedEditQueryVariation}
         ></ProductSelector>

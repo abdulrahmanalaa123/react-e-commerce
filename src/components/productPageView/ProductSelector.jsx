@@ -7,6 +7,7 @@ import NamedBoxCheckBox from "../productsView/checkBoxes/NamedBoxCheckBox";
 function ProductSelector({
   variations,
   data,
+  invariantData,
   valsToMatch,
   modifiedEditQueryVariation,
 }) {
@@ -15,7 +16,7 @@ function ProductSelector({
       id="variation-selector"
       className="flex-auto md:w-1/2 bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min z-10"
     >
-      <p className="font-medium text-md p-2">{data.name}</p>
+      <p className="font-medium text-md p-2">{invariantData.name}</p>
       <p className="font-medium text-md p-2">{`${data.price}.00$`}</p>
 
       {Object.keys(variations).map((key) => {
@@ -65,7 +66,8 @@ function ProductSelector({
         );
       })}
       <div className="flex justify-between items-center p-2">
-        <p>Category</p> <p className="font-medium text-md">{data.category}</p>
+        <p>Category</p>
+        <p className="font-medium text-md">{invariantData.category}</p>
       </div>
       <div className="flex justify-between items-center p-2 h-min">
         <p>Quantity</p>

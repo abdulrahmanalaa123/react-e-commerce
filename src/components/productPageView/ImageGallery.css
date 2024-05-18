@@ -42,13 +42,18 @@
 .glider {
   height: 100%;
   width: 100%;
+  overflow-y: unset;
+  overflow-x: hidden;
 }
 .glider-contain {
   height: 100%;
+  max-height: 100%;
   width: 100%;
 }
 .glider-track {
   height: 100%;
+
+  align-items: center;
   background-color: #eaeaea4d;
   display: flex;
   flex-wrap: nowrap;

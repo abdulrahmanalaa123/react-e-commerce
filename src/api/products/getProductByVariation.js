@@ -4,12 +4,12 @@ import { supabase } from "../../lib/supabaseClient";
 export async function getProductByVariation({ productId, variationString }) {
   const query = supabase.from("products_combinations").select(
     // reviews will be added as a tabnle and be joined with the products table
-    "price,combination_string,stock,featured,unique_id,...products!inner(id,baseImage:featured_image,name,discount,description,...subcategories!inner(category))"
+    "price,combination_string,stock,featured,unique_id,product_id)"
   );
   if (variationString) {
     query.eq("unique_id", variationString);
   } else {
-    query.eq("products.id", productId);
+    query.eq("product_id", productId);
     query.eq("featured", true);
   }
   const { data, error } = await query;
@@ -18,7 +18,7 @@ export async function getProductByVariation({ productId, variationString }) {
     if (data.length) {
       return data[0];
     } else {
-      return await getBasicProduct(productId);
+      return [];
     }
   } else {
     throw error;
@@ -55,19 +55,3 @@ export const productQuery = ({ productId, queryObj }) => {
     placeholderData: keepPreviousData,
   };
 };
-
-async function getBasicProduct(productId) {
-  const { data, error } = await supabase
-    .from("products")
-    .select(
-      "id,baseImage:featured_image,name,discount,description,...subcategories!inner(category),price"
-    )
-    .eq("id", productId);
-
-  if (!error) {
-    console.log(data);
-    return data[0];
-  } else {
-    throw error;
-  }
-}

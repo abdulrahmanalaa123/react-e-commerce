@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RouterProvider, useNavigate } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import router from "../routes/index";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

@@ -1,4 +1,3 @@
-import { memo } from "react";
 import ColorCheckBox from "../productsView/checkBoxes/ColorCheckBox";
 import NamedBoxCheckBox from "../productsView/checkBoxes/NamedBoxCheckBox";
 

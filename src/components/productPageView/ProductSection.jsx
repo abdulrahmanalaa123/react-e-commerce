@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useProductVariationOptionsImages } from "../../api/filters/getProductVariationOptions";
 import { useProduct } from "../../api/products/getProductByVariation";
 import { useSearchQueries } from "../../hooks/searchQueries";
@@ -28,39 +28,33 @@ function ProductSection() {
 
   // must usecallback because of the memoization of components as well as it beign called everywhere
   // in the nested tree
-  const modifiedEditQueryVariation = useCallback(
-    (e, key, val) => {
-      // first check option belongings of the rest of the vals
-      if (e.target.checked) {
-        const queriedOptions = Object.keys(queryObj);
-        const currentOptions = Object.keys(variationData.distinct);
-        const currentCheckBoxesValues = new Set(returnValsToMatch());
-        if (queriedOptions.length !== currentOptions.length) {
-          const currentEntries = new Map(
-            Object.entries(variationData.distinct)
-          );
-          currentEntries.forEach((value, key, map) => {
-            console.log("value is:", value);
-            if (Array.isArray(value)) {
-              const finalValue = value.filter((availableOptions) =>
-                currentCheckBoxesValues.has(availableOptions)
-              );
-              map.set(key.toLowerCase(), ...finalValue);
-              map.delete(key);
-            }
-          });
-          currentEntries.set(key, val);
+  const modifiedEditQueryVariation = (e, key, val) => {
+    // first check option belongings of the rest of the vals
+    if (e.target.checked) {
+      const queriedOptions = Object.keys(queryObj);
+      const currentOptions = Object.keys(variationData.distinct);
+      const currentCheckBoxesValues = new Set(returnValsToMatch());
+      if (queriedOptions.length !== currentOptions.length) {
+        const currentEntries = new Map(Object.entries(variationData.distinct));
+        currentEntries.forEach((value, key, map) => {
+          if (Array.isArray(value)) {
+            const finalValue = value.filter((availableOptions) =>
+              currentCheckBoxesValues.has(availableOptions)
+            );
+            map.set(key.toLowerCase(), ...finalValue);
+            map.delete(key);
+          }
+        });
+        currentEntries.set(key, val);
 
-          const finalQueryKeys = [...currentEntries];
+        const finalQueryKeys = [...currentEntries];
 
-          bundledEditQueryKey(finalQueryKeys);
-        } else {
-          editQueryKey(key, val);
-        }
+        bundledEditQueryKey(finalQueryKeys);
+      } else {
+        editQueryKey(key, val);
       }
-    },
-    [JSON.stringify(queryObj), JSON.stringify(returnValsToMatch())]
-  );
+    }
+  };
 
   const returnCurrentImageGall = () => {
     const currentOptions = returnValsToMatch();
@@ -69,6 +63,8 @@ function ProductSection() {
     );
 
     if (availableGalleries.length) {
+      // first available gallery for example if size,color both have a gallery it would get the size one
+      // which isnt perfect but this is the current business logic
       return Object.values(variationData.images[availableGalleries[0]]);
     }
     return [invariantData.baseImage];

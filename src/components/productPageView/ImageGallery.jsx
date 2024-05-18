@@ -29,12 +29,15 @@ function ImageGallery({ images }) {
       >
         {images.map((image) => {
           return (
-            <div className="h-full max-h-full">
+            <div className="h-full flex flex-col justify-end">
               <img
                 src={image}
                 alt=""
                 className="w-full h-full object-contain"
               />
+              <p className="self-center mb-3 ">
+                {currentPhotoIdx + 1}/{images.length}
+              </p>
             </div>
           );
         })}
@@ -49,6 +52,7 @@ function ImageGallery({ images }) {
         }}
         currentSlideIdx={currentPhotoIdx}
         className="relative rounded-sm  max-h-20 mt-6 max-w-full mx-auto   "
+
         // these are the gradient applied ont he thumbnails but fuck it it isnt helping at all
         // before:absolute before:inset-0 before:content-[''] before:pointer-events-none
         // before:bg-gradient-to-r before:from-[rgba(255,255,255,0.7)] before:from-0% before:via-transparent

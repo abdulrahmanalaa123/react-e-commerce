@@ -33,12 +33,12 @@ function ImageGallery() {
   return (
     <>
       <PhotosCarousel
-        className="relative rounded-sm w-full h-[calc(100%-100px)] image-carousel"
+        className="relative rounded-sm w-full h-[calc(100%-100px)] "
         config={{ hasArrows: imageGallery?.data?.length > 1 }}
         currentSlideIdx={currentPhotoIdx}
         onSlideChange={onSlideChangeHandler}
       >
-        {imageGallery.isLoading ? (
+        {imageGallery.isLoading || imageGallery.isPending ? (
           <LoadableImage className="w-full h-full object-contain" />
         ) : (
           images.map((image) => {
@@ -70,7 +70,7 @@ function ImageGallery() {
         currentSlideIdx={currentPhotoIdx}
         className="relative rounded-sm  max-h-20 mt-6 max-w-full mx-auto "
       >
-        {imageGallery.isLoading ? (
+        {imageGallery.isLoading || imageGallery.isPending ? (
           <LoadableImage className="w-full h-full object-contain" />
         ) : (
           images.map((image, index) => {

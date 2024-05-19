@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useProductVariationOptions } from "../api/filters/getProductVariationOptions";
 import { useInvariantProduct } from "../api/products/getInvariantProduct";
 import { useProduct } from "../api/products/getProductByVariation";
@@ -22,10 +23,47 @@ function useProductView() {
     productId: params.productId,
     queryObj,
   });
-
   const currentProductFeatures = Object.keys(queryObj).length
     ? Object.values(queryObj).map((val) => val[0])
     : productData?.data?.combination_string?.split("-") ?? [];
+
+  useEffect(() => {
+    if (variationOptions.isSuccess) {
+      console.log(variationOptions.data);
+      // couldnt be applicable unless all products with variations should have a product_combination
+      // leaving it here as a reminder until i implement it in the databasse
+
+      // if (currentProductFeatures.length !== Object.keys(variationOptions).length) {
+      //   throw "Sorry this product doesnt exit";
+      // }
+
+      if (
+        Object.keys(variationOptions.data).length &&
+        currentProductFeatures.length
+      ) {
+        const allVariations = new Map(Object.entries(variationOptions.data));
+
+        allVariations.forEach((value) => {
+          if (Array.isArray(value)) {
+            console.log(currentProductFeatures);
+            const finalValue = value.filter((availableOptions) => {
+              return currentProductFeatures.includes(availableOptions.value);
+            });
+            const valueDoesntExist = !finalValue.length;
+
+            if (valueDoesntExist) {
+              throw "Sorry This product doesnt exist";
+            }
+          }
+        });
+      } else if (currentProductFeatures.length) {
+        console.log("this activated");
+        throw "Sorry this product doesnt exist";
+      }
+    }
+
+    // productData.status is dependent on queryObj instead of depending on query obj directly
+  }, [variationOptions.status, JSON.stringify(currentProductFeatures)]);
 
   const getSelectedVariationIds = () => {
     if (variationOptions.isSuccess && productData.isSuccess) {

@@ -52,6 +52,6 @@ export const productQuery = ({ productId, queryObj }) => {
     queryFn: ({ queryKey }) => {
       return getProductByVariation(queryKey[1]);
     },
-    placeholderData: keepPreviousData,
+    // placeholderData: keepPreviousData,
   };
 };

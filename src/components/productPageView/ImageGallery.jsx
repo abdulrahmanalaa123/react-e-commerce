@@ -2,8 +2,17 @@ import { useCallback, useState } from "react";
 import "./ImageGallery.css";
 import PhotosCarousel from "./PhotosCarousel";
 import "glider-js/glider.min.css";
+import useProductView from "../../hooks/productView";
+import { useVariationImages } from "../../api/images/getVariationImages";
+import LoadableImage from "./LoadableImage";
+function ImageGallery() {
+  const { imagesEnabled, getSelectedVariationIds, invariantProductData } =
+    useProductView();
 
-function ImageGallery({ images }) {
+  const imageGallery = useVariationImages({
+    variationIds: getSelectedVariationIds(),
+    enabled: imagesEnabled,
+  });
   const [currentPhotoIdx, setCurrentPhotoIdx] = useState(0);
   const onClickPhotoHandler = useCallback(
     (idx) => () => setCurrentPhotoIdx(idx),
@@ -15,32 +24,40 @@ function ImageGallery({ images }) {
     },
     [setCurrentPhotoIdx]
   );
-  //   this all is shit and will use react-slick later now i need to fucking optimize somehow
+  //it will always fallback even if error to the base Image
+  const images =
+    imageGallery.isSuccess && imageGallery.data.length
+      ? imageGallery.data
+      : [invariantProductData?.data?.baseImage];
+
   return (
-    <section
-      id="image-gallery"
-      className="flex-auto mb-8 md:mb-0 md:w-1/2 z-0 flex-col flex h-[40.5rem]"
-    >
+    <>
       <PhotosCarousel
-        className="relative rounded-sm w-full h-[calc(100%-100px)] "
-        config={{ hasArrows: images.length > 1 }}
+        className="relative rounded-sm w-full h-[calc(100%-100px)] image-carousel"
+        config={{ hasArrows: imageGallery?.data?.length > 1 }}
         currentSlideIdx={currentPhotoIdx}
         onSlideChange={onSlideChangeHandler}
       >
-        {images.map((image) => {
-          return (
-            <div className="h-full flex flex-col justify-end">
-              <img
-                src={image}
-                alt=""
-                className="w-full h-full object-contain"
-              />
-              <p className="self-center mb-3 ">
-                {currentPhotoIdx + 1}/{images.length}
-              </p>
-            </div>
-          );
-        })}
+        {imageGallery.isLoading ? (
+          <LoadableImage className="w-full h-full object-contain" />
+        ) : (
+          images.map((image) => {
+            return (
+              <div
+                className="h-full flex flex-col justify-end"
+                key={`${image}-fullSize`}
+              >
+                <LoadableImage
+                  src={image}
+                  className="w-full h-full object-contain"
+                />
+                <p className="self-center mb-3 ">
+                  {currentPhotoIdx + 1}/{images.length}
+                </p>
+              </div>
+            );
+          })
+        )}
       </PhotosCarousel>
 
       <PhotosCarousel
@@ -51,34 +68,32 @@ function ImageGallery({ images }) {
           itemWidth: 100,
         }}
         currentSlideIdx={currentPhotoIdx}
-        className="relative rounded-sm  max-h-20 mt-6 max-w-full mx-auto   "
-
-        // these are the gradient applied ont he thumbnails but fuck it it isnt helping at all
-        // before:absolute before:inset-0 before:content-[''] before:pointer-events-none
-        // before:bg-gradient-to-r before:from-[rgba(255,255,255,0.7)] before:from-0% before:via-transparent
-        //  before:to-[rgba(255,255,255,0.7)] before:to-100% before:z-10
-        //  before:w-full before:h-full
+        className="relative rounded-sm  max-h-20 mt-6 max-w-full mx-auto "
       >
-        {images.map((image, index) => {
-          return (
-            <div
-              className={`w-full max-h-full mx-3 min-w-min px-0 ${
-                index === currentPhotoIdx
-                  ? "center border-black border-b-2 "
-                  : ""
-              }`}
-              onClick={onClickPhotoHandler(index)}
-            >
-              <img
-                src={image}
-                alt=""
-                className="w-full h-full object-scale-down"
-              />
-            </div>
-          );
-        })}
+        {imageGallery.isLoading ? (
+          <LoadableImage className="w-full h-full object-contain" />
+        ) : (
+          images.map((image, index) => {
+            return (
+              <div
+                className={`w-full max-h-full mx-3 min-w-min px-0 ${
+                  index === currentPhotoIdx
+                    ? "center border-black border-b-2 "
+                    : ""
+                }`}
+                key={`${image}-thumbnails`}
+                onClick={onClickPhotoHandler(index)}
+              >
+                <LoadableImage
+                  src={image}
+                  className="w-full h-full object-scale-down"
+                />
+              </div>
+            );
+          })
+        )}
       </PhotosCarousel>
-    </section>
+    </>
   );
 }
 

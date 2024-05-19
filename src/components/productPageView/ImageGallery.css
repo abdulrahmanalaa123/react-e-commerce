@@ -2,12 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.container {
-  max-width: 90%;
-  margin: 0 auto;
-}
 /* its only important because im using tailwind for my components and the library atttaches a disabled class when disabling instead of setting disabled attribute */
-
 #buttonPrev {
   background: linear-gradient(
     270deg,
@@ -31,11 +26,13 @@
   display: none;
 }
 
-#buttonNext:hover {
+#buttonNext:hover,
+#buttonNext:focus-visible {
   @apply bg-text-300 bg-opacity-50;
 }
 
-#buttonPrev:hover {
+#buttonPrev:hover,
+#buttonPrev:focus-visible {
   @apply bg-text-300 bg-opacity-50;
 }
 

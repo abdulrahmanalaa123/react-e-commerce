@@ -6,13 +6,15 @@ export default {
       sans: ["Montserrat", "sans-serif"],
     },
     fontSize: {
-      "3xl": "38px",
-      "2xl": "36px",
       xl: "32px",
       lg: "24px",
       md: "20px",
     },
     extend: {
+      fontSize: {
+        "3xl": "38px",
+        "2xl": "36px",
+      },
       backgroundImage: {
         "banner-image": "url('/src/assets/images/banner.png')",
       },

@@ -1,92 +1,31 @@
-import { useCallback } from "react";
-import { useProductVariationOptionsImages } from "../../api/filters/getProductVariationOptions";
-import { useProduct } from "../../api/products/getProductByVariation";
-import { useSearchQueries } from "../../hooks/searchQueries";
-import ProductSelector from "./ProductSelector";
 import ImageGallery from "./ImageGallery";
-import { useInvariantProduct } from "../../api/products/getInvariantProduct";
+import AddToCart from "./AddToCart";
+import FilteringOptions from "./FilteringOptions";
+import ProductDetails from "./ProductDetails";
 
 function ProductSection() {
-  const { queryObj, params, bundledEditQueryKey, editQueryKey } =
-    useSearchQueries();
-
-  const { data: variationData, isSuccess: variationSuccess } =
-    useProductVariationOptionsImages(params.productId);
-
-  const { data: invariantData, isSuccess: isInvariantDataSuccess } =
-    useInvariantProduct(params.productId);
-  const { data, isSuccess, isError } = useProduct({
-    productId: params.productId,
-    queryObj,
-  });
-
-  const returnValsToMatch = () => {
-    // they will always be the same but supposing and could just always use combination string
-    const val = data?.combination_string?.split("-") ?? [];
-    return val;
-  };
-
-  // must usecallback because of the memoization of components as well as it beign called everywhere
-  // in the nested tree
-  const modifiedEditQueryVariation = (e, key, val) => {
-    // first check option belongings of the rest of the vals
-    if (e.target.checked) {
-      const queriedOptions = Object.keys(queryObj);
-      const currentOptions = Object.keys(variationData.distinct);
-      const currentCheckBoxesValues = new Set(returnValsToMatch());
-      if (queriedOptions.length !== currentOptions.length) {
-        const currentEntries = new Map(Object.entries(variationData.distinct));
-        currentEntries.forEach((value, key, map) => {
-          if (Array.isArray(value)) {
-            const finalValue = value.filter((availableOptions) =>
-              currentCheckBoxesValues.has(availableOptions)
-            );
-            map.set(key.toLowerCase(), ...finalValue);
-            map.delete(key);
-          }
-        });
-        currentEntries.set(key, val);
-
-        const finalQueryKeys = [...currentEntries];
-
-        bundledEditQueryKey(finalQueryKeys);
-      } else {
-        editQueryKey(key, val);
-      }
-    }
-  };
-
-  const returnCurrentImageGall = () => {
-    const currentOptions = returnValsToMatch();
-    const availableGalleries = Object.keys(variationData.images).filter((key) =>
-      currentOptions.includes(key)
-    );
-
-    if (availableGalleries.length) {
-      // first available gallery for example if size,color both have a gallery it would get the size one
-      // which isnt perfect but this is the current business logic
-      return Object.values(variationData.images[availableGalleries[0]]);
-    }
-    return [invariantData.baseImage];
-  };
+  // extracted to a custom hook due to the overhead of complexity instaed of jamming it all at once
 
   return (
     <section
       id="product-view"
       className="flex flex-col md:flex-row flex-grow flex-shrink basis-3/4  gap-6"
     >
-      {variationSuccess && isSuccess && isInvariantDataSuccess && (
-        <ImageGallery images={returnCurrentImageGall()}></ImageGallery>
-      )}
-      {variationSuccess && isSuccess && isInvariantDataSuccess && (
-        <ProductSelector
-          variations={variationData.distinct}
-          data={data.length ? data : invariantData}
-          invariantData={invariantData}
-          valsToMatch={returnValsToMatch}
-          modifiedEditQueryVariation={modifiedEditQueryVariation}
-        ></ProductSelector>
-      )}
+      <section
+        id="image-gallery"
+        className="flex-auto mb-8 md:mb-0 md:w-1/2 z-0 flex-col flex h-[40.5rem]"
+      >
+        <ImageGallery />
+      </section>
+      <section
+        id="variation-selector"
+        className="flex-auto md:w-1/2 bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min z-10"
+      >
+        <ProductDetails>
+          <FilteringOptions />
+        </ProductDetails>
+        <AddToCart />
+      </section>
     </section>
   );
 }

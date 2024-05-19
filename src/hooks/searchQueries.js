@@ -62,14 +62,14 @@ export const useSearchQueries = () => {
   };
 
   const bundledEditQueryKey = useCallback((entries) => {
-    // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
-    // testing is needed ofc
-
     setSearchParams(createSearchParams(Object.fromEntries(entries)));
   }, []);
   //this works wont try to optimize
   const removeQueryKey = (key, val) => {
     const localQueryObj = { ...queryObj };
+    if (localQueryObj["pageNo"]) {
+      delete localQueryObj.pageNo;
+    }
     if (Array.isArray(localQueryObj[key])) {
       localQueryObj[key] = localQueryObj[key].filter(
         (element) => element !== val

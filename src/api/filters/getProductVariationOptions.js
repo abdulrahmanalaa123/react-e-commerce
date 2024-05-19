@@ -1,52 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
+import { formatHelper } from "../../utils/formatHelper";
 
-export async function getProductVariationOptionsImages({ productId }) {
+export async function getProductVariationOptions({ productId }) {
   const { data, error } = await supabase.rpc(
     "get_distinct_product_variation_values",
     {
       id: productId,
     }
   );
-
   if (!error) {
-    const images = data.reduce((accum, entry) => {
-      if (entry.featured_image !== null)
-        accum[entry.value] = (({
-          featured_image,
-          second_image,
-          third_image,
-        }) => ({ featured_image, second_image, third_image }))(entry);
-      return accum;
-    }, {});
-    const distinct = data.reduce((accum, entry) => {
-      if (Array.isArray(accum[entry.attribute])) {
-        accum[entry.attribute] = [...accum[entry.attribute], entry.value];
-      } else {
-        accum[entry.attribute] = [entry.value];
-      }
-      return accum;
-    }, {});
-    console.log(images);
-    console.log(distinct);
-    return { images, distinct };
+    return formatHelper.variationOptionsOutput(data);
   } else {
     throw error;
   }
 }
 
-export const useProductVariationOptionsImages = (productId) => {
-  return useQuery(productVariationOptionsImagesQuery(productId));
+export const useProductVariationOptions = (productId) => {
+  return useQuery(variationOptionsQuery(productId));
 };
 
-export const productVariationOptionsImagesQuery = (productId) => {
+export const variationOptionsQuery = (productId) => {
   return {
     queryKey: ["variations", { productId }],
     queryFn: () => {
-      return getProductVariationOptionsImages({ productId });
+      return getProductVariationOptions({ productId });
     },
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   };
 };
+
+// should go into utils

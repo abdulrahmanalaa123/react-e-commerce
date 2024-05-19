@@ -9,22 +9,32 @@ export async function getVariationImages(variationIds) {
 
   if (!error) {
     if (data.length) {
-      return data.map((variationGallery) => Object.values(variationGallery));
+      return data
+        .map((variationGallery) => {
+          const { product_variation_id, ...rest } = variationGallery;
+
+          return Object.values(rest);
+        })
+        .flat(1);
     }
     return [];
   } else {
     throw error;
   }
 }
-export const useVariationImages = (variationId) => {
-  return useQuery(variationImagesQuery(variationId));
+export const useVariationImages = ({ variationIds, enabled }) => {
+  return useQuery(variationImagesQuery(variationIds, enabled));
 };
 
-export const variationImagesQuery = (variationId) => {
+export const variationImagesQuery = (variationIds, enabled) => {
   return {
-    queryKey: ["productImages", variationId],
+    queryKey: ["productImages", { variationIds: variationIds }],
     queryFn: () => {
-      getVariationImages(variationId);
+      return getVariationImages(variationIds);
     },
+    enabled: enabled,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
   };
 };

@@ -66,8 +66,8 @@ export default PhotosCarousel;
 
 const LeftArrow = forwardRef((props, ref) => {
   return (
-    <div
-      className="h-full absolute left-0 rounded-l-sm top-0 bottom-0 px-4 z-10 cursor-pointer flex justify-center items-center  hover:bg-text-300 hover:bg-opacity-50"
+    <button
+      className="h-full absolute left-0 rounded-l-sm top-0 bottom-0 px-4 z-10 cursor-pointer flex justify-center items-center  hover:bg-text-300 hover:bg-opacity-50 focus-visible:bg-text-300 focus-visible:bg-opacity-50"
       id="buttonPrev"
       ref={ref}
       {...props}
@@ -85,12 +85,12 @@ const LeftArrow = forwardRef((props, ref) => {
           fillOpacity="0.7"
         />
       </svg>
-    </div>
+    </button>
   );
 });
 const RightArrow = forwardRef((props, ref) => {
   return (
-    <div
+    <button
       className="h-full rounded-r-sm absolute right-0 bottom-0 top-0 flex px-4 z-10 cursor-pointer justify-center items-center   bg-gradient-to-r from-white from-0% via-[#E0E0E006] via-[2.53%] to-[#4A494926] to-[3%] hover:bg-text-300 hover:bg-opacity-50"
       id="buttonNext"
       ref={ref}
@@ -110,6 +110,6 @@ const RightArrow = forwardRef((props, ref) => {
           fillOpacity="0.7"
         />
       </svg>
-    </div>
+    </button>
   );
 });

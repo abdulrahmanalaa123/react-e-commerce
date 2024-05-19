@@ -89,4 +89,20 @@ export const formatHelper = {
     const returnVal = val == null ? "" : val;
     return returnVal;
   },
+  variationOptionsOutput: (variationOptionsTable) => {
+    const distinct = variationOptionsTable.reduce((accum, entry) => {
+      if (Array.isArray(accum.get(entry.attribute))) {
+        accum.set(entry.attribute, [
+          ...accum.get(entry.attribute),
+          { value: entry.value, id: entry.variation_id },
+        ]);
+      } else {
+        accum.set(entry.attribute, [
+          { value: entry.value, id: entry.variation_id },
+        ]);
+      }
+      return accum;
+    }, new Map());
+    return Object.fromEntries(distinct.entries());
+  },
 };

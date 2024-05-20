@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import brokenPot from "../../../assets/images/brokenPot.png";
+import { useRouteError } from "react-router-dom";
 function ProductDoesntExist() {
+  const error = useRouteError();
   return (
     <div className="h-screen flex-col items-center  ">
       <div className="text-center flex-col w-fit mx-auto">
@@ -20,6 +22,7 @@ function ProductDoesntExist() {
           </Link>
         </p>
       </div>
+      <p className="text-red-500 text-[3rem]">{`${error}(just for testing)`}</p>
       <img src={brokenPot} alt="" className="object-contain mx-auto" />
     </div>
   );

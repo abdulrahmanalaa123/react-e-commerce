@@ -1,18 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { useProductVariationOptions } from "../api/filters/getProductVariationOptions";
 import { useInvariantProduct } from "../api/products/getInvariantProduct";
 import { useProduct } from "../api/products/getProductByVariation";
 import { useSearchQueries } from "./searchQueries";
 
-// check if features filtered are not included in the variation Options
-// if without any filters throw an error or the filterse included are 3 and only 2 are provided throw an error
-// the problem is i havent added product_combination_features if then this could be easily checked
-// with the combinationString.length = Object.keys(variationOptions.data).length
-// and if it is then check if the values are included in the available options if not
-// the fallback to invariant features are just if the product has no variations if it does then the invariant features are just for view
-// and cannot be purchasable and if it actually is then no need to fallback and i should throw an error
-// still dont know how to implement this
+// couldnt be applicable unless all products with variations should have a product_combination
+// leaving it here as a reminder until i implement it in the databasse
 
+// inside the useEffect
+// if (currentProductFeatures.length !== Object.keys(variationOptions).length) {
+//   throw "Sorry this product doesnt exit";
+// }
 function useProductView() {
   const { queryObj, params, bundledEditQueryKey, editQueryKey } =
     useSearchQueries();
@@ -23,20 +21,20 @@ function useProductView() {
     productId: params.productId,
     queryObj,
   });
+
+  const imagesEnabled =
+    variationOptions.isSuccess &&
+    productData.isSuccess &&
+    invariantProductData.isSuccess;
   const currentProductFeatures = Object.keys(queryObj).length
     ? Object.values(queryObj).map((val) => val[0])
     : productData?.data?.combination_string?.split("-") ?? [];
 
+  // the lag could be solved by using a useEffect event and
+  // removing the dependencies or adding an variationOptions.status dependency only
+  // but a better implementation would be using the loader for the error message
   useEffect(() => {
     if (variationOptions.isSuccess) {
-      console.log(variationOptions.data);
-      // couldnt be applicable unless all products with variations should have a product_combination
-      // leaving it here as a reminder until i implement it in the databasse
-
-      // if (currentProductFeatures.length !== Object.keys(variationOptions).length) {
-      //   throw "Sorry this product doesnt exit";
-      // }
-
       if (
         Object.keys(variationOptions.data).length &&
         currentProductFeatures.length
@@ -47,7 +45,7 @@ function useProductView() {
           if (Array.isArray(value)) {
             console.log(currentProductFeatures);
             const finalValue = value.filter((availableOptions) => {
-              return currentProductFeatures.includes(availableOptions.value);
+              currentProductFeatures.includes(availableOptions.value);
             });
             const valueDoesntExist = !finalValue.length;
 
@@ -61,11 +59,11 @@ function useProductView() {
         throw "Sorry this product doesnt exist";
       }
     }
-
+    return;
     // productData.status is dependent on queryObj instead of depending on query obj directly
-  }, [variationOptions.status, JSON.stringify(currentProductFeatures)]);
+  }, [variationOptions.status, productData.status]);
 
-  const getSelectedVariationIds = () => {
+  function getSelectedVariationIds() {
     if (variationOptions.isSuccess && productData.isSuccess) {
       const selectedVariationIds = Object.keys(variationOptions.data).map(
         (key) => {
@@ -81,12 +79,7 @@ function useProductView() {
     } else {
       return [];
     }
-  };
-
-  const imagesEnabled =
-    variationOptions.isSuccess &&
-    productData.isSuccess &&
-    invariantProductData.isSuccess;
+  }
 
   const modifiedEditQueryVariation = (e, key, val) => {
     // first check option belongings of the rest of the vals

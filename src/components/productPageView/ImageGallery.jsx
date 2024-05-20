@@ -38,7 +38,9 @@ function ImageGallery() {
         currentSlideIdx={currentPhotoIdx}
         onSlideChange={onSlideChangeHandler}
       >
-        {imageGallery.isLoading || imageGallery.isPending ? (
+        {imageGallery.isLoading ||
+        imageGallery.isPending ||
+        imageGallery.isFetching ? (
           <LoadableImage className="w-full h-full object-contain" />
         ) : (
           images.map((image) => {
@@ -70,7 +72,9 @@ function ImageGallery() {
         currentSlideIdx={currentPhotoIdx}
         className="relative rounded-sm  max-h-20 mt-6 max-w-full mx-auto "
       >
-        {imageGallery.isLoading || imageGallery.isPending ? (
+        {imageGallery.isLoading ||
+        imageGallery.isPending ||
+        imageGallery.isFetching ? (
           <LoadableImage className="w-full h-full object-contain" />
         ) : (
           images.map((image, index) => {

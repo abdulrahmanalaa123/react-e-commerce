@@ -18,14 +18,16 @@ function LoadableImage({ className, src }) {
       >
         <rect x="0" y="0" rx="8" ry="8" width="600" height="600" />
       </ContentLoader>
-      <img
-        src={src}
-        className={className}
-        style={{ display: isLoading ? "none" : "block" }}
-        onLoad={() => {
-          setIsLoading(false);
-        }}
-      />
+      {src && (
+        <img
+          src={src}
+          className={className}
+          style={{ display: isLoading ? "none" : "block" }}
+          onLoad={() => {
+            setIsLoading(false);
+          }}
+        />
+      )}
     </>
   );
 }

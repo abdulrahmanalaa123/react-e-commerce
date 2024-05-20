@@ -1,7 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import router from "../routes/index";
-
+import queryClient from "../lib/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ErrorBoundary } from "react-error-boundary";
 const ErrorBoundaryElement = () => {
@@ -19,7 +19,6 @@ const ErrorBoundaryElement = () => {
     </Navigate>
   </div>;
 };
-const queryClient = new QueryClient();
 
 function AppProvider({ children }) {
   return (

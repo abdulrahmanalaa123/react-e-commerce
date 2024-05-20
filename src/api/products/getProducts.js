@@ -1,8 +1,9 @@
 // must be imported using eval its used in compile time not importing would cause an error
 import { useQuery } from "@tanstack/react-query";
-import { productFetchingConfig } from "../../config/queryOptions";
+
 import { supabase } from "../../lib/supabaseClient";
 import { queryFormatter } from "../../utils/queryFormatter";
+import { productFetchingConfig } from "../../lib/react-query";
 
 // function parameters are error prone when you enter an empty object which shouldnt create errors but it does so the default function usage is with an empty object
 // and used to get all products

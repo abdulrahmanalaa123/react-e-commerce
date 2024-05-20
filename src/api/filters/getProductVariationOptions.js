@@ -26,9 +26,6 @@ export const variationOptionsQuery = (productId) => {
     queryFn: () => {
       return getProductVariationOptions({ productId });
     },
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
   };
 };
 

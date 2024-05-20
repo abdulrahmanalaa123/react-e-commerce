@@ -1,8 +1,8 @@
-import { useEffect, useEffectEvent } from "react";
 import { useProductVariationOptions } from "../api/filters/getProductVariationOptions";
 import { useInvariantProduct } from "../api/products/getInvariantProduct";
 import { useProduct } from "../api/products/getProductByVariation";
 import { useSearchQueries } from "./searchQueries";
+import { useLoaderData } from "react-router-dom";
 
 // couldnt be applicable unless all products with variations should have a product_combination
 // leaving it here as a reminder until i implement it in the databasse
@@ -14,7 +14,7 @@ import { useSearchQueries } from "./searchQueries";
 function useProductView() {
   const { queryObj, params, bundledEditQueryKey, editQueryKey } =
     useSearchQueries();
-
+  const { currentProductFeatures } = useLoaderData();
   const variationOptions = useProductVariationOptions(params.productId);
   const invariantProductData = useInvariantProduct(params.productId);
   const productData = useProduct({
@@ -26,42 +26,6 @@ function useProductView() {
     variationOptions.isSuccess &&
     productData.isSuccess &&
     invariantProductData.isSuccess;
-  const currentProductFeatures = Object.keys(queryObj).length
-    ? Object.values(queryObj).map((val) => val[0])
-    : productData?.data?.combination_string?.split("-") ?? [];
-
-  // the lag could be solved by using a useEffect event and
-  // removing the dependencies or adding an variationOptions.status dependency only
-  // but a better implementation would be using the loader for the error message
-  useEffect(() => {
-    if (variationOptions.isSuccess) {
-      if (
-        Object.keys(variationOptions.data).length &&
-        currentProductFeatures.length
-      ) {
-        const allVariations = new Map(Object.entries(variationOptions.data));
-
-        allVariations.forEach((value) => {
-          if (Array.isArray(value)) {
-            console.log(currentProductFeatures);
-            const finalValue = value.filter((availableOptions) => {
-              currentProductFeatures.includes(availableOptions.value);
-            });
-            const valueDoesntExist = !finalValue.length;
-
-            if (valueDoesntExist) {
-              throw "Sorry This product doesnt exist";
-            }
-          }
-        });
-      } else if (currentProductFeatures.length) {
-        console.log("this activated");
-        throw "Sorry this product doesnt exist";
-      }
-    }
-    return;
-    // productData.status is dependent on queryObj instead of depending on query obj directly
-  }, [variationOptions.status, productData.status]);
 
   function getSelectedVariationIds() {
     if (variationOptions.isSuccess && productData.isSuccess) {
@@ -86,7 +50,6 @@ function useProductView() {
     if (e.target.checked) {
       const queriedOptions = Object.keys(queryObj);
       const currentOptions = Object.keys(variationOptions.data);
-      console.log(currentProductFeatures);
       if (
         queriedOptions.length !== currentOptions.length &&
         currentProductFeatures.length

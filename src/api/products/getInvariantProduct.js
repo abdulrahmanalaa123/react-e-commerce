@@ -23,8 +23,5 @@ export const invariantProductQuery = (productId) => {
   return {
     queryKey: ["invariant", { productId: productId }],
     queryFn: () => getInvariantProduct(productId),
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
   };
 };

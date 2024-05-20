@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
-import { filterOptionsConfig } from "../../config/queryOptions";
+import { filterOptionsConfig } from "../../lib/react-query";
+
 import { formatHelper } from "../../utils/formatHelper";
 
 export async function getCategorySubcategories(category) {

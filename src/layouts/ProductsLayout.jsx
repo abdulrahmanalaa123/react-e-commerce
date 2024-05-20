@@ -1,8 +1,5 @@
-import { useEffect } from "react";
 import FilteringComponent from "../components/productsView/mainComponents/FilteringComponent";
 import ProductsSection from "../components/productsView/mainComponents/ProductsSection";
-import { useNavigate } from "react-router-dom";
-import { useSearchQueries } from "../hooks/searchQueries";
 import { formatHelper } from "../utils/formatHelper";
 import SearchBar from "../components/productsView/mainComponents/SearchBar";
 import MobileFilterButton from "../components/productsView/filters/MobileFilterButton";
@@ -32,3 +29,17 @@ function ProductsLayout() {
 }
 
 export default ProductsLayout;
+
+export const productsLoader = ({ params }) => {
+  if (
+    params.category !== undefined &&
+    !formatHelper["category"](params.category)
+  ) {
+    // can be replaced by throwing an error and making a fallback component which reroutes to the home screen or the products page
+    // which is better for UX and not error prone like this method
+    console.log("boys we're going on a ride");
+    throw "Sorry this page doesnt exist";
+    // throw "Sorry this Page Doesnt exist";
+  }
+  return null;
+};

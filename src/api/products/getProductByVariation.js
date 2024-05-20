@@ -1,5 +1,6 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
+import { formatHelper } from "../../utils/formatHelper";
 
 export async function getProductByVariation({ productId, variationString }) {
   const query = supabase.from("products_combinations").select(
@@ -30,20 +31,7 @@ export const useProduct = ({ productId, queryObj }) => {
 };
 
 export const productQuery = ({ productId, queryObj }) => {
-  let variationString = "";
-  // UUID sorting needs to change to add the UUID concatenated a sorted filteringCriteria since
-  // sorting the UUID ruins it but i would need to both change the backend and here so ill leave it like this since the data
-  // is way too small for collissions but ill edit it later
-  if (Object.keys(queryObj).length > 0) {
-    variationString = [...Object.values(queryObj), productId]
-      .join("")
-      .toLowerCase()
-      .split("")
-      .sort()
-      .join("")
-      .replaceAll("-", "");
-  }
-
+  const variationString = formatHelper["uniqueId"](queryObj, productId);
   return {
     queryKey: [
       "product",
@@ -52,6 +40,5 @@ export const productQuery = ({ productId, queryObj }) => {
     queryFn: ({ queryKey }) => {
       return getProductByVariation(queryKey[1]);
     },
-    // placeholderData: keepPreviousData,
   };
 };

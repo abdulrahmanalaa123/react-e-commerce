@@ -33,8 +33,5 @@ export const variationImagesQuery = (variationIds, enabled) => {
       return getVariationImages(variationIds);
     },
     enabled: enabled,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
   };
 };

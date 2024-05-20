@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 
 async function getInvariantProduct(productId) {
@@ -19,9 +19,10 @@ async function getInvariantProduct(productId) {
 export const useInvariantProduct = (productId) => {
   return useQuery(invariantProductQuery(productId));
 };
+
 export const invariantProductQuery = (productId) => {
-  return {
+  return queryOptions({
     queryKey: ["invariant", { productId: productId }],
     queryFn: () => getInvariantProduct(productId),
-  };
+  });
 };

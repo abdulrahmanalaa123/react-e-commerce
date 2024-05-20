@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 
 export async function getVariationImages(variationIds) {
@@ -27,11 +27,11 @@ export const useVariationImages = ({ variationIds, enabled }) => {
 };
 
 export const variationImagesQuery = (variationIds, enabled) => {
-  return {
+  return queryOptions({
     queryKey: ["productImages", { variationIds: variationIds }],
     queryFn: () => {
       return getVariationImages(variationIds);
     },
     enabled: enabled,
-  };
+  });
 };

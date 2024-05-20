@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import { formatHelper } from "../../utils/formatHelper";
 
@@ -32,7 +32,7 @@ export const useProduct = ({ productId, queryObj }) => {
 
 export const productQuery = ({ productId, queryObj }) => {
   const variationString = formatHelper["uniqueId"](queryObj, productId);
-  return {
+  return queryOptions({
     queryKey: [
       "product",
       { ...(variationString && { variationString }), productId },
@@ -40,5 +40,5 @@ export const productQuery = ({ productId, queryObj }) => {
     queryFn: ({ queryKey }) => {
       return getProductByVariation(queryKey[1]);
     },
-  };
+  });
 };

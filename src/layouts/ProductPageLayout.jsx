@@ -1,5 +1,5 @@
 import { variationOptionsQuery } from "../api/filters/getProductVariationOptions";
-import { productQuery } from "../api/products/getProductByVariation";
+import { productQuery } from "../api/product/getProductByVariation";
 import ProductSection from "../components/productPageView/ProductSection";
 import checkIfProductExists from "../utils/checkIfProductExists";
 import queryDecoder from "../utils/queryDecoder";

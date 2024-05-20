@@ -1,6 +1,6 @@
 import { useProductVariationOptions } from "../api/filters/getProductVariationOptions";
-import { useInvariantProduct } from "../api/products/getInvariantProduct";
-import { useProduct } from "../api/products/getProductByVariation";
+import { useInvariantProduct } from "../api/product/getInvariantProduct";
+import { useProduct } from "../api/product/getProductByVariation";
 import { useSearchQueries } from "./searchQueries";
 import { useLoaderData } from "react-router-dom";
 

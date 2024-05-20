@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import { filterOptionsConfig } from "../../lib/react-query";
 
@@ -24,7 +24,7 @@ export const useCategorySubcategories = (category) => {
 };
 
 export const categorySubcategoriesQuery = (category) => {
-  return {
+  return queryOptions({
     ...filterOptionsConfig,
     queryKey: formatHelper["category"](category)
       ? ["subcategories", category]
@@ -34,5 +34,5 @@ export const categorySubcategoriesQuery = (category) => {
 
       return getCategorySubcategories(queryKey[1] ?? "");
     },
-  };
+  });
 };

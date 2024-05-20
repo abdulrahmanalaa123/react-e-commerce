@@ -1,5 +1,5 @@
 // must be imported using eval its used in compile time not importing would cause an error
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { supabase } from "../../lib/supabaseClient";
 import { queryFormatter } from "../../utils/queryFormatter";
@@ -111,15 +111,16 @@ export const productsQuery = ({ category, queryObject }) => {
     ...(category && { category: [category] }),
     ...queryObject,
   };
+
   const paramsObject = queryFormatter(queryKey);
-  return {
+  return queryOptions({
     ...productFetchingConfig,
     queryKey: ["products", paramsObject],
     queryFn: ({ queryKey }) => {
       // the queryObject combined with the category if found if not it will work as well
       return getProducts(queryKey[1]);
     },
-  };
+  });
 };
 // old solution for chaining other than ifs using eval
 // const chainsStr = `${

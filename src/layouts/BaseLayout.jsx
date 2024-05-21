@@ -14,10 +14,8 @@ function BaseLayout() {
         <Navbar />
       </header>
       <main className="min-h-screen">
-        <Suspense>
-          <SuspenseLoader isAnimating={navigation.state === "loading"} />
-          <Outlet />
-        </Suspense>
+        <SuspenseLoader isAnimating={navigation.state === "loading"} />
+        <Outlet />
       </main>
       <footer>
         <Footer />

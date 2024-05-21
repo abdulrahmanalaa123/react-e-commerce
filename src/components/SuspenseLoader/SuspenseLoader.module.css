@@ -1,0 +1,40 @@
+.container {
+  width: 100%;
+  position: relative;
+
+  text-align: center;
+  background: transparent;
+  height: 100vh;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.progress {
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  transition: 0.4s linear;
+  width: 100%;
+}
+
+.progressBar {
+  height: 4px;
+  display: block;
+  border-radius: 4px;
+
+  transition-property: width;
+  background-color: #387709;
+  width: 0%;
+
+  animation: progressAnimationStrike 3s cubic-bezier(0.9, 0.04, 0.83, 0.67);
+  animation-fill-mode: forwards;
+}
+
+@keyframes progressAnimationStrike {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 100%;
+  }
+}

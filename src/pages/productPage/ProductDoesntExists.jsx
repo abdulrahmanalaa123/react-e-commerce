@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import brokenPot from "../../../assets/images/brokenPot.png";
+import brokenPot from "../../assets/images/brokenPot.png";
 import { useRouteError } from "react-router-dom";
+
 function ProductDoesntExist() {
   const error = useRouteError();
   return (

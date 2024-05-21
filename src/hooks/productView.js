@@ -14,7 +14,6 @@ import { useLoaderData } from "react-router-dom";
 function useProductView() {
   const { queryObj, params, bundledEditQueryKey, editQueryKey } =
     useSearchQueries();
-  const { currentProductFeatures } = useLoaderData();
   const variationOptions = useProductVariationOptions(params.productId);
   const invariantProductData = useInvariantProduct(params.productId);
   const productData = useProduct({
@@ -26,7 +25,9 @@ function useProductView() {
     variationOptions.isSuccess &&
     productData.isSuccess &&
     invariantProductData.isSuccess;
-
+  const currentProductFeatures = Object.keys(queryObj).length
+    ? Object.values(queryObj).map((val) => val[0])
+    : productData?.data?.combination_string?.split("-") ?? [];
   function getSelectedVariationIds() {
     if (variationOptions.isSuccess && productData.isSuccess) {
       const selectedVariationIds = Object.keys(variationOptions.data).map(

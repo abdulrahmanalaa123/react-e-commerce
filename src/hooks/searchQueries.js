@@ -8,10 +8,13 @@ import {
 import queryDecoder from "../utils/queryDecoder";
 import { useCallback } from "react";
 
+// can be decomposed into a hook that gives searchParams and queryObject and all of the functions could be in a seperate hook of their own using that hook
+
 export const useSearchQueries = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams();
-  const locationKey = useLocation().key;
+  const location = useLocation();
+  const locationKey = location.key;
   const navigate = useNavigate();
 
   // instead of creating a function which will be created on each instance its easier to do this
@@ -26,7 +29,16 @@ export const useSearchQueries = () => {
   // and doesnt use existing ones can be put in a useCallback and ran only once and thats ok like for example clearQueries createNewQuery
   // well although this optimization method didnt work it was a learning experience Nonetheless
 
+  const navigateIfDifferent = (newSearchQuery) => {
+    const isInAdifferentPage = !location.pathname.includes("products");
+    if (isInAdifferentPage) {
+      navigate(`/products?${newSearchQuery}`);
+    } else {
+      setSearchParams(newSearchQuery);
+    }
+  };
   const editSearchParamsCheckBoxFunction = (event, paramKey, val) => {
+    navigateIfDifferent();
     if (event.target.checked) {
       addQueryKey(paramKey, val);
     } else {
@@ -50,7 +62,7 @@ export const useSearchQueries = () => {
     }
     // since im kinda sure taht my decoder will return an array so its easier than checking for the element itself first then checking if its an array
     // testing is needed ofc
-    setSearchParams(createSearchParams(localQueryObj));
+    navigateIfDifferent(createSearchParams(localQueryObj));
   };
   // will be used in pageNo only probably
   const editQueryKey = (key, val) => {
@@ -60,7 +72,7 @@ export const useSearchQueries = () => {
     localQueryObj[key] = [val];
     setSearchParams(createSearchParams(localQueryObj));
   };
-
+  // used in product view only as well but needs the same dependencies so its put in here
   const bundledEditQueryKey = useCallback((entries) => {
     setSearchParams(createSearchParams(Object.fromEntries(entries)));
   }, []);
@@ -75,15 +87,14 @@ export const useSearchQueries = () => {
         (element) => element !== val
       );
     }
-    setSearchParams(createSearchParams(localQueryObj));
+    navigateIfDifferent(createSearchParams(localQueryObj));
   };
   // object must be in format {key:[val] or key:[val1,val2,val3]}
 
   // this is used for search queries thats why i want this behaviour \
   // maybe not preferred but things have gotten out of hand and rebuilding all that aint worth the trouble
   const createNewQuery = useCallback((object) => {
-    navigate("/products", { replace: true });
-    setSearchParams(createSearchParams(object));
+    navigate(`/products?${createSearchParams(object)}`, { replace: true });
   }, []);
 
   const clearQueries = useCallback(() => {

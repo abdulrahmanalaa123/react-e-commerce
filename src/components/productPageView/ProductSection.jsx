@@ -19,7 +19,7 @@ function ProductSection() {
       </section>
       <section
         id="variation-selector"
-        className="flex-auto md:w-1/2 bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min z-10"
+        className="flex-auto md:w-1/2 bg-[#F6F9F5] p-4 flex flex-col gap-6 h-min "
       >
         <ProductDetails>
           <FilteringOptions />

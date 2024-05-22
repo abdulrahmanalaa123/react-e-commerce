@@ -4,7 +4,7 @@ import Navbar from "../components/navbar/Navbar";
 
 import { useNavigation } from "react-router-dom";
 import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
-import { Suspense } from "react";
+import Search from "../components/productsView/search/Search";
 
 function BaseLayout() {
   const navigation = useNavigation();
@@ -12,6 +12,9 @@ function BaseLayout() {
     <>
       <header>
         <Navbar />
+        <section id="search" className="my-9">
+          <Search />
+        </section>
       </header>
       <main className="min-h-screen">
         <SuspenseLoader isAnimating={navigation.state === "loading"} />

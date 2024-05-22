@@ -25,9 +25,11 @@ function useProductView() {
     variationOptions.isSuccess &&
     productData.isSuccess &&
     invariantProductData.isSuccess;
+
   const currentProductFeatures = Object.keys(queryObj).length
     ? Object.values(queryObj).map((val) => val[0])
     : productData?.data?.combination_string?.split("-") ?? [];
+
   function getSelectedVariationIds() {
     if (variationOptions.isSuccess && productData.isSuccess) {
       const selectedVariationIds = Object.keys(variationOptions.data).map(

@@ -5,7 +5,7 @@ import { formatHelper } from "../../utils/formatHelper";
 export async function getProductByVariation({ productId, variationString }) {
   const query = supabase.from("products_combinations").select(
     // reviews will be added as a tabnle and be joined with the products table
-    "price,combination_string,stock,featured,unique_id,product_id)"
+    "id,price,combination_string,stock,featured,unique_id,product_id)"
   );
   if (variationString) {
     query.eq("unique_id", variationString);

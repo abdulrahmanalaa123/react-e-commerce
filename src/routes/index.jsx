@@ -15,6 +15,10 @@ const router = createBrowserRouter(
       <Route
         path="products/:category?"
         lazy={async () => {
+          // this is an async function the lazy importing was considered finsihed loading before page loading
+          // was because it didnt wait for the lazy import to finish we couldve used deferring someway to enable that behaviour
+          // using react lazy but using lazy importing with await makes no need of suspense although we could use itt adn it would be okay for standardizing the behavour
+          // as well
           let ProductsLayout = await import("../layouts/ProductsLayout");
           let productsLoader = await import(
             "../layouts/layoutLoaders/productsLoader"

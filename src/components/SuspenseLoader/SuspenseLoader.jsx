@@ -13,7 +13,7 @@ function SuspenseLoader({ isAnimating }) {
         position: "relative",
         transition: `opacity ${animationDuration}ms linear`,
         height: "min-content",
-        zIndex: 1031,
+        zIndex: 10,
       }}
     >
       <div
@@ -27,10 +27,10 @@ function SuspenseLoader({ isAnimating }) {
           left: 0,
           marginLeft: `${(-1 + progress) * 100}%`,
           position: "absolute",
-          top: 0,
+          top: "-30px",
           transition: `margin-left ${animationDuration}ms linear`,
           width: "100%",
-          zIndex: 1031,
+          zIndex: 10,
         }}
       ></div>
     </div>

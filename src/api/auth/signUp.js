@@ -1,5 +1,5 @@
 import { supabase } from "../../lib/supabaseClient";
-import userStore from "../../stores/user";
+import useUserStore from "../../stores/user";
 
 export default async function signUp({ credentials, options }) {
   const { data, error } = await supabase.auth.signUp({
@@ -11,7 +11,7 @@ export default async function signUp({ credentials, options }) {
     },
   });
   if (!error) {
-    userStore
+    useUserStore
       .getState()
       .setUserData({ metaData: data["user"]["user_metadata"] });
   }

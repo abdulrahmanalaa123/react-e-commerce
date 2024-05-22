@@ -1,10 +1,10 @@
 import { supabase } from "../../lib/supabaseClient";
-import userStore from "../../stores/user";
+import useUserStore from "../../stores/user";
 
 export default async function signOut() {
   const { error } = await supabase.auth.signOut();
   if (!error) {
-    userStore.getState().deleteUserData();
+    useUserStore.getState().deleteUserData();
   }
 
   return { error };

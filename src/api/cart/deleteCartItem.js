@@ -25,7 +25,7 @@ async function deleteCartItem(cartItem, cartId) {
 
 function useRemoveItemFromCart() {
   return useMutation({
-    mutationFn: addCartItem,
+    mutationFn: deleteCartItem,
     onMutate: (variables) => {
       const oldCart = useCartStore.getState().cartItems;
       // mbe toastify adding item to cart
@@ -54,4 +54,4 @@ function useRemoveItemFromCart() {
     },
   });
 }
-export default deleteCartItem;
+export default useRemoveItemFromCart;

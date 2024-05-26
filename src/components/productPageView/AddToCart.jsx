@@ -1,10 +1,6 @@
 import { useState } from "react";
 import useProductView from "../../hooks/productView";
 import useHandleClickOutisde from "../../hooks/handleClickOutside";
-import {
-  inVariantCartItemModel,
-  variantCartItemModel,
-} from "../../objects/cartItemModel";
 import useCart from "../../hooks/cart";
 
 function AddToCart() {
@@ -15,8 +11,7 @@ function AddToCart() {
   const ref = useHandleClickOutisde(() => {
     setShowInput(false);
   });
-  const { addItemToCart } = useCart();
-
+  const { addItemInterface } = useCart();
   return (
     <>
       <div className="flex justify-between items-center p-2 h-min">
@@ -105,19 +100,11 @@ function AddToCart() {
         className="w-full bg-text-300 enabled:hover:bg-primary-200 py-4 px-6 transition-colors rounded-sm duration-150 font-medium text-white enabled:hover:text-text-300 "
         disabled={!invariantProductData.isSuccess && !productData.isSuccess}
         onClick={() => {
-          let cartItem;
-          if (productData.data.id) {
-            cartItem = new variantCartItemModel({
-              id: productData.data.id,
-              qty: quantity,
-            });
-          } else {
-            cartItem = new inVariantCartItemModel({
-              uuid: invariantProductData.data.id,
-              qty: quantity,
-            });
-          }
-          addItemToCart({ cartItem: cartItem });
+          addItemInterface({
+            variantId: productData.data?.id,
+            inVariantId: invariantProductData.data?.id,
+            quantity: quantity,
+          });
           setQuantity(1);
         }}
       >

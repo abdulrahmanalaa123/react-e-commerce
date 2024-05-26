@@ -1,41 +1,63 @@
-import { useShallow } from "zustand/react/shallow";
 import useCartStore from "../stores/cart";
 import useUserStore from "../stores/user";
 import useAddItemToCart from "../api/cart/addCartItem";
 import { useUpadteCartItem } from "../api/cart/updateCartItem";
+import useRemoveItemFromCart from "../api/cart/deleteCartItem";
+import {
+  variantCartItemModel,
+  inVariantCartItemModel,
+} from "../objects/cartItemModel";
 
-function useCart() {
+function formatter({ variantId, inVariantId, quantity }) {
+  let cartItem;
+  if (variantId) {
+    cartItem = new variantCartItemModel({
+      id: variantId,
+      qty: quantity,
+    });
+  } else {
+    cartItem = new inVariantCartItemModel({
+      uuid: inVariantId,
+      qty: quantity,
+    });
+  }
+  return cartItem;
+}
+
+const useCart = () => {
   const cartId = useUserStore((state) => state.cartId);
-  const { addCartItem, updateCartItem, deleteCartItem, cartItems } =
-    useCartStore(
-      useShallow((state) => ({
-        cartItems: state.cartItems,
-        addCartItem: state.addCartItem,
-        updateCartItem: state.updateCartItem,
-        deleteCartItem: state.deleteCartItem,
-      }))
-    );
   const addCartMutation = useAddItemToCart();
   const updateCartMutation = useUpadteCartItem();
+  const deleteCartMutation = useRemoveItemFromCart();
 
-  function addItemToCart({ cartItem }) {
-    console.log(cartItem.constructor.name);
+  function addItemInterface({ variantId, inVariantId, quantity }) {
+    const cartItem = formatter({ variantId, inVariantId, quantity });
+
     if (cartId) {
-      addCartMutation.mutate({ cartId: cartId, cartItem: cartItem });
+      addCartMutation.mutate({ cartId, cartItem });
     } else {
-      addCartItem({ cartItem: cartItem });
+      useCartStore.getState().addCartItem({ cartItem });
     }
   }
+  function updateItemInterface({ cartItem }) {
+    const cartId = useUserStore.getState().cartId;
 
-  function updateItem({ cartItem }) {
     if (cartId) {
-      updateCartMutation.mutate({ cartId: cartId, cartItem: cartItem });
+      updateCartMutation.mutate({ cartId, cartItem });
     } else {
-      updateCartItem({ cartItem: cartItem });
+      useCartStore.getState().updateCartItem({ cartItem });
     }
   }
+  function deleteItemInterface({ cartItem }) {
+    const cartId = useUserStore.getState().cartId;
 
-  return { addItemToCart, updateItem };
-}
+    if (cartId) {
+      deleteCartMutation.mutate({ cartId, cartItem });
+    } else {
+      useCartStore.getState().deleteCartItem({ cartItem });
+    }
+  }
+  return { updateItemInterface, addItemInterface, deleteItemInterface };
+};
 
 export default useCart;

@@ -33,7 +33,7 @@ export const useUpadteCartItem = () =>
       useCartStore.getState().updateCartItem({ cartItem: variables.cartItem });
       return [...oldCart];
     },
-    onSettled: (data, error) => {
+    onSettled: (_data, error) => {
       // TODO toastify
       if (error) {
         // toastify Error occured
@@ -41,7 +41,7 @@ export const useUpadteCartItem = () =>
         // toastify item added to cart
       }
     },
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       console.log(error);
       useCartStore.getState().setCartItems(context);
     },
@@ -49,4 +49,4 @@ export const useUpadteCartItem = () =>
       id: "cart",
     },
   });
-export default updateCartItem;
+export default useUpadteCartItem;

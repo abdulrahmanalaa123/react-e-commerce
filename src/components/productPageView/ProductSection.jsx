@@ -2,10 +2,11 @@ import ImageGallery from "./ImageGallery";
 import AddToCart from "./AddToCart";
 import FilteringOptions from "./FilteringOptions";
 import ProductDetails from "./ProductDetails";
+import { useLocation } from "react-router-dom";
 
 function ProductSection() {
   // extracted to a custom hook due to the overhead of complexity instaed of jamming it all at once
-
+  const location = useLocation();
   return (
     <section
       id="product-view"
@@ -15,7 +16,7 @@ function ProductSection() {
         id="image-gallery"
         className="flex-auto mb-8 md:mb-0 md:w-1/2 z-0 flex-col flex h-[40.5rem]"
       >
-        <ImageGallery />
+        <ImageGallery key={location.key} />
       </section>
       <section
         id="variation-selector"
@@ -24,7 +25,7 @@ function ProductSection() {
         <ProductDetails>
           <FilteringOptions />
         </ProductDetails>
-        <AddToCart />
+        <AddToCart key={location.key} />
       </section>
     </section>
   );

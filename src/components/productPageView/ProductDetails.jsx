@@ -16,8 +16,9 @@ function ProductDetails({ children }) {
       {/* will only load due on the invariantProductData due to the keepPrevious query configuration */}
       {productData.isSuccess && invariantProductData.isSuccess ? (
         <p className="font-medium text-md p-2">{`${
-          productData.data.price ?? invariantProductData.data.price
-        }.00$`}</p>
+          productData.data?.price?.toFixed(2) ??
+          invariantProductData.data?.price?.toFixed(2)
+        }$`}</p>
       ) : (
         <LoadingLine />
       )}

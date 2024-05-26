@@ -38,7 +38,6 @@ export const useSearchQueries = () => {
     }
   };
   const editSearchParamsCheckBoxFunction = (event, paramKey, val) => {
-    navigateIfDifferent();
     if (event.target.checked) {
       addQueryKey(paramKey, val);
     } else {

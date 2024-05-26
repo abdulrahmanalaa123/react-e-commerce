@@ -26,7 +26,6 @@ export default function checkIfProductExists(
     !Object.keys(variationOptions).length &&
     currentProductFeatures.length
   ) {
-    console.log("this activated");
     throw "Sorry this product doesnt exist";
   }
 }

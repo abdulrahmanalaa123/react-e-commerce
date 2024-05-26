@@ -14,6 +14,8 @@ export default async function signUp({ credentials, options }) {
     useUserStore
       .getState()
       .setUserData({ metaData: data["user"]["user_metadata"] });
+    // temporary solution for adding cartId
+    await getCart();
   }
   return { error };
 }

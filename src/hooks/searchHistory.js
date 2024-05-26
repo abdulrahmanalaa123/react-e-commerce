@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { productSearchHistory } from "../objects/customSearchHistoryStorageObject";
+import { productSearchHistory } from "../objects/productSearchHistoryStorage";
 import { formatHelper } from "../utils/formatHelper";
 import { useSearchQueries } from "./searchQueries";
 

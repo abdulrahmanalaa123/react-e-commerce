@@ -1,10 +1,34 @@
+import { useState } from "react";
+import useProductView from "../../hooks/productView";
+import useHandleClickOutisde from "../../hooks/handleClickOutside";
+import {
+  inVariantCartItemModel,
+  variantCartItemModel,
+} from "../../objects/cartItemModel";
+import useCart from "../../hooks/cart";
+
 function AddToCart() {
+  const { invariantProductData, productData } = useProductView();
+  const [quantity, setQuantity] = useState(1);
+
+  const [showInput, setShowInput] = useState(false);
+  const ref = useHandleClickOutisde(() => {
+    setShowInput(false);
+  });
+  const { addItemToCart } = useCart();
+
   return (
     <>
       <div className="flex justify-between items-center p-2 h-min">
         <p>Quantity</p>
         <div className="flex items-stretch justify-center gap-[1px] self-stretch">
-          <button className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-3 font-bold text-xl">
+          <button
+            disabled={quantity <= 1}
+            className="bg-text-300 disabled:sr-only hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-3 font-bold text-xl"
+            onClick={() => {
+              setQuantity((old) => old - 1);
+            }}
+          >
             <svg
               width={16}
               height={4}
@@ -22,10 +46,42 @@ function AddToCart() {
               />
             </svg>
           </button>
-          <button className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-4 py-[0.4rem] font-medium text-md">
-            1
+          <button
+            className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-4 py-[0.4rem] font-medium text-md"
+            onDoubleClick={() => {
+              setShowInput(true);
+            }}
+            ref={ref}
+          >
+            {showInput && (
+              <input
+                type="text"
+                id="quantity-dialog"
+                placeholder="Enter quantity"
+                className="p-1 w-[30px] text-text-300"
+                defaultValue={quantity}
+                onKeyDown={(e) => {
+                  // check for nan
+                  if (
+                    e.key === "Enter" &&
+                    Number(e.target.value) === Number(e.target.value)
+                  ) {
+                    setQuantity(Number(e.target.value));
+                    setShowInput(false);
+                  } else if (e.key === "Escape") {
+                    setShowInput(false);
+                  }
+                }}
+              />
+            )}
+            {!showInput && quantity}
           </button>
-          <button className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-3 font-bold text-xl">
+          <button
+            className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-3 font-bold text-xl"
+            onClick={() => {
+              setQuantity((old) => old + 1);
+            }}
+          >
             <svg
               width="16"
               height="16"
@@ -45,7 +101,26 @@ function AddToCart() {
           </button>
         </div>
       </div>
-      <button className="w-full bg-text-300 hover:bg-primary-200 py-4 px-6 transition-colors rounded-sm duration-150 font-medium text-white hover:text-text-300">
+      <button
+        className="w-full bg-text-300 enabled:hover:bg-primary-200 py-4 px-6 transition-colors rounded-sm duration-150 font-medium text-white enabled:hover:text-text-300 "
+        disabled={!invariantProductData.isSuccess && !productData.isSuccess}
+        onClick={() => {
+          let cartItem;
+          if (productData.data.id) {
+            cartItem = new variantCartItemModel({
+              id: productData.data.id,
+              qty: quantity,
+            });
+          } else {
+            cartItem = new inVariantCartItemModel({
+              uuid: invariantProductData.data.id,
+              qty: quantity,
+            });
+          }
+          addItemToCart({ cartItem: cartItem });
+          setQuantity(1);
+        }}
+      >
         ADD TO CART
       </button>
     </>

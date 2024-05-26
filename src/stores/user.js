@@ -5,11 +5,13 @@ const useUserStore = create(
   persist(
     (set, get) => ({
       userData: null,
+      cartId: null,
 
       setUserData: ({ metaData }) => {
         console.log("metadata is:", metaData);
-        set(() => ({
+        set((state) => ({
           userData: metaData,
+          cartId: state.cartId,
         }));
       },
       deleteUserData: () => {
@@ -17,8 +19,14 @@ const useUserStore = create(
           console.log("deleting token");
           set(() => ({
             userData: null,
+            cartId: null,
           }));
         }
+      },
+      setCartId: (id) => {
+        set((state) => ({ userData: state.userData, cartId: id }));
+        console.log(get().userData);
+        console.log(get().cartId);
       },
     }),
     { name: "user-store" }

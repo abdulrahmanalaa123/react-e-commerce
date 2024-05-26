@@ -56,15 +56,12 @@ export async function getProducts({
     query = query.in("subcategories.name", subcategory);
   }
   if (color.length) {
-    query = query.eq("product_variation_options.variation_name", "Color");
-
     query = query.in(
       "product_variation_options.product_variation_values.variation_value",
       color
     );
   }
   if (size.length) {
-    query = query.eq("product_variation_options.variation_name", "Size");
     query = query.in(
       "product_variation_options.product_variation_values.variation_value",
       size

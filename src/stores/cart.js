@@ -1,27 +1,42 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import cartAddWithCollision from "../utils/cartAddWithCollision";
+import cartRemoveItem from "../utils/cartRemoveItem";
 
 const useCartStore = create(
   persist(
-    (set, get) => ({
-      userData: null,
+    (set) => ({
+      cartItems: [],
 
-      setUserData: ({ metaData }) => {
-        console.log("metadata is:", metaData);
-        set(() => ({
-          userData: metaData,
+      addCartItem: ({ cartItem }) => {
+        set((state) => {
+          return { cartItems: cartAddWithCollision(cartItem, state.cartItems) };
+        });
+      },
+      updateCartItem: ({ cartItem }) => {
+        set((state) => {
+          return {
+            cartItems: [...cartRemoveItem(cartItem, state.cartItems), cartItem],
+          };
+        });
+      },
+      deleteCartItem: ({ cartItem }) => {
+        set((state) => ({
+          cartItems: cartRemoveItem(cartItem, state.cartItems),
         }));
       },
-      deleteUserData: () => {
-        if (get().userData) {
-          console.log("deleting token");
-          set(() => ({
-            userData: null,
-          }));
-        }
+      setCartItems: (cartItems) => {
+        set(() => ({
+          cartItems: cartItems,
+        }));
+      },
+      clearCartItems: () => {
+        set(() => ({
+          cartItems: [],
+        }));
       },
     }),
-    { name: "user-store" }
+    { name: "cart-store", storage: createJSONStorage(() => sessionStorage) }
   )
 );
 

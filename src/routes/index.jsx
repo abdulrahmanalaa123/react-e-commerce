@@ -18,14 +18,14 @@ const router = createBrowserRouter(
           <Route
             path="login"
             lazy={async () => {
-              let signIn = await import("../pages/Auth/LoginPage");
+              let signIn = await import("../components/auth/forms/SignInForm");
               return { Component: signIn.default };
             }}
           ></Route>
           <Route
             path="register"
             lazy={async () => {
-              let signUp = await import("../pages/Auth/SignUpPage");
+              let signUp = await import("../components/auth/forms/SignUpForm");
               return { Component: signUp.default };
             }}
           ></Route>

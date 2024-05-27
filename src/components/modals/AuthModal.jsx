@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 ReactModal.setAppElement("body");
-export default function AuthModal({ open, label, children }) {
+export default function AuthModal({ open, children }) {
   const [isOpen, setIsOpen] = useState(open);
   const navigate = useNavigate();
   //THIS status method using the hook isnt the best but reusable should try using the formik status method but fuck it will do it later and it goes like this
@@ -19,7 +19,6 @@ export default function AuthModal({ open, label, children }) {
   return (
     <ReactModal
       isOpen={isOpen}
-      id={label}
       shouldCloseOnEsc={true}
       onRequestClose={() => {
         setIsOpen(false);
@@ -32,7 +31,6 @@ export default function AuthModal({ open, label, children }) {
         isOpen ? "appearAnimation" : "disappearAnimation"
       }`}
       closeTimeoutMS={200}
-      contentLabel={label}
     >
       <img src={transparentLogo} alt="" />
       {children}

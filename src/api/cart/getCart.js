@@ -5,8 +5,10 @@ async function getCart() {
   let { data: cartId, error: cartError } = await supabase.rpc(
     "get_or_create_cart"
   );
-  if (cartError) console.error(cartError);
-  else {
+
+  if (cartError) {
+    throw cartError;
+  } else {
     console.log("cartId is:", cartId);
     useUserStore.getState().setCartId(cartId);
   }

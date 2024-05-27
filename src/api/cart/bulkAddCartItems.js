@@ -37,6 +37,7 @@ function useBulkAddItemsToCart() {
       console.log(error);
       useCartStore.getState().setCartItems(context);
     },
+
     scope: {
       id: "cart",
     },

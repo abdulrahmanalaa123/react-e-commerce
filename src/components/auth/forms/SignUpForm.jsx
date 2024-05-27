@@ -1,5 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { object, string } from "yup";
+import { useFormStatus } from "../../../hooks/formStatus";
+import { Link } from "react-router-dom";
+import signUp from "../../../api/auth/signUp";
 
 const validationSchema = object().shape({
   first_name: string().required("First Name is Required"),
@@ -8,7 +11,27 @@ const validationSchema = object().shape({
   email: string().email("Invalid Email").required("Email is required"),
   password: string().required("Password is required"),
 });
-function SignUpForm({ onSubmit, status, error, toggleForm }) {
+function SignUpForm() {
+  const { status, setStatus, error, setErrorMsg, resetHook } = useFormStatus();
+
+  async function onSubmit(values) {
+    const credentials = { email: values.email, password: values.password };
+    const options = {
+      address: values.address,
+      first_name: values.first_name,
+      last_name: values.last_name,
+    };
+    const { error } = await signUp({ credentials, options });
+
+    if (error) {
+      setStatus("error");
+      setErrorMsg(error.message);
+    } else {
+      if (status) {
+        resetHook();
+      }
+    }
+  }
   return (
     <Formik
       initialValues={{
@@ -92,16 +115,13 @@ function SignUpForm({ onSubmit, status, error, toggleForm }) {
             </button>
             <div className="self-center mt-4">
               <span>Have an account? </span>
-              <span
-                type="button"
+              <Link
+                to="/login"
+                replace={true}
                 className="text-primary-300 cursor-pointer hover:underline"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleForm();
-                }}
               >
                 Log In
-              </span>
+              </Link>
             </div>
           </Form>
         );

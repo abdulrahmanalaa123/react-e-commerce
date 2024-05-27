@@ -25,8 +25,6 @@ const useUserStore = create(
       },
       setCartId: (id) => {
         set((state) => ({ userData: state.userData, cartId: id }));
-        console.log(get().userData);
-        console.log(get().cartId);
       },
     }),
     { name: "user-store" }

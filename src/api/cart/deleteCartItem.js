@@ -37,7 +37,7 @@ function useRemoveItemFromCart() {
 
       return [...oldCart];
     },
-    onSettled: (data, error) => {
+    onSettled: (_data, error) => {
       // TODO toastify
       if (error) {
         // toastify Error occured
@@ -45,10 +45,11 @@ function useRemoveItemFromCart() {
         // toastify item removed from cart
       }
     },
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       console.log(error);
       useCartStore.getState().setCartItems(context);
     },
+
     scope: {
       id: "cart",
     },

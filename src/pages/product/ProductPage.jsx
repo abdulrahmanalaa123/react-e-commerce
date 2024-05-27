@@ -1,6 +1,6 @@
-import ProductSection from "../components/productPageView/ProductSection";
+import ProductSection from "../../components/productPageView/ProductSection";
 
-function ProductPageLayout() {
+function ProductPage() {
   return (
     <section id="product-page" className="flex flex-col ">
       <ProductSection></ProductSection>
@@ -9,4 +9,4 @@ function ProductPageLayout() {
   );
 }
 
-export default ProductPageLayout;
+export default ProductPage;

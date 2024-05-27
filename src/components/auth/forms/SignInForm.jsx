@@ -1,11 +1,27 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { object, string } from "yup";
-
+import { useFormStatus } from "../../../hooks/formStatus";
+import { Link } from "react-router-dom";
+import signIn from "../../../api/auth/signIn";
 const validationSchema = object().shape({
   email: string().email("Invalid Email").required("Email is required"),
   password: string().required("Password is required"),
 });
-function SignInForm({ onSubmit, status, error, toggleForm }) {
+function SignInForm() {
+  const { status, setStatus, error, setErrorMsg, resetHook } = useFormStatus();
+
+  async function onSubmit(values) {
+    const { error } = await signIn(values);
+
+    if (error) {
+      setStatus("error");
+      setErrorMsg(error.message);
+    } else {
+      if (status) {
+        resetHook();
+      }
+    }
+  }
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
@@ -52,16 +68,13 @@ function SignInForm({ onSubmit, status, error, toggleForm }) {
             </button>
             <div className="self-center mt-4">
               <span>No Account? </span>
-              <span
-                type="button"
+              <Link
+                to="/register"
+                replace={true}
                 className="text-primary-300 cursor-pointer hover:underline"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleForm();
-                }}
               >
                 Create One
-              </span>
+              </Link>
             </div>
           </Form>
         );

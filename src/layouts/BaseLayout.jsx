@@ -2,22 +2,29 @@ import { Outlet } from "react-router-dom";
 import Footer from "../components/footer/Footer";
 import Navbar from "../components/navbar/Navbar";
 
-import { useNavigation } from "react-router-dom";
 import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import Search from "../components/productsView/search/Search";
+import me from "../api/auth/me";
 
 function BaseLayout() {
-  const navigation = useNavigation();
+  console.log("rerender");
   return (
     <>
       <header>
         <Navbar />
         <section id="search" className="my-9">
           <Search />
+          <button
+            onClick={async () => {
+              console.log(await me());
+            }}
+          >
+            Get token
+          </button>
         </section>
       </header>
       <main className="min-h-screen">
-        <SuspenseLoader isAnimating={navigation.state === "loading"} />
+        <SuspenseLoader />
         <Outlet />
       </main>
       <footer>

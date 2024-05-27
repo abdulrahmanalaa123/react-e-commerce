@@ -2,7 +2,6 @@ import checkIfProductExists from "../../utils/checkIfProductExists";
 import queryDecoder from "../../utils/queryDecoder";
 import { variationOptionsQuery } from "../../api/filters/getProductVariationOptions";
 import { productQuery } from "../../api/product/getProductByVariation";
-import { startTransition } from "react";
 
 const productPageLoader =
   (queryClient) =>

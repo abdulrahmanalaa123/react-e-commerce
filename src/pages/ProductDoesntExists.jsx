@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
-import brokenPot from "../../assets/images/brokenPot.png";
+import brokenPot from "../assets/images/brokenPot.png";
 import { useRouteError } from "react-router-dom";
 
 function ProductDoesntExist() {
   const error = useRouteError();
+
+  // wouldnt be possible to get to this page with this error after the updates but the logic would be needed in exporting the cart
+  // const location = useLocation();
+  // if (error.code) {
+  //   if (error.code === "42501") {
+  //     console.clear();
+  //     useUserStore.getState().deleteUserData();
+  //     return <Navigate to="/login" state={{ from: location }}></Navigate>;
+  //   }
+  // }
   return (
     <div className="h-screen flex-col items-center  ">
       <div className="text-center flex-col w-fit mx-auto">

@@ -1,6 +1,10 @@
 import { useNProgress } from "@tanem/react-nprogress";
+import { useNavigation } from "react-router-dom";
 
-function SuspenseLoader({ isAnimating }) {
+function SuspenseLoader() {
+  const navigation = useNavigation();
+
+  const isAnimating = navigation.state === "loading";
   const { animationDuration, isFinished, progress } = useNProgress({
     isAnimating,
   });
@@ -13,6 +17,7 @@ function SuspenseLoader({ isAnimating }) {
         position: "relative",
         transition: `opacity ${animationDuration}ms linear`,
         height: "min-content",
+
         zIndex: 10,
       }}
     >

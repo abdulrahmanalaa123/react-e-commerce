@@ -45,6 +45,7 @@ export const useUpadteCartItem = () =>
       console.log(error);
       useCartStore.getState().setCartItems(context);
     },
+
     scope: {
       id: "cart",
     },

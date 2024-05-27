@@ -40,8 +40,6 @@ const useCart = () => {
     }
   }
   function updateItemInterface({ cartItem }) {
-    const cartId = useUserStore.getState().cartId;
-
     if (cartId) {
       updateCartMutation.mutate({ cartId, cartItem });
     } else {
@@ -49,8 +47,6 @@ const useCart = () => {
     }
   }
   function deleteItemInterface({ cartItem }) {
-    const cartId = useUserStore.getState().cartId;
-
     if (cartId) {
       deleteCartMutation.mutate({ cartId, cartItem });
     } else {

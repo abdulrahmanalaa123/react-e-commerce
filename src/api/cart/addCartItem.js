@@ -28,7 +28,7 @@ function useAddItemToCart() {
 
       return [...oldCart];
     },
-    onSettled: (data, error) => {
+    onSettled: (_data, error) => {
       // TODO toastify
       if (error) {
         // toastify Error occured
@@ -36,10 +36,18 @@ function useAddItemToCart() {
         // toastify item added to cart
       }
     },
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       console.log(error);
       useCartStore.getState().setCartItems(context);
     },
+    // not useful anymore since the current user journey doesnt allow it but will leave it just in case
+    // throwOnError: (error) => {
+    //   // this is the violation code of the rls
+    //   if (error.code === "42501") {
+    //     return true;
+    //   }
+    //   return false;
+    // },
     scope: {
       id: "cart",
     },

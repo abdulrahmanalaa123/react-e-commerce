@@ -1,25 +1,19 @@
 import me from "../../api/auth/me";
-import getCart from "../../api/cart/getCart";
 import useCartStore from "../../stores/cart";
+
 import useUserStore from "../../stores/user";
 
 const baseLayoutLoader = async () => {
+  // this is to fix inconsistencies of token expiring and still having your userData
+  // probably will not happen with autoRefresh = true but its a safety net
   try {
     const userSession = await me();
     if (userSession === null) {
       throw "User not found";
     }
-
-    const cartId = await getCart();
-    // useUserStore
-    //   .getState()
-    //   .setUserData({ metaData: userSession.user.user_metadata });
-    useUserStore.getState().setCartId(cartId);
-    const cartItems = await getCartItems(cartId);
-    useCartStore.getState().setCartItems(cartItems);
-    console.log(useCartStore.getState().cartItems);
   } catch (e) {
     useUserStore.getState().deleteUserData();
+    useCartStore.getState().clearCartItems();
   }
   return null;
 };

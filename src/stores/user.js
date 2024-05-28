@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 const useUserStore = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       userData: null,
       cartId: null,
 
@@ -15,13 +15,10 @@ const useUserStore = create(
         }));
       },
       deleteUserData: () => {
-        if (get().userData) {
-          console.log("deleting token");
-          set(() => ({
-            userData: null,
-            cartId: null,
-          }));
-        }
+        set(() => ({
+          userData: null,
+          cartId: null,
+        }));
       },
       setCartId: (id) => {
         set((state) => ({ userData: state.userData, cartId: id }));

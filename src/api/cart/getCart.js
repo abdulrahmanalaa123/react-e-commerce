@@ -9,8 +9,7 @@ async function getCart() {
   if (cartError) {
     throw cartError;
   } else {
-    console.log("cartId is:", cartId);
-    useUserStore.getState().setCartId(cartId);
+    return cartId;
   }
 }
 

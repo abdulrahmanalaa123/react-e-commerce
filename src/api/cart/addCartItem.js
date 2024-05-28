@@ -22,8 +22,8 @@ function useAddItemToCart() {
       // mbe toastify adding item to cart
       // optimistic newCart
 
-      // TODO
-      // need to update using this optimistic newCart Item and not just upsert with the addded quantity
+      // might need to change to include cartId when logged in and include cartId inside each cartItem when logged in but it doesnt matter
+      // that much rn
       useCartStore.getState().addCartItem({ cartItem: variables.cartItem });
 
       return [...oldCart];

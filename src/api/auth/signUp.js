@@ -11,9 +11,8 @@ export default async function signUp({ credentials, options }) {
     },
   });
   if (!error) {
-    useUserStore
-      .getState()
-      .setUserData({ metaData: data["user"]["user_metadata"] });
+    useUserStore.getState().setUserData({ metaData: data.user.user_metadata });
+    await syncCart(3);
   }
   return { error };
 }

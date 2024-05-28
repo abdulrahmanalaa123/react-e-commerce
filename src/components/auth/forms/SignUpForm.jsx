@@ -13,7 +13,14 @@ const validationSchema = object().shape({
 });
 function SignUpForm() {
   const { status, setStatus, error, setErrorMsg, resetHook } = useFormStatus();
-
+  //THIS status method using the hook isnt the best but reusable should try using the formik status method but fuck it will do it later and it goes like this
+  // this is inside the onsubmit function in formik
+  //if(error{
+  // actions.setStatus(error.message)
+  // }
+  // and create a component that appears if there is a status
+  // {status && <div>{status}</div>}
+  //which will work better i think still need to test it later now i gotta do other stuff but the forms are working with an animation
   async function onSubmit(values) {
     const credentials = { email: values.email, password: values.password };
     const options = {

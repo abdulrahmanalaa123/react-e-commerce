@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import useCartStore from "../../stores/cart";
 
-async function bulkAddCartItems({ cartId, cartItems }) {
+export async function bulkAddCartItems({ cartId, cartItems }) {
   let { data, error } = await supabase.rpc("upsert_cart_items", {
     cart_id: cartId,
     items: cartItems,

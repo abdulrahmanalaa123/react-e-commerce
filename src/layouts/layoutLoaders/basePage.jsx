@@ -1,4 +1,5 @@
 import me from "../../api/auth/me";
+import syncCart from "../../api/cart/syncCart";
 import useCartStore from "../../stores/cart";
 
 import useUserStore from "../../stores/user";
@@ -10,6 +11,10 @@ const baseLayoutLoader = async () => {
     const userSession = await me();
     if (userSession === null) {
       throw "User not found";
+    }
+    const cart = useCartStore.getState().cartItems;
+    if (cart.length === 0) {
+      await syncCart();
     }
   } catch (e) {
     useUserStore.getState().deleteUserData();

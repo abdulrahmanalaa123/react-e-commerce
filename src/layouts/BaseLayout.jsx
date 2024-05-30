@@ -4,7 +4,6 @@ import Navbar from "../components/navbar/Navbar";
 
 import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import Search from "../components/productsView/search/Search";
-import me from "../api/auth/me";
 
 function BaseLayout() {
   console.log("rerender");
@@ -16,10 +15,10 @@ function BaseLayout() {
           <Search />
           <button
             onClick={async () => {
-              console.log(await me());
+              console.log("need you later");
             }}
           >
-            Get token
+            Test Button
           </button>
         </section>
       </header>

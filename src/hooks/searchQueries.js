@@ -93,7 +93,7 @@ export const useSearchQueries = () => {
   // this is used for search queries thats why i want this behaviour \
   // maybe not preferred but things have gotten out of hand and rebuilding all that aint worth the trouble
   const createNewQuery = useCallback((object) => {
-    navigate(`/products?${createSearchParams(object)}`, { replace: true });
+    navigate(`/products?${createSearchParams(object)}`);
   }, []);
 
   const clearQueries = useCallback(() => {

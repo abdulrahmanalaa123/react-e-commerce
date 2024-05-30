@@ -9,6 +9,9 @@ import Home from "../pages/home/Home";
 import queryClient from "../lib/react-query";
 import AuthWrapper from "../layouts/AuthWrapper";
 import baseLayoutLoader from "../layouts/layoutLoaders/basePage";
+import Cart from "../pages/cart/Cart";
+import cartLoader from "../pages/cart/cartLoader";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -69,6 +72,11 @@ const router = createBrowserRouter(
             };
           }}
           path="product/:productId"
+        ></Route>
+        <Route
+          path="cart"
+          element={<Cart />}
+          loader={cartLoader(queryClient)}
         ></Route>
         <Route
           path="*"

@@ -2,11 +2,15 @@ import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import useCartStore from "../../stores/cart";
 
-async function updateCartItem(cartItem, cartId) {
+async function updateCartItem({ cartItem, cartId }) {
   const eqString = cartItem.product_id
     ? "product_id"
     : "product_combination_id";
-  const postObject = { cart_id: cartId, ...cartItem };
+  const postObject = {
+    cart_id: cartId,
+    ...cartItem,
+  };
+  console.log("postObject", postObject);
   const { error } = await supabase
     .from("cart_items")
     .update(postObject)

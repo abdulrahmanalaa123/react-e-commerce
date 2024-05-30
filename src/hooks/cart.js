@@ -40,11 +40,15 @@ const useCart = () => {
     }
   }
   function updateItemInterface({ cartItem }) {
-    if (cartId) {
-      updateCartMutation.mutate({ cartId, cartItem });
-    } else {
-      useCartStore.getState().updateCartItem({ cartItem });
-    }
+    return (qty) => {
+      if (cartId) {
+        updateCartMutation.mutate({ cartId, cartItem: { ...cartItem, qty } });
+      } else {
+        useCartStore
+          .getState()
+          .updateCartItem({ cartItem: { ...cartItem, qty } });
+      }
+    };
   }
   function deleteItemInterface({ cartItem }) {
     if (cartId) {

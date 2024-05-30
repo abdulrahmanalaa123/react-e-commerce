@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
 import Cart from "../../assets/svgs/cart.svg";
 import useCartStore from "../../stores/cart";
 function CartButton() {
   const cartItems = useCartStore((state) => state.cartItems);
   return (
-    <button
+    <Link
       className="relative"
+      to="/cart"
       onClick={() => {
         console.log(cartItems);
       }}
@@ -14,8 +16,12 @@ function CartButton() {
           {cartItems.length}
         </div>
       )}
-      <img src={Cart} alt="" />
-    </button>
+      <img
+        src={Cart}
+        alt="cart-icon"
+        className="w-full h-full object-contain"
+      />
+    </Link>
   );
 }
 

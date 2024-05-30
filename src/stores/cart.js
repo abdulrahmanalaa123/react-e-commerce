@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import cartAddWithCollision from "../utils/cartAddWithCollision";
 import cartRemoveItem from "../utils/cartRemoveItem";
+import cartUpdateItem from "../utils/cartUpdateItem";
 
 const useCartStore = create(
   persist(
@@ -17,8 +18,9 @@ const useCartStore = create(
       },
       updateCartItem: ({ cartItem }) => {
         set((state) => {
+          console.log(state.cartItems);
           return {
-            cartItems: [...cartRemoveItem(cartItem, state.cartItems), cartItem],
+            cartItems: cartUpdateItem(cartItem, state.cartItems),
           };
         });
       },

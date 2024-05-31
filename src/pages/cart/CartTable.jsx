@@ -8,6 +8,7 @@ import {
   Cell,
 } from "@table-library/react-table-library/table";
 import { useTheme } from "@table-library/react-table-library/theme";
+
 import bonifyCartItem from "../../utils/bonifyCartItem";
 import useCart from "../../hooks/cart";
 import QuantityButtons from "./QuantityButtons";
@@ -67,64 +68,84 @@ const THEME = {
   HeaderRow: `
       background-color: #EAEAEA4D;
   `,
+  Row: `
+    background-color:rgba(234, 234, 234, 0.2)
+  `,
 };
 function CartTable({ data }) {
   const theme = useTheme(THEME);
-  const { updateItemInterface, deleteItemInterface } = useCart();
-  return (
-    <Table data={{ nodes: data }} theme={theme}>
-      {(tableList) => (
-        <>
-          <Header className="bg-[#EAEAEA4D] ">
-            <HeaderRow>
-              <HeaderCell>Image</HeaderCell>
-              <HeaderCell>Name</HeaderCell>
-              <HeaderCell>Unit Price</HeaderCell>
-              <HeaderCell className="col-span-2 min-w-36">Quantity</HeaderCell>
-              <HeaderCell className="head">Subtotal</HeaderCell>
-              <HeaderCell></HeaderCell>
-            </HeaderRow>
-          </Header>
 
-          <Body>
-            {tableList.map(
-              (item) =>
-                item.name && (
-                  <Row key={`${item.name}-${item.price}`} item={item}>
-                    <Cell>
-                      <LoadableImage src={item.image}></LoadableImage>
-                    </Cell>
-                    <Cell>{item.name}</Cell>
-                    <Cell>{`${item.price.toFixed(2)}$`}</Cell>
-                    <Cell className="col-span-2 ">
-                      <QuantityButtons
-                        quantity={item.qty}
-                        updateFunc={updateItemInterface({
-                          cartItem: bonifyCartItem(item),
-                        })}
-                      ></QuantityButtons>
-                    </Cell>
-                    <Cell>{`${(item.qty * item.price).toFixed(2)}$`}</Cell>
-                    <Cell>
-                      <button
-                        className="self-center text-[0.75rem] flex items-center py-1 px-1 rounded-md"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteItemInterface({
+  const { updateItemInterface, deleteItemInterface, clearCartInterface } =
+    useCart();
+  return (
+    <>
+      <Table data={{ nodes: data }} theme={theme}>
+        {(tableList) => (
+          <>
+            <Header className="bg-[#EAEAEA4D] ">
+              <HeaderRow>
+                <HeaderCell>Image</HeaderCell>
+                <HeaderCell>Name</HeaderCell>
+                <HeaderCell>Unit Price</HeaderCell>
+                <HeaderCell className="col-span-2 min-w-36">
+                  Quantity
+                </HeaderCell>
+                <HeaderCell className="head">Subtotal</HeaderCell>
+                <HeaderCell></HeaderCell>
+              </HeaderRow>
+            </Header>
+
+            <Body>
+              {tableList.map(
+                (item) =>
+                  item.name && (
+                    <Row key={`${item.name}-${item.price}`} item={item}>
+                      <Cell>
+                        <LoadableImage
+                          src={item.image}
+                          className={"min-w-[50px]"}
+                        ></LoadableImage>
+                      </Cell>
+                      <Cell>{item.name}</Cell>
+                      <Cell>{`${item.price.toFixed(2)}$`}</Cell>
+                      <Cell className="col-span-2 ">
+                        <QuantityButtons
+                          quantity={item.qty}
+                          updateFunc={updateItemInterface({
                             cartItem: bonifyCartItem(item),
-                          });
-                        }}
-                      >
-                        <SvgClose className="w-6 h-6 stroke-2"></SvgClose>
-                      </button>
-                    </Cell>
-                  </Row>
-                )
-            )}
-          </Body>
-        </>
-      )}
-    </Table>
+                          })}
+                        ></QuantityButtons>
+                      </Cell>
+                      <Cell>{`${(item.qty * item.price).toFixed(2)}$`}</Cell>
+                      <Cell>
+                        <button
+                          className="self-center text-[0.75rem] flex items-center py-1 px-1 rounded-md"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteItemInterface({
+                              cartItem: bonifyCartItem(item),
+                            });
+                          }}
+                        >
+                          <SvgClose className="w-6 h-6 stroke-2"></SvgClose>
+                        </button>
+                      </Cell>
+                    </Row>
+                  )
+              )}
+            </Body>
+          </>
+        )}
+      </Table>
+      <button
+        className="py-2 px-6 border transition-colors duration-75 text-text-200 text-center border-text-200 hover:text-text-300 hover:border-text-300 w-64 max-w-full self-end rounded-sm"
+        onClick={() => {
+          clearCartInterface();
+        }}
+      >
+        Empty cart
+      </button>
+    </>
   );
 }
 

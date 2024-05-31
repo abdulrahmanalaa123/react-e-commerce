@@ -7,6 +7,7 @@ import {
   variantCartItemModel,
   inVariantCartItemModel,
 } from "../objects/cartItemModel";
+import { useClearcart } from "../api/cart/clearCart";
 
 function formatter({ variantId, inVariantId, quantity }) {
   let cartItem;
@@ -29,7 +30,7 @@ const useCart = () => {
   const addCartMutation = useAddItemToCart();
   const updateCartMutation = useUpadteCartItem();
   const deleteCartMutation = useRemoveItemFromCart();
-
+  const clearCartMutation = useClearcart();
   function addItemInterface({ variantId, inVariantId, quantity }) {
     const cartItem = formatter({ variantId, inVariantId, quantity });
 
@@ -57,7 +58,20 @@ const useCart = () => {
       useCartStore.getState().deleteCartItem({ cartItem });
     }
   }
-  return { updateItemInterface, addItemInterface, deleteItemInterface };
+
+  function clearCartInterface() {
+    if (cartId) {
+      clearCartMutation.mutate(cartId);
+    } else {
+      useCartStore.getState().clearCartItems();
+    }
+  }
+  return {
+    updateItemInterface,
+    clearCartInterface,
+    addItemInterface,
+    deleteItemInterface,
+  };
 };
 
 export default useCart;

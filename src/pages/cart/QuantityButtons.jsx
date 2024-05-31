@@ -38,7 +38,7 @@ function QuantityButtons({ quantity, updateFunc }) {
         className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-4 py-[0.4rem] font-medium text-md"
         onClick={() => {
           if (showInput) {
-            inputRef.focus();
+            inputRef.current.focus();
           }
         }}
         onDoubleClick={() => {
@@ -50,7 +50,7 @@ function QuantityButtons({ quantity, updateFunc }) {
           <input
             type="text"
             id="quantity-dialog"
-            placeholder="Enter quantity"
+            placeholder="qty"
             className="p-1 w-[30px] text-text-300 z-10"
             autoFocus={showInput}
             defaultValue={quantity}

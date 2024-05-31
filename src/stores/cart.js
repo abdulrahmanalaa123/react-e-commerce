@@ -11,14 +11,11 @@ const useCartStore = create(
 
       addCartItem: ({ cartItem }) => {
         set((state) => {
-          console.log(state.cartItems);
-
           return { cartItems: cartAddWithCollision(cartItem, state.cartItems) };
         });
       },
       updateCartItem: ({ cartItem }) => {
         set((state) => {
-          console.log(state.cartItems);
           return {
             cartItems: cartUpdateItem(cartItem, state.cartItems),
           };

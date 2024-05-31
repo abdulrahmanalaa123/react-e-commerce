@@ -8,8 +8,6 @@ function LoadableImage({ className, src }) {
     <>
       <ContentLoader
         speed={1}
-        width={600}
-        height={600}
         viewBox="0 0 600 600"
         backgroundColor="#eaeaea4d"
         foregroundColor="#c4c6c3"

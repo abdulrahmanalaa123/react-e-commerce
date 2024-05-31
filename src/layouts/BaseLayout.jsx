@@ -13,13 +13,6 @@ function BaseLayout() {
         <Navbar />
         <section id="search" className="my-9">
           <Search />
-          <button
-            onClick={async () => {
-              console.log("need you later");
-            }}
-          >
-            Test Button
-          </button>
         </section>
       </header>
       <main className="min-h-screen">

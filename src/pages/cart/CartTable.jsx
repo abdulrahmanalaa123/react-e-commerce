@@ -7,55 +7,69 @@ import {
   HeaderCell,
   Cell,
 } from "@table-library/react-table-library/table";
-import { useTheme, zipThemes } from "@table-library/react-table-library/theme";
-import { getTheme } from "@table-library/react-table-library/baseline";
+import { useTheme } from "@table-library/react-table-library/theme";
 import bonifyCartItem from "../../utils/bonifyCartItem";
 import useCart from "../../hooks/cart";
 import QuantityButtons from "./QuantityButtons";
 import LoadableImage from "../../components/productPageView/LoadableImage";
 import SvgClose from "../../assets/svgs/Close";
 
+// delayed css and only way to fix it is to write it inline which is impossible
 const THEME = {
   Table: `
-    grid-template-columns: repeat(7,minmax(0px,1fr))
+    grid-template-columns: repeat(7,minmax(auto,1fr))
   `,
-  BaseCell: `
+  Cell: `
     display:flex;
     justify-content:center;
     align-items:center;
+    border-bottom-width: 1px;
+    border-color: #585858;
+    & > div{    
+      text-align: center;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      text-overflow: ellipsis;
+
+      white-space: wrap;
+      flex-wrap: wrap;
+      padding: 1rem 1rem 0.25rem;
+      height: 100%;
+    }
+    & > div > img{
+      min-width: 50px
+    }
   `,
   HeaderCell: `
-    grid-column: span 1;
-    &:nth-child(4)
-    {
-      display:flex;
-    grid-column:span 2;
+  & > .head{
+    grid-column: span 2 / span 2;
   }
+
   & > div{
-    width:fit-content;
+    text-align:center;
+
     display:flex;
     justify-content:center;
     align-items:center;
     overflow:hidden;
+    text-overflow: ellipsis;
     text-align: start;
     white-space: nowrap;
     font-weight: 400;
     padding-top: 1rem ;
     padding-bottom: 1rem ;
-  
+    border: none;
   }
   `,
   HeaderRow: `
       background-color: #EAEAEA4D;
   `,
-  Row: `
-    border-bottom-width: 1px;
-    border-color: #585858;
-    
-  `,
 };
-function CartTable2({ data }) {
-  const theme = zipThemes([getTheme(), THEME]);
+function CartTable({ data }) {
+  const theme = useTheme(THEME);
   const { updateItemInterface, deleteItemInterface } = useCart();
   return (
     <Table data={{ nodes: data }} theme={theme}>
@@ -66,8 +80,8 @@ function CartTable2({ data }) {
               <HeaderCell>Image</HeaderCell>
               <HeaderCell>Name</HeaderCell>
               <HeaderCell>Unit Price</HeaderCell>
-              <HeaderCell>Quantity</HeaderCell>
-              <HeaderCell>Subtotal</HeaderCell>
+              <HeaderCell className="col-span-2 min-w-36">Quantity</HeaderCell>
+              <HeaderCell className="head">Subtotal</HeaderCell>
               <HeaderCell></HeaderCell>
             </HeaderRow>
           </Header>
@@ -81,7 +95,7 @@ function CartTable2({ data }) {
                       <LoadableImage src={item.image}></LoadableImage>
                     </Cell>
                     <Cell>{item.name}</Cell>
-                    <Cell>{`$${item.price.toFixed(2)}`}</Cell>
+                    <Cell>{`${item.price.toFixed(2)}$`}</Cell>
                     <Cell className="col-span-2 ">
                       <QuantityButtons
                         quantity={item.qty}
@@ -90,10 +104,10 @@ function CartTable2({ data }) {
                         })}
                       ></QuantityButtons>
                     </Cell>
-                    <Cell>{(item.qty * item.price).toFixed(2)}</Cell>
+                    <Cell>{`${(item.qty * item.price).toFixed(2)}$`}</Cell>
                     <Cell>
                       <button
-                        className="self-end text-[0.75rem] flex items-center py-1 px-1 rounded-md"
+                        className="self-center text-[0.75rem] flex items-center py-1 px-1 rounded-md"
                         onClick={(e) => {
                           e.stopPropagation();
                           deleteItemInterface({
@@ -114,4 +128,4 @@ function CartTable2({ data }) {
   );
 }
 
-export default CartTable2;
+export default CartTable;

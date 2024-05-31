@@ -1,7 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import useCartStore from "../../stores/cart";
 import { cartItemDetailsQuery } from "../../api/cart/getCartProduct";
-import CartTable2 from "./CartTable2";
+import CartTable from "./CartTable";
 
 function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
@@ -26,14 +26,14 @@ function Cart() {
       <section className="grid grid-cols-3 gap-6 h-full">
         <section className="col-span-3 md:col-span-2 ">
           {!loading && (
-            <CartTable2
+            <CartTable
               data={[
                 ...data.map((item, index) => ({
                   ...item,
                   ...cartItems[index],
                 })),
               ]}
-            ></CartTable2>
+            ></CartTable>
           )}
         </section>
         <section className="col-span-3 md:col-span-1 h-full">

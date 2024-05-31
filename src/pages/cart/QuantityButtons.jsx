@@ -1,13 +1,15 @@
 import { useState } from "react";
 import useHandleClickOutisde from "../../hooks/handleClickOutside";
+import { useRef } from "react";
 
 function QuantityButtons({ quantity, updateFunc }) {
   const [showInput, setShowInput] = useState(false);
   const ref = useHandleClickOutisde(() => {
     setShowInput(false);
   });
+  const inputRef = useRef(null);
   return (
-    <div className="flex items-stretch justify-center gap-[1px] overflow-visible">
+    <div className="max-w-full flex items-stretch justify-center gap-[1px] ">
       <button
         disabled={quantity <= 1}
         className="bg-text-300 disabled:sr-only hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-3 font-bold text-xl"
@@ -34,6 +36,11 @@ function QuantityButtons({ quantity, updateFunc }) {
       </button>
       <button
         className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-4 py-[0.4rem] font-medium text-md"
+        onClick={() => {
+          if (showInput) {
+            inputRef.focus();
+          }
+        }}
         onDoubleClick={() => {
           setShowInput(true);
         }}
@@ -44,8 +51,10 @@ function QuantityButtons({ quantity, updateFunc }) {
             type="text"
             id="quantity-dialog"
             placeholder="Enter quantity"
-            className="p-1 w-[30px] text-text-300"
+            className="p-1 w-[30px] text-text-300 z-10"
+            autoFocus={showInput}
             defaultValue={quantity}
+            ref={inputRef}
             onKeyDown={(e) => {
               // check for nan
               if (

@@ -38,7 +38,7 @@ function QuantityButtons({ quantity, updateFunc }) {
         className="bg-text-300 hover:bg-primary-200 text-white hover:text-text-300 duration-150 transition-colors px-4 py-[0.4rem] font-medium text-md"
         onClick={() => {
           if (showInput) {
-            inputRef.current.focus();
+            inputRef.current.focus({ focusVisible: true });
           }
         }}
         onDoubleClick={() => {

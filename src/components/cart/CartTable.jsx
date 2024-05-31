@@ -12,7 +12,7 @@ import { useTheme } from "@table-library/react-table-library/theme";
 import bonifyCartItem from "../../utils/bonifyCartItem";
 import useCart from "../../hooks/cart";
 import QuantityButtons from "./QuantityButtons";
-import LoadableImage from "../../components/productPageView/LoadableImage";
+import LoadableImage from "../productPageView/LoadableImage";
 import SvgClose from "../../assets/svgs/Close";
 
 // delayed css and only way to fix it is to write it inline which is impossible

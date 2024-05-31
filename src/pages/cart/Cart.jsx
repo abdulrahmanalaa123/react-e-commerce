@@ -1,7 +1,7 @@
 import { useQueries } from "@tanstack/react-query";
 import useCartStore from "../../stores/cart";
 import { cartItemDetailsQuery } from "../../api/cart/getCartProduct";
-import CartTable from "./CartTable";
+import CartTable from "../../components/cart/CartTable";
 import { Link } from "react-router-dom";
 import ErrorComponent from "../../components/productsView/dataStateComponents/ErrorComponent";
 import LoadingComponent from "../../components/productsView/dataStateComponents/LoadingComponent";

@@ -3,7 +3,7 @@ import brokenPot from "../assets/images/brokenPot.png";
 import { useRouteError } from "react-router-dom";
 
 function ProductDoesntExist() {
-  const error = useRouteError();
+  // const error = useRouteError();
 
   // wouldnt be possible to get to this page with this error after the updates but the logic would be needed in exporting the cart
   // const location = useLocation();
@@ -33,7 +33,6 @@ function ProductDoesntExist() {
           </Link>
         </p>
       </div>
-      <p className="text-red-500 text-[3rem]">{`${error}(just for testing)`}</p>
       <img src={brokenPot} alt="" className="object-contain mx-auto" />
     </div>
   );

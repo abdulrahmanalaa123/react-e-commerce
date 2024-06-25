@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { useLoaderData } from "react-router-dom";
 import { useFormStatus } from "../../hooks/formStatus";
 import { useNavigate } from "react-router-dom";
-import { p } from "@table-library/react-table-library/styles-492c6342";
+import confirmCreatePaymentIntent from "../../api/checkout/confirmCreatePaymentIntent";
 
 const PHONE_REGEXP =
   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
@@ -33,8 +33,8 @@ const CHECKOUT_SCHEMA = Yup.object().shape({
   deliveryNotes: Yup.string(),
 });
 
-const PaymentField = (props) => {
-  const { values, submitForm } = useFormikContext();
+const PaymentField = () => {
+  const { values } = useFormikContext();
 
   return (
     <div role="group" id="payment-options" className="flex flex-col gap-3">
@@ -93,88 +93,94 @@ const PaymentField = (props) => {
   );
 };
 export default function CheckoutForm() {
-  const loader = useLoaderData();
   const stripe = useStripe();
   const elements = useElements();
+  const loader = useLoaderData();
   const { status, setStatus, error, setErrorMsg, resetHook } = useFormStatus();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!stripe) {
-      return;
-    }
 
-    // const clientSecret = new URLSearchParams(window.location.search).get(
-    //   "payment_intent_client_secret"
-    // );
-
-    if (!loader) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(loader).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case "succeeded":
-          setStatus("Payment succeeded");
-          break;
-        case "processing":
-          setStatus("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setStatus(error);
-          setErrorMsg("Your payment was not successful, please try again.");
-          break;
-        default:
-          setStatus(error);
-          setErrorMsg("Something went wrong.");
-          break;
-      }
-    });
-  }, [stripe]);
-
-  const handleSubmit = async (values) => {
+  const handleStripePayment = async (values) => {
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        shipping: {
-          name: values.firstName + " " + values.lastName,
-          phone: values.phone,
-          address: {
-            city: "Alexandria",
-            country: "EG",
-            line1: values.address,
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setStatus("error");
+      setStatus(submitError.message);
+      return;
+    }
+    const { confirmationToken, error: tokenError } =
+      await stripe.createConfirmationToken({
+        elements,
+        params: {
+          shipping: {
+            name: values.firstName + " " + values.lastName,
+            phone: values.phone,
+            address: {
+              city: "Alexandria",
+              country: "EG",
+              line1: values.address,
+            },
           },
+          // Make sure to change this to your payment completion page
+          return_url: `${window.location.origin}/checkout`,
         },
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:5173/",
-      },
-    });
+      });
+    if (!tokenError) {
+      try {
+        let paymentData = await confirmCreatePaymentIntent({
+          cartData: loader,
+          confirmationToken: confirmationToken,
+        });
+        console.log(paymentData);
+        if (paymentData["error"]) {
+          stripeErrorHandler(paymentData["error"]["raw"]);
+        } else if (paymentData.status === "requires_action") {
+          const { error: nextActionError } = await stripe.handleNextAction({
+            clientSecret: paymentData.clientSecret,
+          });
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setStatus("error");
-      setErrorMsg(error.message);
+          if (nextActionError) {
+            console.log(nextActionError);
+            stripeErrorHandler(nextActionError);
+          } else {
+            navigate(
+              `/?paymentIntent=${paymentData.clientSecret}&status=success`,
+              { replace: true }
+            );
+          }
+        } else {
+          navigate(
+            `/?paymentIntent=${paymentData.clientSecret}&status=success`,
+            { replace: true }
+          );
+        }
+      } catch (supabaseError) {
+        setStatus("error");
+        setErrorMsg("An unexpected error occurred.");
+      }
     } else {
-      setStatus("error");
-      console.log(error);
-      setErrorMsg("An unexpected error occurred.");
+      stripeErrorHandler(tokenError);
     }
   };
 
+  function stripeErrorHandler(stripeError) {
+    if (
+      stripeError.type === "card_error" ||
+      stripeError.type === "validation_error"
+      // ||
+      // stripeError.type === "invalid_request_error"
+    ) {
+      setStatus("error");
+      setErrorMsg(stripeError.message);
+    } else {
+      setStatus("error");
+      setErrorMsg("An unexpected error occurred.");
+    }
+  }
+
   return (
     <section id="checkout-page" className="w-full h-full">
-      {status !== "error" && (
-        <p className="font-bold text-primary-300 text-lg">{status}</p>
-      )}
       <p className="mx-auto mt-6 font-medium text-xl w-min">Checkout</p>
 
       <section id="checkout-view" className="grid grid-cols-5 gap-6 h-full">
@@ -191,14 +197,18 @@ export default function CheckoutForm() {
               lastName: "",
               email: "",
               phoneNumber: "",
+              address: "",
               deliveryNotes: "",
             }}
             validationSchema={CHECKOUT_SCHEMA}
             onSubmit={async (values, actions) => {
+              resetHook();
               if (values.paymentOptions === "cash") {
-                navigate("/checkout/sucess");
+                actions.setSubmitting(false);
+                navigate(`/?status=success`, { replace: true }),
+                  console.log("href", window.location.origin);
               } else {
-                await handleSubmit(values);
+                await handleStripePayment(values);
               }
               actions.setSubmitting(false);
             }}
@@ -309,21 +319,4 @@ export default function CheckoutForm() {
       </section>
     </section>
   );
-  // return (
-  //   <form id="payment-form" onSubmit={handleSubmit}>
-  //     <PaymentElement id="payment-element" options={paymentElementOptions} />
-  //     <button
-  //       className="pay-button"
-  //       disabled={isLoading || !stripe || !elements}
-  //       id="submit"
-  //     >
-  //       <span id="button-text">
-  //         {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-  //       </span>
-  //     </button>
-  //     {/* Show any error or success messages */}
-
-  //     {message && <div id="payment-message">{message}</div>}
-  //   </form>
-  // );
 }

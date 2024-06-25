@@ -1,11 +1,11 @@
 import { Navigate, useLoaderData } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import stripePromise from "../../lib/stripe";
 import { Elements } from "@stripe/react-stripe-js";
 
 import CheckoutForm from "./CheckoutForm";
 import "./checkout.css";
-const appearance = {
+
+const APPEARANCE = {
   theme: "flat",
   variables: {
     colorPrimary: "#00000",
@@ -39,23 +39,31 @@ const appearance = {
     },
   },
 };
-// const options = {
-//   mode: 'payment',
-//   amount: 1099,
-//   currency: 'usd',
-//   paymentMethodCreation: 'manual',
-//   // Fully customizable with appearance API.
-//   appearance: {/*...*/},
-// };
+
+function calculateTotalPrice(items) {
+  return items.reduce((acc, currentObject) => {
+    // Logic to transform the object
+    return acc + currentObject.qty * currentObject.price;
+  }, 0);
+}
+
 export default function CheckOut() {
-  const location = useLocation();
-  if (!location.state) {
+  const data = useLoaderData();
+  if (!data.length) {
     return <Navigate to="/" replace={true} />;
   }
-  const secret = useLoaderData();
   const options = {
-    clientSecret: secret,
-    appearance,
+    fonts: [
+      {
+        cssSrc:
+          "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap",
+      },
+    ],
+    mode: "payment",
+    amount: Number(calculateTotalPrice(data).toFixed(2) * 100),
+    currency: "usd",
+    paymentMethodCreation: "manual",
+    appearance: APPEARANCE,
   };
 
   return (

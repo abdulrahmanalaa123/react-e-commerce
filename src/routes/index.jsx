@@ -14,6 +14,7 @@ import cartLoader from "../pages/cart/cartLoader";
 import CheckOut from "../pages/checkout/CheckOut";
 import ProtectedWrapper from "../layouts/ProtectedWrapper";
 import checkoutLoader from "../pages/checkout/checkoutLoader";
+import ProductDoesntExist from "../pages/ProductDoesntExists";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -88,17 +89,7 @@ const router = createBrowserRouter(
             loader={checkoutLoader(queryClient)}
           ></Route>
         </Route>
-        <Route
-          path="*"
-          lazy={async () => {
-            let ProductDoesntExist = await import(
-              "../pages/ProductDoesntExists"
-            );
-            return {
-              Component: ProductDoesntExist.default,
-            };
-          }}
-        ></Route>
+        <Route path="*" element={<ProductDoesntExist />}></Route>
       </Route>
     </>
   )

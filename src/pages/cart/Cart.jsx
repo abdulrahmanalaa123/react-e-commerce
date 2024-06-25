@@ -4,7 +4,7 @@ import CartTable from "../../components/cart/CartTable";
 import { Link } from "react-router-dom";
 import ErrorComponent from "../../components/productsView/dataStateComponents/ErrorComponent";
 import LoadingComponent from "../../components/productsView/dataStateComponents/LoadingComponent";
-import createPaymentIntent from "../../api/checkout/createPaymentIntent";
+import confirmCreatePaymentIntent from "../../api/checkout/confirmCreatePaymentIntent";
 
 function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
@@ -47,7 +47,7 @@ function Cart() {
             <p className="text-md font-semibold p-3">Order Summary</p>
             <button
               onClick={async () => {
-                await createPaymentIntent(data);
+                await confirmCreatePaymentIntent(data);
               }}
               className="p-2 rounded-lg bg-black text-white"
             >
@@ -90,7 +90,6 @@ function Cart() {
                 className={`${
                   data.length === 0 ? "pointer-events-none bg-text-200" : ""
                 } py-2 px-6 border transition-colors duration-75 bg-text-300 text-white hover:border-text-300 hover:text-text-300 hover:bg-white w-64 max-w-full text-center mx-auto self-end rounded-sm`}
-                state={data}
               >
                 Proceed to Checkout
               </Link>

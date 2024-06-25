@@ -1,5 +1,5 @@
 import { cartItemDetailsQuery } from "../../api/cart/getCartProduct";
-import createPaymentIntent from "../../api/checkout/createPaymentIntent";
+import confirmCreatePaymentIntent from "../../api/checkout/confirmCreatePaymentIntent";
 import useCartStore from "../../stores/cart";
 
 function checkoutLoader(queryClient) {
@@ -17,9 +17,7 @@ function checkoutLoader(queryClient) {
       ...cartItems[index],
     }));
 
-    const data = await createPaymentIntent(combinedData);
-
-    return data.clientSecret;
+    return combinedData;
   };
 }
 

@@ -32,10 +32,11 @@ Deno.serve(async (req) => {
     return res;
   }
 
-  const { items } = await req.json();
+  const { items, confirmationTokenId } = await req.json();
 
   const total = Number(calculateTotalPrice(items).toFixed(2));
   console.log("total is", total);
+
   const authHeader = req.headers.get("Authorization")!;
   const supabaseClient = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
@@ -52,33 +53,55 @@ Deno.serve(async (req) => {
     .single();
 
   if (!error && customer_id.stripe_customer_id) {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: total * 100,
-      currency: "usd",
-      customer: customer_id?.stripe_customer_id ?? null,
-      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-    console.log("payment intent is,", paymentIntent);
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        confirm: true,
+        amount: total * 100,
+        confirmation_token: confirmationTokenId,
+        currency: "usd",
+        customer: customer_id.stripe_customer_id,
+        // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+      console.log("paymentIntent is", paymentIntent);
+      return new Response(
+        JSON.stringify({
+          clientSecret: paymentIntent.client_secret,
+          status: paymentIntent.status,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": req.headers.get("origin")!,
+          },
+        }
+      );
+    } catch (error) {
+      return new Response(JSON.stringify({ error }), {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": req.headers.get("origin")!,
+        },
+      });
+    }
+  } else {
     return new Response(
-      JSON.stringify({ clientSecret: paymentIntent.client_secret }),
+      JSON.stringify({
+        error: {
+          type: "unauthorized or database erorr",
+          message: "Couldn't find user's stripe account",
+        },
+      }),
       {
+        status: 401,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": req.headers.get("origin")!,
         },
       }
     );
-  } else {
-    return new Response("Couldn't find user's stripe account", {
-      status: 400,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": req.headers.get("origin")!,
-      },
-    });
   }
 });
 

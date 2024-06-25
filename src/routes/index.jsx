@@ -11,6 +11,9 @@ import AuthWrapper from "../layouts/AuthWrapper";
 import baseLayoutLoader from "../layouts/layoutLoaders/basePage";
 import Cart from "../pages/cart/Cart";
 import cartLoader from "../pages/cart/cartLoader";
+import CheckOut from "../pages/checkout/CheckOut";
+import ProtectedWrapper from "../layouts/ProtectedWrapper";
+import checkoutLoader from "../pages/checkout/checkoutLoader";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -78,6 +81,13 @@ const router = createBrowserRouter(
           element={<Cart />}
           loader={cartLoader(queryClient)}
         ></Route>
+        <Route element={<ProtectedWrapper />}>
+          <Route
+            path="checkout"
+            element={<CheckOut />}
+            loader={checkoutLoader(queryClient)}
+          ></Route>
+        </Route>
         <Route
           path="*"
           lazy={async () => {

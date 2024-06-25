@@ -1,29 +1,15 @@
-import { useQueries } from "@tanstack/react-query";
 import useCartStore from "../../stores/cart";
-import { cartItemDetailsQuery } from "../../api/cart/getCartProduct";
+import { getCartItemDetails } from "../../api/cart/getCartProduct";
 import CartTable from "../../components/cart/CartTable";
 import { Link } from "react-router-dom";
 import ErrorComponent from "../../components/productsView/dataStateComponents/ErrorComponent";
 import LoadingComponent from "../../components/productsView/dataStateComponents/LoadingComponent";
+import createPaymentIntent from "../../api/checkout/createPaymentIntent";
 
 function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
-  const { data, loading, pending, error, refetch } = useQueries({
-    queries: cartItems.map((item) => cartItemDetailsQuery(item)),
-    combine: (results) => {
-      return {
-        // could use flat but to not fuck up the indeces it will remove empty arrays
-        data: results.map((result, index) =>
-          result.data ? { ...result.data[0], ...cartItems[index] } : {}
-        ),
-        pending: results.some((result) => result.isPending),
-        loading: results.some((result) => result.isLoading),
-        error: results.find((result) => result.isError),
-        isSuccess: results.every((result) => result.isSuccess),
-        refetch: () => results.forEach((result) => result.refetch()),
-      };
-    },
-  });
+  const { data, loading, pending, error, refetch } =
+    getCartItemDetails(cartItems);
 
   return (
     <section id="cart-page" className="w-full h-full">
@@ -59,6 +45,14 @@ function Cart() {
         <section className="col-span-3 md:col-span-1 h-min bg-[#EAEAEA4D] px-2 py-4 md:mb-0 mb-20">
           <div className="flex flex-col gap-4 justify-start items-center w-full h-full">
             <p className="text-md font-semibold p-3">Order Summary</p>
+            <button
+              onClick={async () => {
+                await createPaymentIntent(data);
+              }}
+              className="p-2 rounded-lg bg-black text-white"
+            >
+              Test button
+            </button>
             <div className="flex flex-col gap-5 items-stretch w-full">
               <div className="flex justify-between pr-11 pl-3">
                 <p>Subtotal</p>
@@ -92,8 +86,11 @@ function Cart() {
                 Continue Shopping
               </Link>
               <Link
-                to="/"
-                className="py-2 px-6 border transition-colors duration-75 bg-text-300 text-white hover:border-text-300 hover:text-text-300 hover:bg-white w-64 max-w-full text-center mx-auto self-end rounded-sm"
+                to="/checkout"
+                className={`${
+                  data.length === 0 ? "pointer-events-none bg-text-200" : ""
+                } py-2 px-6 border transition-colors duration-75 bg-text-300 text-white hover:border-text-300 hover:text-text-300 hover:bg-white w-64 max-w-full text-center mx-auto self-end rounded-sm`}
+                state={data}
               >
                 Proceed to Checkout
               </Link>

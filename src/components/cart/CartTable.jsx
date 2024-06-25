@@ -8,7 +8,7 @@ import {
   Cell,
 } from "@table-library/react-table-library/table";
 import { useTheme } from "@table-library/react-table-library/theme";
-
+import "./cart.css";
 import bonifyCartItem from "../../utils/bonifyCartItem";
 import useCart from "../../hooks/cart";
 import QuantityButtons from "./QuantityButtons";
@@ -19,6 +19,7 @@ import SvgClose from "../../assets/svgs/Close";
 const THEME = {
   Table: `
     grid-template-columns: repeat(7,minmax(auto,1fr))
+
   `,
   Cell: `
     display:flex;

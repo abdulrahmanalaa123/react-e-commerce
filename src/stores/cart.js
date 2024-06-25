@@ -32,6 +32,7 @@ const useCartStore = create(
         }));
       },
       clearCartItems: () => {
+        console.log("i happened");
         set(() => ({
           cartItems: [],
         }));

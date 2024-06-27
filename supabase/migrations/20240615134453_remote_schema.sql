@@ -88,37 +88,8 @@ CREATE TYPE "public"."status" AS ENUM (
 
 ALTER TYPE "public"."status" OWNER TO "postgres";
 
-CREATE OR REPLACE FUNCTION "public"."bulk_overwrite_cart_items"("cart_id" bigint, "items" "json") RETURNS integer
-    LANGUAGE "plv8"
-    AS $_$
 
-  plv8.subtransaction(function (){
- for(const item of items){
-  let selected_row;
-   if(item.product_id){
-    selected_row = plv8.execute('SELECT * FROM cart_items c WHERE c.cart_id = $1 AND c.product_id = $2', [cart_id, item.product_id]);
-    if(selected_row.length){
-      plv8.execute('UPDATE cart_items SET qty = ($3::INT) WHERE cart_id = $1 AND product_id = $2',[cart_id,item.product_id,item.qty]);
-    } else {
-      plv8.execute('INSERT INTO cart_items (cart_id, product_id, qty) VALUES ($1, $2, $3)',[cart_id,item.product_id,item.qty]);
-    }
-    return item.qty;
-  
-  } else if(item.product_combination_id){
-    selected_row = plv8.execute('SELECT * FROM cart_items c WHERE c.cart_id = $1 AND c.product_combination_id = $2', [cart_id, item.product_combination_id]);
-    if(selected_row.length){
-      plv8.execute('UPDATE cart_items  SET qty = ($3::INT) WHERE cart_id = $1 AND product_combination_id = $2',[cart_id,item.product_combination_id,item.qty]);
-    } else {
-      plv8.execute('INSERT INTO cart_items (cart_id, product_combination_id, qty) VALUES ($1, $2, $3)',[cart_id,item.product_combination_id,item.qty]);
-    }
-    return item.qty;
-  }
-  })
- 
 
-$_$;
-
-ALTER FUNCTION "public"."bulk_overwrite_cart_items"("cart_id" bigint, "items" "json") OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."bulk_upsert_cart_items"("cart_id" bigint, "items" "json") RETURNS integer
     LANGUAGE "plv8"
@@ -777,9 +748,6 @@ GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
 
-GRANT ALL ON FUNCTION "public"."bulk_overwrite_cart_items"("cart_id" bigint, "items" "json") TO "anon";
-GRANT ALL ON FUNCTION "public"."bulk_overwrite_cart_items"("cart_id" bigint, "items" "json") TO "authenticated";
-GRANT ALL ON FUNCTION "public"."bulk_overwrite_cart_items"("cart_id" bigint, "items" "json") TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."bulk_upsert_cart_items"("cart_id" bigint, "items" "json") TO "anon";
 GRANT ALL ON FUNCTION "public"."bulk_upsert_cart_items"("cart_id" bigint, "items" "json") TO "authenticated";

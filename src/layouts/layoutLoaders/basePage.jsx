@@ -5,6 +5,7 @@ import useUserStore from "../../stores/user";
 
 const baseLayoutLoader = async () => {
   try {
+    console.log("chekc user");
     const userSession = await me();
     if (userSession === null && useUserStore.getState().userData !== null) {
       throw "User not found";

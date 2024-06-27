@@ -25,14 +25,16 @@ function calculateTotalPrice(items: cartItem[]) {
   }, 0);
 }
 
-const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!);
+const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
+  httpClient: Stripe.createFetchHttpClient(),
+});
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     const res = manageCors(req);
     return res;
   }
 
-  const { items, confirmationTokenId } = await req.json();
+  const { items, confirmationToken } = await req.json();
 
   const total = Number(calculateTotalPrice(items).toFixed(2));
   console.log("total is", total);
@@ -57,12 +59,14 @@ Deno.serve(async (req) => {
       const paymentIntent = await stripe.paymentIntents.create({
         confirm: true,
         amount: total * 100,
-        confirmation_token: confirmationTokenId,
+        confirmation_token: confirmationToken,
         currency: "usd",
         customer: customer_id.stripe_customer_id,
+        return_url: req.headers.get("origin")!,
         // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
         automatic_payment_methods: {
           enabled: true,
+          allow_redirects: "always",
         },
       });
       console.log("paymentIntent is", paymentIntent);

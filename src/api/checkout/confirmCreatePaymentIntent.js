@@ -7,7 +7,7 @@ export default async function confirmCreatePaymentIntent({
     "create_payment_intent",
     {
       body: JSON.stringify({
-        confirmationTokenId: confirmationToken.id,
+        confirmationToken: confirmationToken.id,
         items: cartData,
       }),
       method: "POST",

@@ -11,6 +11,10 @@ import { useLoaderData } from "react-router-dom";
 import { useFormStatus } from "../../hooks/formStatus";
 import { useNavigate } from "react-router-dom";
 import confirmCreatePaymentIntent from "../../api/checkout/confirmCreatePaymentIntent";
+import cartToOrders, {
+  createOrderDetails,
+  createShippingDetails,
+} from "../../api/checkout/cartToOrders";
 
 const PHONE_REGEXP =
   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
@@ -113,18 +117,10 @@ export default function CheckoutForm() {
       await stripe.createConfirmationToken({
         elements,
         params: {
-          shipping: {
-            name: values.firstName + " " + values.lastName,
-            phone: values.phone,
-            address: {
-              city: "Alexandria",
-              country: "EG",
-              line1: values.address,
-            },
-          },
-          // Make sure to change this to your payment completion page
-          return_url: `${window.location.origin}/checkout`,
+          shipping: new createShippingDetails(values),
         },
+        // Make sure to change this to your payment completion page
+        return_url: `${window.location.origin}`,
       });
     if (!tokenError) {
       try {
@@ -204,9 +200,22 @@ export default function CheckoutForm() {
             onSubmit={async (values, actions) => {
               resetHook();
               if (values.paymentOptions === "cash") {
-                actions.setSubmitting(false);
-                navigate(`/?status=success`, { replace: true }),
-                  console.log("href", window.location.origin);
+                const shippingDetails = new createShippingDetails(values);
+                const orderDetails = new createOrderDetails(
+                  "cash",
+                  shippingDetails,
+                  "Success"
+                );
+                try {
+                  await cartToOrders(orderDetails);
+                  navigate(`/?status=success`, { replace: true }),
+                    console.log("href", window.location.origin);
+                } catch (error) {
+                  setStatus("error");
+                  setErrorMsg(
+                    "An unexpected error occurred, Please try again."
+                  );
+                }
               } else {
                 await handleStripePayment(values);
               }
@@ -229,21 +238,17 @@ export default function CheckoutForm() {
                     className="flex-auto text-error"
                   />
                 </div>
-                <div className="flex gap-2">
-                  <div className="flex flex-auto flex-col gap-2">
-                    <Field
-                      name="firstName"
-                      placeholder="FirstName"
-                      className="border-InputBorder border py-[10px] px-4 text-text-input placeholder:text-text-300"
-                    />
-                  </div>
-                  <div className="flex flex-auto flex-col gap-2">
-                    <Field
-                      name="lastName"
-                      placeholder="LastName"
-                      className="border-InputBorder border py-[10px] px-4 text-text-input placeholder:text-text-300"
-                    />
-                  </div>
+                <div className="w-full">
+                  <Field
+                    name="firstName"
+                    placeholder="FirstName"
+                    className="border-InputBorder border py-[10px] px-4 text-text-input placeholder:text-text-300 w-[49%] mr-[2%]"
+                  />
+                  <Field
+                    name="lastName"
+                    placeholder="LastName"
+                    className="border-InputBorder border py-[10px] px-4 text-text-input placeholder:text-text-300 w-[49%]"
+                  />
                 </div>
 
                 <ErrorMessage
@@ -251,14 +256,13 @@ export default function CheckoutForm() {
                   component="p"
                   className="text-error"
                 />
-                <div className="flex gap-2">
-                  <Field
-                    name="phoneNumber"
-                    placeholder="Phone number"
-                    className="flex-auto flex flex-col gap-2 border-InputBorder border py-[10px] px-4 text-text-input placeholder:text-text-300"
-                  />
-                  <div className="flex-auto flex flex-col gap-2"></div>
-                </div>
+
+                <Field
+                  name="phoneNumber"
+                  placeholder="Phone number"
+                  className="w-[50%] border-InputBorder border py-[10px] px-4 text-text-input placeholder:text-text-300"
+                />
+
                 <ErrorMessage
                   name="address"
                   component="p"

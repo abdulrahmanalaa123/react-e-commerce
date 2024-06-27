@@ -5,11 +5,20 @@ import CategoryCarousel from "../../components/home/CategoryCarousel";
 import transparentLogo from "../../assets/svgs/transparentLogo.svg";
 import BeginnersCarousel from "../../components/home/BeginnersCarousel";
 import OffersCarousel from "../../components/home/OffersCarousel";
-
+import { createSearchParams, useSearchParams } from "react-router-dom";
+import SuccessModal from "../../components/modals/SuccessModal";
 export default function Home() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  function clearSearchQueries() {
+    setSearchParams(createSearchParams({}), { replace: true });
+  }
   return (
     <div className="overflow-hidden">
       <Hero />
+      <SuccessModal
+        open={searchParams.get("status") === "success"}
+        clearSearchParams={clearSearchQueries}
+      ></SuccessModal>
 
       <Banner />
       <CategoryCarousel></CategoryCarousel>

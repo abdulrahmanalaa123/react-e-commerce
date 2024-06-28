@@ -11,18 +11,10 @@ export default async function cartToOrders(orderDetails) {
 
   if (error) {
     throw error;
-  } else {
-    useCartStore.getState().clearCartItems();
   }
 }
 
-export function createOrderDetails(
-  userId,
-  paymentMethod,
-  shipping,
-  orderStatus
-) {
-  this.user_id = userId;
+export function createOrderDetails(paymentMethod, shipping, orderStatus) {
   this.payment_method = paymentMethod;
   this.shipping_address = shipping;
   this.order_status = orderStatus;

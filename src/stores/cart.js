@@ -38,7 +38,7 @@ const useCartStore = create(
         }));
       },
     }),
-    { name: "cart-store", storage: createJSONStorage(() => sessionStorage) }
+    { name: "cart-store" }
   )
 );
 

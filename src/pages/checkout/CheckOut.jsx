@@ -1,9 +1,9 @@
 import { Navigate, useLoaderData } from "react-router-dom";
 import stripePromise from "../../lib/stripe";
 import { Elements } from "@stripe/react-stripe-js";
-
-import CheckoutForm from "./CheckoutForm";
+import CheckoutForm from "../../components/checkout/CheckoutForm";
 import "./checkout.css";
+import OrderSummary from "../../components/checkout/OrderSummary";
 
 const APPEARANCE = {
   theme: "flat",
@@ -67,11 +67,23 @@ export default function CheckOut() {
   };
 
   return (
-    <div className="App">
-      <Elements options={options} stripe={stripePromise}>
-        <CheckoutForm />
-      </Elements>
-    </div>
+    <Elements options={options} stripe={stripePromise}>
+      <section id="checkout-page" className="w-full h-full">
+        <p className="mx-auto mt-6 font-medium text-xl w-min">Checkout</p>
+
+        <section id="checkout-view" className="grid grid-cols-5 gap-6 h-full">
+          <section
+            id="checkoutForm"
+            className="col-span-5 bg-backgrounds-cardsBg md:col-span-3 md:mb-20 "
+          >
+            <p className="w-max mx-auto my-4 font-medium text-md ">
+              Billing Details
+            </p>
+            <CheckoutForm />
+          </section>
+          <OrderSummary />
+        </section>
+      </section>
+    </Elements>
   );
 }
-// export default CheckOut;

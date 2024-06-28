@@ -30,7 +30,7 @@ export default function SuccessModal({ open, clearSearchParams }) {
             className="w-full h-full object-contain "
           />
         </div>
-        <p className="text-primary-300 font-bold text-lg mt-auto">
+        <p className="text-primary-300 font-bold text-lg mt-auto text-center">
           Wait comfortably while your products are being packed
         </p>
       </>

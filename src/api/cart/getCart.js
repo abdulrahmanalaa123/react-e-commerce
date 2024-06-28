@@ -1,5 +1,4 @@
 import { supabase } from "../../lib/supabaseClient";
-import useUserStore from "../../stores/user";
 
 async function getCart() {
   let { data: cartId, error: cartError } = await supabase.rpc(

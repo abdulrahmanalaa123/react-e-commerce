@@ -9,10 +9,10 @@ import CategoryCard from "./CategoryCard";
 import CustomCarousel from "./CustomCarousel";
 
 const categories = [
-  { img: flower1, category: "OUTDOOR PLANTS" },
-  { img: flower2, category: "HERBS" },
-  { img: flower3, category: "FLOWERS" },
-  { img: flower4, category: "INDOOR PLANTS" },
+  { img: flower1, subCategory: "Outdoor Plants", category: "Plants" },
+  { img: flower2, subCategory: "Herbs", category: "Plants" },
+  { img: flower3, subCategory: "Flower Seeds", category: "Seeds" },
+  { img: flower4, subCategory: "Indoor Plants", category: "Plants" },
 ];
 export default function CategoryCarousel() {
   return (
@@ -25,6 +25,7 @@ export default function CategoryCarousel() {
               <CategoryCard
                 img={object.img}
                 category={object.category}
+                subCategory={object.subCategory}
               ></CategoryCard>
             </HomeCardLayout>
           );

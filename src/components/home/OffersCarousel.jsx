@@ -6,12 +6,14 @@ import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
 import HoverButton from "../buttons/HoverButton";
+import { useNavigate } from "react-router-dom";
 
-function BeginnersCarousel() {
+function OffersCarousel({ text }) {
   const [filledIndex, SetFilledIndex] = useState(null);
+  const navigate = useNavigate();
   return (
     <div className="mb-28">
-      <CustomHeader text={"SPECIAL OFFERS"}></CustomHeader>
+      <CustomHeader text={text}></CustomHeader>
       {/* should be lInk but ill use button for the sake of not breaking */}
       <button className="ml-auto flex items-center mb-2" onClick={() => {}}>
         <span>View All</span>
@@ -21,7 +23,12 @@ function BeginnersCarousel() {
         {new Array(4).fill(null).map((_, index) => {
           return (
             <HomeCardLayout key={index}>
-              <HoverButton></HoverButton>
+              <HoverButton
+                onClick={() => {
+                  window.scrollTo(0, 100);
+                  navigate("/products");
+                }}
+              ></HoverButton>
 
               <div>
                 <img
@@ -49,4 +56,4 @@ function BeginnersCarousel() {
   );
 }
 
-export default BeginnersCarousel;
+export default OffersCarousel;

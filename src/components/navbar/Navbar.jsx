@@ -21,7 +21,7 @@ export default function Navbar() {
           <NavSideBar />
           {/* DESKTOP TABS */}
           <div className="hidden md:block  w-[700px]">
-            <div className="flex items-baseline justify-evenly">
+            <div className="flex items-baseline justify-self-center justify-evenly">
               <LinksComponent />
             </div>
           </div>

@@ -1,8 +1,7 @@
 import React from "react";
 import HeroImage from "../../assets/images/hero.png";
 import verticalHero from "../../assets/images/verticalHero.png";
-import ReusableButton from "../buttons/ReusableButton";
-
+import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div className="mt-[60px] sm:mb-[60px] mb-4">
@@ -24,10 +23,12 @@ const Hero = () => {
             ever since the 1500s
           </p>
           {/* CTA BUTTON */}
-          <ReusableButton
-            text="EXPLORE MORE"
-            onClick={() => {}}
-          ></ReusableButton>
+          <Link
+            to="/products"
+            className="px-6 py-4 disabled:bg-text-200 bg-text-300 text-white hover:bg-primary-200 transition-colors duration-150 hover:text-text-300 w-64 max-w-full rounded-sm"
+          >
+            EXPLORE MORE
+          </Link>
         </div>
         {/* RIGHT */}
         <div>

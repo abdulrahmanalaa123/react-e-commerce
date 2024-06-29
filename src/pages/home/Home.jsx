@@ -3,7 +3,6 @@ import Hero from "../../components/home/Hero";
 import Banner from "../../components/home/Banner";
 import CategoryCarousel from "../../components/home/CategoryCarousel";
 import transparentLogo from "../../assets/svgs/transparentLogo.svg";
-import BeginnersCarousel from "../../components/home/BeginnersCarousel";
 import OffersCarousel from "../../components/home/OffersCarousel";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import SuccessModal from "../../components/modals/SuccessModal";
@@ -23,8 +22,8 @@ export default function Home() {
       <Banner />
       <CategoryCarousel></CategoryCarousel>
       <img src={transparentLogo} alt="" className="my-10 mx-auto" />
-      <BeginnersCarousel></BeginnersCarousel>
-      <OffersCarousel></OffersCarousel>
+      <OffersCarousel text={"BEGINNERS CHOICE"}></OffersCarousel>
+      <OffersCarousel text={"SPECIAL OFFERS"}></OffersCarousel>
     </div>
   );
 }

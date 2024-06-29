@@ -4,8 +4,10 @@ import CustomCarousel from "../../components/home/CustomCarousel";
 import HomeCardLayout from "../../components/home/HomeCardLayout";
 import ProductSection from "../../components/productPageView/ProductSection";
 import offerFlower from "../../assets/images/OfferFlower.png";
+import useProductView from "../../hooks/productView";
 
 function ProductPage() {
+  const { invariantProductData } = useProductView();
   return (
     <section id="product-page" className="flex flex-col gap-6">
       <ProductSection></ProductSection>
@@ -15,18 +17,11 @@ function ProductPage() {
         </p>
 
         <div className="bg-[#EAEAEA4D] px-10 pt-10 pb-20 mb-4">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500sLorem Ipsum is simply dummy text of the printing and
-          typesetting industry. Lorem Ipsum has been the industry's standard
-          dummy text ever since the 1500sLorem Ipsum is simply dummy text of the
-          printing and typesetting industry. Lorem Ipsum has been the industry's
-          standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-          text of the printing and typesetting industry. Lorem Ipsum has been
-          the industry's standard dummy text ever since the 1500sLorem Ipsum is
-          simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been the industry's standard dummy text ever since the 1500s
+          {invariantProductData.isSuccess
+            ? invariantProductData.data.description
+            : ""}
         </div>
+
         <div className="mb-6">
           <p className="text-lg">You might also like</p>
           <CustomCarousel>

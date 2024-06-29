@@ -1,5 +1,4 @@
 import { cartItemDetailsQuery } from "../../api/cart/getCartProduct";
-import confirmCreatePaymentIntent from "../../api/checkout/confirmCreatePaymentIntent";
 import useCartStore from "../../stores/cart";
 
 function checkoutLoader(queryClient) {

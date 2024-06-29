@@ -10,7 +10,7 @@ function ProductSection() {
   return (
     <section
       id="product-view"
-      className="flex flex-col md:flex-row flex-grow flex-shrink basis-3/4  gap-6"
+      className="flex flex-col md:flex-row flex-grow flex-shrink  gap-6"
     >
       <section
         id="image-gallery"

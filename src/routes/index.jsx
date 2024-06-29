@@ -48,15 +48,13 @@ const router = createBrowserRouter(
             let productsLoader = await import(
               "../layouts/layoutLoaders/products"
             );
-            let ProductDoesntExist = await import(
-              "../pages/ProductDoesntExists"
-            );
+
             return {
               Component: ProductsLayout.default,
               loader: productsLoader.default,
-              ErrorBoundary: ProductDoesntExist.default,
             };
           }}
+          errorElement={<ProductDoesntExist />}
         ></Route>
         <Route
           lazy={async () => {
@@ -66,16 +64,14 @@ const router = createBrowserRouter(
             let productPageLoader = await import(
               "../layouts/layoutLoaders/productPage"
             );
-            let ProductDoesntExist = await import(
-              "../pages/ProductDoesntExists"
-            );
+
             return {
               Component: ProductPageLayout.default,
               loader: productPageLoader.default(queryClient),
-              ErrorBoundary: ProductDoesntExist.default,
             };
           }}
           path="product/:productId"
+          errorElement={<ProductDoesntExist />}
         ></Route>
         <Route
           path="cart"
@@ -85,8 +81,17 @@ const router = createBrowserRouter(
         <Route element={<ProtectedWrapper />}>
           <Route
             path="checkout"
-            element={<CheckOut />}
-            loader={checkoutLoader(queryClient)}
+            lazy={async () => {
+              let CheckOut = await import("../pages/checkout/CheckOut");
+              let checkoutLoader = await import(
+                "../pages/checkout/checkoutLoader"
+              );
+
+              return {
+                Component: CheckOut.default,
+                loader: checkoutLoader.default(queryClient),
+              };
+            }}
           ></Route>
         </Route>
         <Route path="*" element={<ProductDoesntExist />}></Route>

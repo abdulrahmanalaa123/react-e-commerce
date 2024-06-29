@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "../../assets/svgs/logo.svg";
 import ReusableButton from "../buttons/ReusableButton";
 
@@ -15,12 +16,36 @@ function Footer() {
         <div>
           <p className="text-lg">Browse</p>
           <ul className="flex flex-col gap-3 mt-4">
-            <li className="cursor-pointer hover:underline">Home</li>
-            <li className="cursor-pointer hover:underline">Plants</li>
-            <li className="cursor-pointer hover:underline">Garden Supplies</li>
-            <li className="cursor-pointer hover:underline">Seeds</li>
-            <li className="cursor-pointer hover:underline">Pots</li>
-            <li className="cursor-pointer hover:underline">Help Center</li>
+            <Link to="/" className="cursor-pointer hover:underline">
+              Home
+            </Link>
+            <Link
+              to="/products/Plants"
+              className="cursor-pointer hover:underline"
+            >
+              Plants
+            </Link>
+            <Link
+              to="/products/GardenSupplies"
+              className="cursor-pointer hover:underline"
+            >
+              Garden Supplies
+            </Link>
+            <Link
+              to="/products/Seeds"
+              className="cursor-pointer hover:underline"
+            >
+              Seeds
+            </Link>
+            <Link
+              to="/products/Pots"
+              className="cursor-pointer hover:underline"
+            >
+              Pots
+            </Link>
+            <Link to="/contact-us" className="cursor-pointer hover:underline">
+              Help Center
+            </Link>
           </ul>
         </div>
         <div>
@@ -41,9 +66,12 @@ function Footer() {
           </ul>
         </div>
       </div>
-      <div className="flex-grow-[1]  flex-shrink basis-auto flex flex-col text-center items-center justify-center sm:block sm:text-start mb-3 sm:mb-0">
+      <div className="flex-grow-[1]  flex-shrink basis-auto flex flex-col text-center items-center justify-center sm:block sm:text-start mb-3 sm:mb-3">
         <p className="text-lg ">Share Your Thoughts?</p>
-        <form action="submit">
+        <form
+          action="submit"
+          className="flex flex-col items-center sm:items-start"
+        >
           <input
             type="text"
             name="thought"
@@ -59,7 +87,7 @@ function Footer() {
           ></ReusableButton>
         </form>
       </div>
-      <p className="absolute bottom-2  mx-auto">All Right Reserved @2024</p>
+      <p className="absolute bottom-1  mx-auto">All Right Reserved @2024</p>
     </section>
   );
 }

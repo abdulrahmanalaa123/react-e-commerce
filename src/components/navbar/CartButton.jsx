@@ -5,7 +5,7 @@ function CartButton() {
   const cartItems = useCartStore((state) => state.cartItems);
   return (
     <Link
-      className="relative"
+      className="relative flex-shrink-0"
       to="/cart"
       onClick={() => {
         console.log(cartItems);

@@ -15,6 +15,15 @@
   @apply animate-filterModalDisappearAnimation;
   animation-fill-mode: none;
 }
+.navAppearAnimation {
+  @apply animate-navModalShowAnimation;
+  animation-fill-mode: forwards;
+}
+.navDisappearAnimation {
+  @apply animate-navModalDisappearAnimation;
+  animation-fill-mode: none;
+}
+
 .disappearAnimation {
   @apply animate-modalDisappearAnimation;
   animation-fill-mode: none;

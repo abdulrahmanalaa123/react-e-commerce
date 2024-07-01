@@ -45,14 +45,7 @@ function Cart() {
         <section className="col-span-3 md:col-span-1 h-min bg-[#EAEAEA4D] px-2 py-4 md:mb-0 mb-20">
           <div className="flex flex-col gap-4 justify-start items-center w-full h-full">
             <p className="text-md font-semibold p-3">Order Summary</p>
-            <button
-              onClick={async () => {
-                await confirmCreatePaymentIntent(data);
-              }}
-              className="p-2 rounded-lg bg-black text-white"
-            >
-              Test button
-            </button>
+
             <div className="flex flex-col gap-5 items-stretch w-full">
               <div className="flex justify-between pr-11 pl-3">
                 <p>Subtotal</p>

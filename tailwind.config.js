@@ -15,9 +15,7 @@ export default {
         "3xl": "38px",
         "2xl": "36px",
       },
-      backgroundImage: {
-        "banner-image": "url('/src/assets/images/banner.png')",
-      },
+
       // all animations done here because idk how to combine both tailwind and animations or create custom one off animations
       keyframes: {
         showModal: {

@@ -1,18 +1,34 @@
-import flower1 from "../../assets/images/flower 1.png";
-import flower2 from "../../assets/images/flower 2.png";
-import flower3 from "../../assets/images/flower 3.png";
-import flower4 from "../../assets/images/flower 4.png";
-
 import CustomHeader from "./CustomHeader";
 import HomeCardLayout from "./HomeCardLayout";
 import CategoryCard from "./CategoryCard";
 import CustomCarousel from "./CustomCarousel";
 
 const categories = [
-  { img: flower1, subCategory: "Outdoor Plants", category: "Plants" },
-  { img: flower2, subCategory: "Herbs", category: "Plants" },
-  { img: flower3, subCategory: "Flower Seeds", category: "Seeds" },
-  { img: flower4, subCategory: "Indoor Plants", category: "Plants" },
+  {
+    img: `${import.meta.env.VITE_IMAGE_BUCKET}/categories/outdoor.png`,
+    subCategory: "Outdoor Plants",
+    category: "Plants",
+  },
+  {
+    img: `${import.meta.env.VITE_IMAGE_BUCKET}/categories/herbs.png`,
+    subCategory: "Herbs",
+    category: "Plants",
+  },
+  {
+    img: `${import.meta.env.VITE_IMAGE_BUCKET}/categories/seeds.png`,
+    subCategory: "Vegetable Seeds",
+    category: "Seeds",
+  },
+  {
+    img: `${import.meta.env.VITE_IMAGE_BUCKET}/categories/indoor.png`,
+    subCategory: "Indoor Plants",
+    category: "Plants",
+  },
+  {
+    img: `${import.meta.env.VITE_IMAGE_BUCKET}/categories/flowers.png`,
+    subCategory: "Flower Seeds",
+    category: "Seeds",
+  },
 ];
 export default function CategoryCarousel() {
   return (

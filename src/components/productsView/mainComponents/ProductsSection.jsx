@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useProducts } from "../../../api/products/getProducts";
-import ProductImage from "../../../assets/images/product.png";
 import Heart from "../../../assets/svgs/Heart";
 import { useSearchQueries } from "../../../hooks/searchQueries";
 import HoverButton from "../../buttons/HoverButton";
@@ -8,10 +7,7 @@ import EmptyData from "../dataStateComponents/EmptyData";
 import ErrorComponent from "../dataStateComponents/ErrorComponent";
 import LoadingComponent from "../dataStateComponents/LoadingComponent";
 import PaginationComponent from "../pagination/PaginationComponent";
-
-const product = {
-  image: ProductImage,
-};
+import { randomImage } from "../../../utils/plantsArray";
 
 function ProductsSection() {
   const { queryObj, params, navigate } = useSearchQueries();
@@ -50,10 +46,12 @@ function ProductsSection() {
                 ></HoverButton>
                 {/* UI on the image responsiveness needs work  */}
                 {/* design specifications idk if its a good design choice or a bad one */}
-                <img
-                  src={product.image}
-                  className="max-w-[94px] max-h-[120px]"
-                />
+                <div className="min-w-[94px] min-h-[120px] flex">
+                  <img
+                    src={randomImage()}
+                    className="max-w-[94px] max-h-[120px] object-center"
+                  />
+                </div>
                 <p className="text-center text-wrap w-[20ch] text-ellipsis overflow-clip">
                   {element.name}
                 </p>

@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 export default function Banner() {
   return (
     // 8:3 aspect ratio
-    <div className=" w-full min-h-[480px] flex flex-col place-items-center justify-center gap-12 leading-10 text-center bg-banner-image bg-center bg-no-repeat px-8 py-[50%] sm:py-0">
+    <div
+      className={` w-full min-h-[480px] flex flex-col place-items-center justify-center gap-12 leading-10 text-center bg-[url('${
+        import.meta.env.VITE_IMAGE_BUCKET
+      }/home/banner.png')] bg-center bg-no-repeat px-8 py-[50%] sm:py-0`}
+    >
       <p className="text-3xl text-white font-light italic">
         Want To Celebrate your special occasion? <br></br>check our gifts
         section

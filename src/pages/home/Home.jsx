@@ -6,8 +6,10 @@ import transparentLogo from "../../assets/svgs/transparentLogo.svg";
 import OffersCarousel from "../../components/home/OffersCarousel";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import SuccessModal from "../../components/modals/SuccessModal";
+
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
+
   function clearSearchQueries() {
     setSearchParams(createSearchParams({}), { replace: true });
   }

@@ -1,7 +1,6 @@
 import React from "react";
-import HeroImage from "../../assets/images/hero.png";
-import verticalHero from "../../assets/images/verticalHero.png";
 import { Link } from "react-router-dom";
+
 const Hero = () => {
   return (
     <div className="mt-[60px] sm:mb-[60px] mb-8">
@@ -32,18 +31,11 @@ const Hero = () => {
           </div>
         </div>
         {/* RIGHT */}
-        <div>
-          <img
-            src={verticalHero}
-            alt="Mobile Hero Image"
-            className="aspect-auto sm:hidden block"
-          />
-          <img
-            src={HeroImage}
-            alt="Hero Image"
-            className="aspect-auto hidden sm:block"
-          />
-        </div>
+        <img
+          src={`${import.meta.env.VITE_IMAGE_BUCKET}/home/hero.png`}
+          alt="Hero Image"
+          className="aspect-auto sm:aspect-[2/1.8] sm:object-cover"
+        />
       </div>
     </div>
   );

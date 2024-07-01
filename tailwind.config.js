@@ -15,7 +15,10 @@ export default {
         "3xl": "38px",
         "2xl": "36px",
       },
-
+      backgroundImage: {
+        banner:
+          "url('https://rgtcbmtvfigwblxievfe.supabase.co/storage/v1/object/public/Images/home/banner.png')",
+      },
       // all animations done here because idk how to combine both tailwind and animations or create custom one off animations
       keyframes: {
         showModal: {

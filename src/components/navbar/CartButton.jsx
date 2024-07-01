@@ -4,13 +4,7 @@ import useCartStore from "../../stores/cart";
 function CartButton() {
   const cartItems = useCartStore((state) => state.cartItems);
   return (
-    <Link
-      className="relative flex-shrink-0"
-      to="/cart"
-      onClick={() => {
-        console.log(cartItems);
-      }}
-    >
+    <Link className="relative flex-shrink-0" to="/cart">
       {cartItems.length !== 0 && (
         <div className="w-4 h-4 absolute -top-[2px] -right-[4px] bg-error text-white text-[10px] flex items-center justify-center rounded-full">
           {cartItems.length}

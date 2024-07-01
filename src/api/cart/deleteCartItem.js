@@ -37,16 +37,15 @@ function useRemoveItemFromCart() {
 
       return [...oldCart];
     },
-    onSettled: (_data, error) => {
-      // TODO toastify
-      if (error) {
-        // toastify Error occured
-      } else {
-        // toastify item removed from cart
-      }
-    },
-    onError: (error, _variables, context) => {
-      console.log(error);
+    // onSettled: (_data, error) => {
+    //   // TODO toastify
+    //   if (error) {
+    //     // toastify Error occured
+    //   } else {
+    //     // toastify item removed from cart
+    //   }
+    // },
+    onError: (_error, _variables, context) => {
       useCartStore.getState().setCartItems(context);
     },
 

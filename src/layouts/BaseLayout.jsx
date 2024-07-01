@@ -6,7 +6,6 @@ import SuspenseLoader from "../components/SuspenseLoader/SuspenseLoader";
 import Search from "../components/productsView/search/Search";
 
 function BaseLayout() {
-  console.log("rerender");
   return (
     <>
       <header>

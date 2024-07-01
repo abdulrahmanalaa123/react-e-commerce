@@ -15,7 +15,6 @@ export async function getProductByVariation({ productId, variationString }) {
   }
   const { data, error } = await query;
   if (!error) {
-    console.log(data);
     if (data.length) {
       return data[0];
     } else {

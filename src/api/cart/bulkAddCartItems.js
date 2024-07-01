@@ -3,14 +3,12 @@ import { supabase } from "../../lib/supabaseClient";
 import useCartStore from "../../stores/cart";
 
 export async function bulkAddCartItems({ cartId, cartItems }) {
-  let { data, error } = await supabase.rpc("upsert_cart_items", {
+  let { error } = await supabase.rpc("upsert_cart_items", {
     cart_id: cartId,
     items: cartItems,
   });
   if (error) {
     throw error;
-  } else {
-    console.log(data);
   }
 }
 
@@ -25,16 +23,15 @@ function useBulkAddItemsToCart() {
       variables.cartItems.forEach((item) => addCartItem({ cartItem: item }));
       return [...oldCart];
     },
-    onSettled: (data, error) => {
-      // TODO toastify
-      if (error) {
-        // toastify Error occured
-      } else {
-        // toastify item added to cart
-      }
-    },
+    // onSettled: (data, error) => {
+    //   // TODO toastify
+    //   if (error) {
+    //     // toastify Error occured
+    //   } else {
+    //     // toastify item added to cart
+    //   }
+    // },
     onError: (error, variables, context) => {
-      console.log(error);
       useCartStore.getState().setCartItems(context);
     },
 

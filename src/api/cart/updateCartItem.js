@@ -10,7 +10,7 @@ async function updateCartItem({ cartItem, cartId }) {
     cart_id: cartId,
     ...cartItem,
   };
-  console.log("postObject", postObject);
+
   const { error } = await supabase
     .from("cart_items")
     .update(postObject)
@@ -37,16 +37,15 @@ export const useUpadteCartItem = () =>
       useCartStore.getState().updateCartItem({ cartItem: variables.cartItem });
       return [...oldCart];
     },
-    onSettled: (_data, error) => {
-      // TODO toastify
-      if (error) {
-        // toastify Error occured
-      } else {
-        // toastify item added to cart
-      }
-    },
+    // onSettled: (_data, error) => {
+    //   // TODO toastify
+    //   if (error) {
+    //     // toastify Error occured
+    //   } else {
+    //     // toastify item added to cart
+    //   }
+    // },
     onError: (error, _variables, context) => {
-      console.log(error);
       useCartStore.getState().setCartItems(context);
     },
 

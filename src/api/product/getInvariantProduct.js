@@ -10,7 +10,6 @@ async function getInvariantProduct(productId) {
     .eq("id", productId);
 
   if (!error) {
-    console.log(data);
     return data[0];
   } else {
     throw error;

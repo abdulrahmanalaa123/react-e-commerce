@@ -8,7 +8,6 @@ const useUserStore = create(
       cartId: null,
 
       setUserData: ({ metaData }) => {
-        console.log("metadata is:", metaData);
         set((state) => ({
           userData: metaData,
           cartId: state.cartId,

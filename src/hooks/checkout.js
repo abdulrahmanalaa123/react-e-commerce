@@ -43,7 +43,6 @@ export default function useCheckout() {
           cartData: loader,
           confirmationToken: confirmationToken,
         });
-        console.log(paymentData);
         if (paymentData["error"]) {
           stripeErrorHandler(paymentData["error"]["raw"]);
         } else if (paymentData.status === "requires_action") {

@@ -3,14 +3,12 @@ import { supabase } from "../../lib/supabaseClient";
 import useCartStore from "../../stores/cart";
 
 async function addCartItem({ cartId, cartItem }) {
-  let { data, error } = await supabase.rpc("upsert_cart_item", {
+  let { error } = await supabase.rpc("upsert_cart_item", {
     cart_id: cartId,
     item: cartItem,
   });
   if (error) {
     throw error;
-  } else {
-    console.log(data);
   }
 }
 
@@ -37,7 +35,7 @@ function useAddItemToCart() {
       }
     },
     onError: (error, _variables, context) => {
-      console.log(error);
+      // console.log(error);
       useCartStore.getState().setCartItems(context);
     },
     // not useful anymore since the current user journey doesnt allow it but will leave it just in case

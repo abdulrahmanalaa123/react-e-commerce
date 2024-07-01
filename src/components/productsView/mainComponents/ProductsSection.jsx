@@ -58,12 +58,7 @@ function ProductsSection() {
                   {element.name}
                 </p>
                 <p>{`${element.price}$`}</p>
-                <button
-                  className="absolute right-2 top-2"
-                  onClick={() => {
-                    console.log("heart clicked");
-                  }}
-                >
+                <button className="absolute right-2 top-2">
                   <Heart></Heart>
                 </button>
               </div>

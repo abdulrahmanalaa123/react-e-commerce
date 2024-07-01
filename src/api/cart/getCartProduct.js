@@ -9,7 +9,7 @@ async function cartProduct(cartItem) {
   if (!error) {
     return data;
   } else {
-    console.log(error);
+    throw error;
   }
 }
 

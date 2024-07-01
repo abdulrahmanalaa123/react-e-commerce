@@ -4,10 +4,10 @@ import verticalHero from "../../assets/images/verticalHero.png";
 import { Link } from "react-router-dom";
 const Hero = () => {
   return (
-    <div className="mt-[60px] sm:mb-[60px] mb-4">
+    <div className="mt-[60px] sm:mb-[60px] mb-8">
       <div className="items-center md:justify-between flex flex-wrap-reverse">
         {/* LEFT */}
-        <div className="text-white max-w-full mt-6">
+        <div className="text-white max-w-full mt-6 flex flex-col items-start gap-2">
           {/* TITLE */}
           <h1 className="sm:text-3xl text-xl font-medium mb-2 text-text-300">
             OVER
@@ -22,13 +22,14 @@ const Hero = () => {
             industry. Lorem Ipsum has been the industry's standard dummy text
             ever since the 1500s
           </p>
-          {/* CTA BUTTON */}
-          <Link
-            to="/products"
-            className="px-6 py-4 disabled:bg-text-200 bg-text-300 text-white hover:bg-primary-200 transition-colors duration-150 hover:text-text-300 w-64 max-w-full rounded-sm"
-          >
-            EXPLORE MORE
-          </Link>
+          <div>
+            <Link
+              to="/products"
+              className="px-6 py-4 disabled:bg-text-200 bg-text-300 text-white hover:bg-primary-200 transition-colors duration-150 hover:text-text-300 w-64 max-w-full rounded-sm"
+            >
+              EXPLORE MORE
+            </Link>
+          </div>
         </div>
         {/* RIGHT */}
         <div>

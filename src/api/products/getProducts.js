@@ -89,11 +89,8 @@ export async function getProducts({
   );
 
   if (!error) {
-    console.log(data);
-
     return { data, count };
   } else {
-    console.log(error);
     throw error;
   }
 }

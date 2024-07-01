@@ -22,9 +22,7 @@ export const useClearcart = () =>
 
       return oldCart;
     },
-    onSettled: (data, error) => {},
     onError: (error, _variables, context) => {
-      console.log(error);
       useCartStore.getState().setCartItems(context);
     },
     scope: {

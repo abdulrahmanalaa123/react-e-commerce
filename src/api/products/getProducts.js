@@ -4,6 +4,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabaseClient";
 import { queryFormatter } from "../../utils/queryFormatter";
 import { productFetchingConfig } from "../../lib/react-query";
+import { randomImage } from "../../utils/plantsArray";
 
 // function parameters are error prone when you enter an empty object which shouldnt create errors but it does so the default function usage is with an empty object
 // and used to get all products
@@ -89,7 +90,10 @@ export async function getProducts({
   );
 
   if (!error) {
-    return { data, count };
+    return {
+      data: data.map((data) => ({ ...data, image: randomImage() })),
+      count,
+    };
   } else {
     throw error;
   }

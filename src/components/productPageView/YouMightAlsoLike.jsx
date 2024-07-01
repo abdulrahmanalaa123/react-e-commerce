@@ -5,19 +5,18 @@ import CustomCarousel from "../home/CustomCarousel";
 import HomeCardLayout from "../home/HomeCardLayout";
 
 function YouMightAlsoLike() {
+  const images = new Array(5).fill(null).map((_) => randomImage());
+
   return (
     <div className="mb-6">
       <p className="text-lg">You might also like</p>
       <CustomCarousel>
-        {new Array(5).fill(null).map((_, index) => {
+        {images.map((image, index) => {
           return (
             <HomeCardLayout key={index}>
               <HoverButton></HoverButton>
               <div>
-                <img
-                  src={randomImage()}
-                  className="w-[150px] aspect-[3/4] mt-2 mb-4"
-                />
+                <img src={image} className="w-[150px] aspect-[3/4] mt-2 mb-4" />
               </div>
               <div className="mb-4 text-center self-center leading-[30px] text-[20px] ">
                 <p>Rose</p>

@@ -7,7 +7,6 @@ import EmptyData from "../dataStateComponents/EmptyData";
 import ErrorComponent from "../dataStateComponents/ErrorComponent";
 import LoadingComponent from "../dataStateComponents/LoadingComponent";
 import PaginationComponent from "../pagination/PaginationComponent";
-import { randomImage } from "../../../utils/plantsArray";
 
 function ProductsSection() {
   const { queryObj, params, navigate } = useSearchQueries();
@@ -48,7 +47,7 @@ function ProductsSection() {
                 {/* design specifications idk if its a good design choice or a bad one */}
                 <div className="min-w-[94px] min-h-[120px] flex">
                   <img
-                    src={randomImage()}
+                    src={element.image}
                     className="max-w-[94px] max-h-[120px] object-center"
                   />
                 </div>

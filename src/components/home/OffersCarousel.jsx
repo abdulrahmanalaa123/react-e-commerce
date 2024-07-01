@@ -4,11 +4,12 @@ import Heart from "../../assets/svgs/Heart";
 import { useState } from "react";
 import CustomCarousel from "./CustomCarousel";
 import SvgArrow from "../../assets/svgs/Arrow";
-import HoverButton from "../buttons/HoverButton";
 import { useNavigate } from "react-router-dom";
 import { randomImage } from "../../utils/plantsArray";
 
 function OffersCarousel({ text }) {
+  const images = new Array(5).fill(null).map((_) => randomImage());
+
   const [filledIndex, SetFilledIndex] = useState(null);
   const navigate = useNavigate();
   return (
@@ -27,14 +28,11 @@ function OffersCarousel({ text }) {
         <SvgArrow className="fill-black inline-block ml-2"></SvgArrow>
       </button>
       <CustomCarousel>
-        {new Array(5).fill(null).map((_, index) => {
+        {images.map((image, index) => {
           return (
             <HomeCardLayout key={index}>
               <div>
-                <img
-                  src={randomImage()}
-                  className="w-[150px] aspect-[3/4] mt-2 mb-4"
-                />
+                <img src={image} className="w-[150px] aspect-[3/4] mt-2 mb-4" />
               </div>
               <div className="mb-4 text-center leading-[30px] text-[20px] ">
                 <p>Rose</p>

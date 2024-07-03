@@ -1,5 +1,5 @@
 # Olive ecommerce web app
-##A minimalistic Single vendor e-commerce web app utilizing supabase for the backend services.
+## A minimalistic Single vendor e-commerce web app utilizing supabase for the backend services.
 
 # Features:
 ## defining legend for the following diagrams
@@ -40,6 +40,8 @@ are stored client side to not expose secret information.
 ![5](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/5434b0d6-4e9e-4203-8c6b-5749bbb659f4)
 ## Product Page
 ![7](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/2db0d285-8ce7-4188-b44c-a373e3653005)
+## Cart
+![cart](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/7023ff68-5bc8-453d-811f-ba1c419eaaba)
 ## Checkout
 ![6](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/fdfcfe07-156f-48e3-8ac3-b16bc4164e46)
 

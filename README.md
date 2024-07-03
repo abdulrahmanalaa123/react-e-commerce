@@ -31,11 +31,22 @@ Note that the credit card details are handled with stripe and accessed using the
 are stored client side to not expose secret information.
 
 ![image](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/dec1f9ff-6bb8-44eb-8787-15c9731fab03)
+# Snippets of the Application:
+## Home
+![3](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/3c655464-8fa7-4f5e-bddd-ba6febdcb489)
+## Auth
+![4](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/3abe0a50-d846-4280-97a7-dd7ae999d6eb)
+## Products View
+![5](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/5434b0d6-4e9e-4203-8c6b-5749bbb659f4)
+## Product Page
+![7](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/2db0d285-8ce7-4188-b44c-a373e3653005)
+## Checkout
+![6](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/fdfcfe07-156f-48e3-8ac3-b16bc4164e46)
 
-## Stack Used:
-### React
-### SupaBase for the backend
-### Formik,Yup for form validation
-### React Query for handling server state Management
-### Zustand for handling client state Management
-### Stripe for handling payments
+# Stack Used:
+## React
+## SupaBase for the backend
+## Formik,Yup for form validation
+## React Query for handling server state Management
+## Zustand for handling client state Management
+## Stripe for handling payments

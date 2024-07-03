@@ -1,6 +1,9 @@
 # Olive ecommerce web app
 ## A minimalistic Single vendor e-commerce web app utilizing supabase for the backend services.
 
+# Schema Design
+![2](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/5b7973fc-deb4-4c86-9c95-3411365abef4)
+
 # Features:
 ## defining legend for the following diagrams
 ![image](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/740d7db5-c083-4d1d-86fe-fa53fdefbcc4)

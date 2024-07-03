@@ -1,8 +1,9 @@
 # Olive ecommerce web app
 A minimalistic Single vendor e-commerce web app created as an SPA utilizing supabase for the backend services.
 ## Features:
-defining legend for the diagrams
-![image](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/d1814fec-96b0-4bc3-b786-f6e49539648d)
+### defining legend for the following diagrams
+![image](https://github.com/abdulrahmanalaa123/react-e-commerce/assets/29045466/9510ce9a-550c-4c6c-a761-a82a7463a2e3)
+
 ### Auth
 Representing the requests taken to perform a signle login operation and Auth service represents 
 the auth service hosted on supabase
